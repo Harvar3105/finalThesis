@@ -11,6 +11,9 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+*.g.dart
+*.freezed.dart
+*.chopper.dart
 
 # IntelliJ related
 *.iml
