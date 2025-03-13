@@ -20,6 +20,15 @@ class Theme extends _$Theme {
     if (set) state = _customDarkTheme();
   }
 
+  static const errorBorder = OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.red),
+    borderRadius: BorderRadius.all(Radius.circular(100)),
+  );
+  static const focusedErrorBorder = OutlineInputBorder(
+  borderSide: BorderSide(color: Colors.red),
+  borderRadius: BorderRadius.all(Radius.circular(100)),
+  );
+
   ThemeData _customLightTheme() {
     return ThemeData(
       scaffoldBackgroundColor: AppColors.backgroundColorLight,
@@ -35,7 +44,7 @@ class Theme extends _$Theme {
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.backgroundColorLight,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: AppColors.iconThemeLight,
         titleTextStyle: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
       ),
       textTheme: const TextTheme(
@@ -51,14 +60,8 @@ class Theme extends _$Theme {
           borderSide: BorderSide(color: AppColors.primaryColorLight),
           borderRadius: const BorderRadius.all(Radius.circular(100)),
         ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.all(Radius.circular(100)),
-        ),
-        focusedErrorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.all(Radius.circular(100)),
-        ),
+        errorBorder: errorBorder,
+        focusedErrorBorder: focusedErrorBorder,
         labelStyle: const TextStyle(color: Colors.black),
         errorStyle: const TextStyle(color: Colors.red),
         hintStyle: const TextStyle(color: Colors.grey),
@@ -106,19 +109,13 @@ class Theme extends _$Theme {
           borderSide: BorderSide(color: AppColors.primaryColorDark),
           borderRadius: const BorderRadius.all(Radius.circular(100)),
         ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.all(Radius.circular(100)),
-        ),
-        focusedErrorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.all(Radius.circular(100)),
-        ),
+        errorBorder: errorBorder,
+        focusedErrorBorder: focusedErrorBorder,
         labelStyle: const TextStyle(color: Colors.white),
         errorStyle: const TextStyle(color: Colors.red),
         hintStyle: const TextStyle(color: Colors.grey),
       ),
-      iconTheme: const IconThemeData(color: Colors.white),
+      iconTheme: AppColors.iconThemeDark,
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: Colors.pinkAccent,
         foregroundColor: Colors.black,
