@@ -44,6 +44,8 @@ class AppColors {
   //Universal
   static const loginButtonTextColor = Colors.black;
   static const profileButtons = Colors.white70;
+  static const selectedButton = Colors.white;
+  static const unselectedButton = Color(0xFFBDBDBD);
 
 
   const AppColors._();

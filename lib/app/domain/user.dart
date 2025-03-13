@@ -32,7 +32,7 @@ class User extends Entity {
 
 @JsonSerializable()
 class UserPayload {
-  final Id userId;
+  final Id? userId;
   final String? firstName;
   final String? lastName;
   final String? phoneNumber;
@@ -43,7 +43,7 @@ class UserPayload {
   final String? fcmToken;
 
   const UserPayload({
-    required this.userId,
+    this.userId,
     this.firstName,
     this.lastName,
     this.phoneNumber,
@@ -65,6 +65,31 @@ class UserPayload {
       aboutMe: user.aboutMe,
       role: user.role,
       fcmToken: user.fcmToken,
+    );
+  }
+
+  //TODO: For some reason freezed object could not generate from json. Need to investigate
+  UserPayload copyWith({
+    Id? userId,
+    String? firstName,
+    String? lastName,
+    String? phoneNumber,
+    String? email,
+    String? avatarUrl,
+    String? aboutMe,
+    ERole? role,
+    String? fcmToken,
+  }) {
+    return UserPayload(
+      userId: userId ?? this.userId,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      email: email ?? this.email,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      aboutMe: aboutMe ?? this.aboutMe,
+      role: role ?? this.role,
+      fcmToken: fcmToken ?? this.fcmToken,
     );
   }
 

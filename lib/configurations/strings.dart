@@ -60,7 +60,8 @@ class Strings {
   static const passChangeFailed = 'Failed to change password :(';
   static const userProfile = 'User Profile';
   static const userExists = 'User already exists!';
-  static const username = 'Username';
+  static const firstName = 'First name';
+  static const lastName = 'Last name';
 
   // Name and photo related strings
   static const updateSuccess = 'Name and photo updated successfully!';

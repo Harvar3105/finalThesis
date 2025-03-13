@@ -1,0 +1,95 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../app/domain/user.dart';
+import '../../app/services/authentication/providers/user_id.dart';
+import '../../app/storage/user/user_payload_provider.dart';
+import '../../app/theme/theme.dart';
+import '../../configurations/app_colours.dart';
+import '../../configurations/strings.dart';
+
+class CustomAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
+  const CustomAppBar({
+    super.key,
+  });
+
+  @override
+  ConsumerState<CustomAppBar> createState() => _CustomAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _CustomAppBarState extends ConsumerState<CustomAppBar> {
+  UserPayload? _userPayload;
+
+  @override
+  Widget build(BuildContext context) {
+    final themeNotifier = ref.read(themeProvider.notifier);
+    final theme = ref.watch(themeProvider);
+    final userId = ref.watch(userIdProvider);
+
+    if (userId != null) {
+      ref.listen<AsyncValue<UserPayload>>(userPayloadProvider(userId), (previous, next) {
+        next.when(
+          data: (payload) => setState(() => _userPayload = payload),
+          loading: () {},
+          error: (error, stack) {
+            debugPrint("Cannot load UserPayload: $error");
+          },
+        );
+      });
+    }
+
+    const padding = EdgeInsets.symmetric(horizontal: 10);
+
+    return AppBar(
+      leading: Padding(
+        padding: padding,
+        child: IconButton(
+          onPressed: themeNotifier.toggleTheme,
+          icon: theme.brightness == Brightness.light
+              ? const Icon(Icons.brightness_2, size: 35)
+              : const Icon(Icons.brightness_7, size: 35),
+        ),
+      ),
+      centerTitle: true,
+      title: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+        decoration: BoxDecoration(
+          color: AppColors.secondaryColorLight,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(
+          GoRouterState.of(context).name ?? 'unknown',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: padding,
+          child: IconButton(
+            onPressed: () {
+              if (userId != null) {
+                context.push('/user_profile/$userId');
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text(Strings.notLoggedIn)),
+                );
+              }
+            },
+            icon: CircleAvatar(
+              backgroundImage: _userPayload?.avatarUrl != null
+                ? NetworkImage(_userPayload!.avatarUrl!)
+                : const AssetImage('assets/images/user_icon.png') as ImageProvider,
+            ),
+            tooltip: Strings.profile,
+          ),
+        ),
+      ],
+    );
+  }
+}

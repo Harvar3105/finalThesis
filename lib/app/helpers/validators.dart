@@ -1,6 +1,9 @@
 String? validateName(String? name) {
   if (name == null || name.isEmpty) {
-    return 'Please enter your name';
+    return 'Please fill this field';
+  }
+  if (name.contains(" ")){
+    return 'Should not contain spaces';
   }
   return null;
 }
@@ -26,6 +29,9 @@ String? validatePassword(String? password) {
   }
   if (!RegExp(r'[A-Z]').hasMatch(password)) {
     return 'Password must contain at least one uppercase letter';
+  }
+  if (!RegExp(r'[a-z]').hasMatch(password)) {
+    return 'Password must contain at least one lowercase letter';
   }
   return null;
 }

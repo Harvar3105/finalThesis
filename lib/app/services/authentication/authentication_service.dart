@@ -27,7 +27,7 @@ class AuthenticationService extends _$AuthenticationService {
     return AuthenticationState.unknown();
   }
 
-  Future<void> loginWithEmailAndPassword(String email, String password) async {
+  Future<void> login(String email, String password) async {
     state = state.copyWith(isLoading: true);
 
     final result = await _authenticator.loginWithEmailAndPassword(email, password);
@@ -55,22 +55,20 @@ class AuthenticationService extends _$AuthenticationService {
     state = AuthenticationState.unknown();
   }
 
-  Future<void> registerWithEmailAndPassword(
-      {required String name,
-        required String email,
-        required String password}) async {
+  Future<void> register(UserPayload payload, String password) async {
     state = state.copyWith(isLoading: true);
 
     final result =
-    await _authenticator.registerWithEmailAndPassword(email, password);
+    await _authenticator.registerWithEmailAndPassword(payload.email!, password);
 
     final userId = _authenticator.userId;
 
     String? token = await PushNotificationService().getFcmToken();
+    payload = payload.copyWith(fcmToken: token);
 
     if (result == EAuthenticationResult.success && userId != null) {
       // If user creates a new account, we need to save the device FCM token
-      saveUserInfo(UserPayload(userId: userId, fcmToken: token));
+      saveUserInfo(payload);
     }
 
     state = AuthenticationState(

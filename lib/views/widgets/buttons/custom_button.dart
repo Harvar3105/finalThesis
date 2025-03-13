@@ -24,10 +24,11 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
+        padding: EdgeInsets.all(15),
         backgroundColor: backgroundColor ?? AppColors.primaryColorLight,
         foregroundColor: foregroundColor ?? AppColors.secondaryColorLight,
         textStyle: TextStyle(
-          fontSize: fontSize ?? 20,
+          fontSize: fontSize ?? 25,
           fontWeight: fontWeight ?? FontWeight.normal,
         ),
       ),

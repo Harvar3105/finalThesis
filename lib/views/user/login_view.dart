@@ -38,7 +38,7 @@ class LoginViewState extends ConsumerState<LoginView> {
       final password = _passwordController.text;
 
       final authProvider = ref.read(authenticationServiceProvider.notifier);
-      await authProvider.loginWithEmailAndPassword(email, password);
+      await authProvider.login(email, password);
     }
   }
 
@@ -103,7 +103,7 @@ class LoginViewState extends ConsumerState<LoginView> {
                   Strings.welcomeToAppName,
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
-                const DividerWithMargins(20),
+                const SizedBox(height: 10),
                 Text(
                   Strings.logIntoYourAccount,
                   style: Theme.of(context)
@@ -111,12 +111,14 @@ class LoginViewState extends ConsumerState<LoginView> {
                       .bodyMedium
                       ?.copyWith(height: 1.5),
                 ),
-                const SizedBox(height: 20),
+                const DividerWithMargins(0),
+                const SizedBox(height: 10),
                 emailFormField,
                 const SizedBox(height: 16),
                 passwordFormField,
                 const SizedBox(height: 40),
                 loginButton,
+                const SizedBox(height: 16),
                 registerButton,
               ],
             ),
