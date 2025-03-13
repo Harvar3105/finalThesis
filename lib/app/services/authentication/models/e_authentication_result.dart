@@ -1,4 +1,4 @@
-enum AuthResult {
+enum EAuthenticationResult {
   aborted,
   success,
   failure,

@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'app/services/push/PushNotificationService.dart';
 import 'app/theme/theme.dart';
 import 'configurations/strings.dart';
 import 'firebase_options.dart';
@@ -7,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +19,16 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform
   );
 
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await PushNotificationService().initialize();
+
+
   runApp(const ProviderScope(child: MyApp()));
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  log('Background message received: ${message.messageId}');
 }
 
 class MyApp extends ConsumerWidget{
@@ -29,7 +41,7 @@ class MyApp extends ConsumerWidget{
       builder: (context, snapshot) {
         final theme = ref.watch(themeProvider);
         return MaterialApp.router(
-          title: Strings.shop,
+          title: Strings.main,
           theme: theme,
           routerConfig: router,
         );

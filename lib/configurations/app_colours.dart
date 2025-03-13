@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 @immutable
 class AppColors {
-  static const backgroundColorLight = const Color(0xffffffff);
-  static const backgroundColorDark = const Color(0xff273342);
+  static const backgroundColorLight = Color(0xffffffff);
+  static const backgroundColorDark = Color(0xff273342);
 
-  static var primaryColorLight = const Color(0xffff992c); // Frontground color
+  static var primaryColorLight = const Color(0xff8d1bff); // Frontground color
   static var secondaryColorLight = const Color(0xffd9d9d9); // Background color
-  static var primaryColorDark = const Color(0xFFFF992C);
+  static var primaryColorDark = const Color(0xff8e07ff);
   static var secondaryColorDark = const Color(0xff737373);
 
   static var surfaceColorLight = const Color(0xffffffff);

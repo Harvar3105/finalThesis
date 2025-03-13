@@ -3,44 +3,22 @@ import 'package:flutter/foundation.dart';
 @immutable
 class Strings {
   // General app information
-  static const appName = 'Itemy';
+  static const appName = 'App Name'; //TODO: Change this to your app name
   static const welcomeToAppName = 'Welcome to ${Strings.appName}';
   static const loading = "Loading...";
-  static const addOrder = 'Create a new order';
 
   // Menu
   static const menu = 'Menu';
   static const search = 'Search';
   static const profile = 'Profile';
-  static const shop = 'Shop';
-  static const toShop = 'To shop';
+  static const main = 'Main page';
+  static const home = 'Home';
   static const chats = 'Chats';
-
-  // Add order views
-  static const addPostView = 'Add order';
-  static const tradeAvailable = 'Trade available';
-  static const saveOrder = 'Save order!';
-
-  // Edit order views
-  static const editOrder = 'Edit order';
-  static const updateOrder = 'Update order!';
 
   // Address
   static const selectLocation = 'Select a location!';
   static const confirmLocation = 'Confirm location!';
 
-  // Order
-  static const name = 'Name';
-  static const description = 'Description';
-  static const price = 'Price';
-  static const hintPrice = '\$0.00 or \$0,00';
-  static const tags = 'Tags';
-  static const hintTags = 'Example: one,two,three';
-  static const seller = 'Seller: ';
-  static const tradeAccept = 'The owner accepts price discussions!';
-  static const tradeDecline = 'The owner does not accept price discussions!';
-  static const contactSeller = 'Contact seller!';
-  static const noOrders = 'Sorry, no orders found :(';
 
   // Dialogs
   static const logOut = 'Log Out';
@@ -51,9 +29,6 @@ class Strings {
   static const delete = 'Delete';
   static const areYouSureYouWantToDeleteThis =
       'Are you sure you want to delete this';
-  static const comment = 'Comment';
-  static const tagsInput = 'Enter tags separated by commas';
-  static const hintTagsInput = 'Example: iphone,android,nike,orange';
   static const ok = 'OK';
   static const errLoadingChats = 'Error loading chats :(';
 

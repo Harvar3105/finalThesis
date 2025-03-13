@@ -1,7 +1,8 @@
 import 'package:final_thesis_app/app/typedefs/entity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'models/auth_result.dart';
+import 'models/e_authentication_result.dart';
+
 
 class Authenticator {
   const Authenticator();
@@ -14,7 +15,7 @@ class Authenticator {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<AuthResult> loginWithEmailAndPassword(
+  Future<EAuthenticationResult> loginWithEmailAndPassword(
       String email,
       String password,
       ) async {
@@ -23,19 +24,19 @@ class Authenticator {
         email: email,
         password: password,
       );
-      return AuthResult.success;
+      return EAuthenticationResult.success;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'too-many-requests') {
-        return AuthResult.tooManyAttemptsTryAgainLater;
+        return EAuthenticationResult.tooManyAttemptsTryAgainLater;
       } else {
-        return AuthResult.failure;
+        return EAuthenticationResult.failure;
       }
     } catch (e) {
-      return AuthResult.failure;
+      return EAuthenticationResult.failure;
     }
   }
 
-  Future<AuthResult> registerWithEmailAndPassword(
+  Future<EAuthenticationResult> registerWithEmailAndPassword(
       String email,
       String password,
       ) async {
@@ -44,20 +45,20 @@ class Authenticator {
         email: email,
         password: password,
       );
-      return AuthResult.success;
+      return EAuthenticationResult.success;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        return AuthResult.userAlreadyExists;
+        return EAuthenticationResult.userAlreadyExists;
       } else if (e.code == 'too-many-requests') {
-        return AuthResult.tooManyAttemptsTryAgainLater;
+        return EAuthenticationResult.tooManyAttemptsTryAgainLater;
       }
-      return AuthResult.failure;
+      return EAuthenticationResult.failure;
     } catch (e) {
-      return AuthResult.failure;
+      return EAuthenticationResult.failure;
     }
   }
 
-  Future<AuthResult> changePassword({
+  Future<EAuthenticationResult> changePassword({
     required String oldPassword,
     required String newPassword,
   }) async {
@@ -65,7 +66,7 @@ class Authenticator {
       final user = FirebaseAuth.instance.currentUser;
 
       if (user == null) {
-        return AuthResult.failure;
+        return EAuthenticationResult.failure;
       }
 
       final credential = EmailAuthProvider.credential(
@@ -77,19 +78,19 @@ class Authenticator {
 
       await user.updatePassword(newPassword);
 
-      return AuthResult.success;
+      return EAuthenticationResult.success;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'too-many-requests') {
-        return AuthResult.tooManyAttemptsTryAgainLater;
+        return EAuthenticationResult.tooManyAttemptsTryAgainLater;
       } else {
-        return AuthResult.failure;
+        return EAuthenticationResult.failure;
       }
     } catch (e) {
-      return AuthResult.failure;
+      return EAuthenticationResult.failure;
     }
   }
 
-  Future<AuthResult> changeEmail({
+  Future<EAuthenticationResult> changeEmail({
     required String password,
     required String newEmail,
   }) async {
@@ -97,7 +98,7 @@ class Authenticator {
       final user = FirebaseAuth.instance.currentUser;
 
       if (user == null) {
-        return AuthResult.failure;
+        return EAuthenticationResult.failure;
       }
 
       final credential = EmailAuthProvider.credential(
@@ -109,17 +110,17 @@ class Authenticator {
 
       await user.verifyBeforeUpdateEmail(newEmail);
 
-      return AuthResult.success;
+      return EAuthenticationResult.success;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        return AuthResult.userAlreadyExists;
+        return EAuthenticationResult.userAlreadyExists;
       } else if (e.code == 'too-many-requests') {
-        return AuthResult.tooManyAttemptsTryAgainLater;
+        return EAuthenticationResult.tooManyAttemptsTryAgainLater;
       } else {
-        return AuthResult.failure;
+        return EAuthenticationResult.failure;
       }
     } catch (e) {
-      return AuthResult.failure;
+      return EAuthenticationResult.failure;
     }
   }
 }
