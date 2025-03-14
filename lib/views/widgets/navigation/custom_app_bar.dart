@@ -6,7 +6,6 @@ import '../../../app/models/domain/user.dart';
 import '../../../app/services/authentication/providers/user_id.dart';
 import '../../../app/storage/user/user_payload_provider.dart';
 import '../../../app/theme/theme.dart';
-import '../../../configurations/app_colours.dart';
 import '../../../configurations/strings.dart';
 
 class CustomAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
@@ -53,7 +52,7 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
         children: [
           if (context.canPop())
             IconButton(
-              icon: const Icon(Icons.arrow_back, size: 35),
+              icon: Icon(Icons.arrow_back, size: 35, color: theme.iconTheme.color,),
               onPressed: () => context.pop(),
             ),
           Padding(
@@ -61,8 +60,8 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
             child: IconButton(
               onPressed: themeNotifier.toggleTheme,
               icon: theme.brightness == Brightness.light
-                  ? const Icon(Icons.brightness_2, size: 35)
-                  : const Icon(Icons.brightness_7, size: 35),
+                  ? Icon(Icons.brightness_2, size: 35, color: theme.iconTheme.color,)
+                  : Icon(Icons.brightness_7, size: 35, color: theme.iconTheme.color,),
             ),
           ),
         ],
