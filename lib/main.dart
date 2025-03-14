@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'app/services/authentication/authentication_service.dart';
+import 'app/services/authentication/models/e_authentication_result.dart';
+import 'app/services/authentication/providers/login_state.dart';
 import 'app/services/push/PushNotificationService.dart';
 import 'app/theme/theme.dart';
 import 'configurations/strings.dart';
@@ -31,15 +34,46 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   log('Background message received: ${message.messageId}');
 }
 
-class MyApp extends ConsumerWidget{
-  const MyApp({super.key,});
+class MyApp extends ConsumerStatefulWidget {
+  const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  late Future<void> _initFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _initFuture = _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    bool themeIsDark = prefs.getBool("isDark") ?? false;
+    ref.read(themeProvider.notifier).setDarkTheme(themeIsDark);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ref.watch(themeProvider);
+    final router = ref.watch(routerProvider);
+    final isLoggedIn = ref.watch(isLoggedInProvider);
+
     return FutureBuilder<void>(
-      future: _initializeTheme(ref),
+      future: _initFuture,
       builder: (context, snapshot) {
-        final theme = ref.watch(themeProvider);
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const MaterialApp(
+            home: Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            ),
+          );
+        }
+
         return MaterialApp.router(
           title: Strings.main,
           theme: theme,
@@ -47,11 +81,5 @@ class MyApp extends ConsumerWidget{
         );
       },
     );
-  }
-
-  Future<void> _initializeTheme(WidgetRef ref) async {
-    var prefs = await SharedPreferences.getInstance();
-    bool themeIsDark = prefs.getBool("isDark") ?? false;
-    ref.read(themeProvider.notifier).setDarkTheme(themeIsDark);
   }
 }

@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../configurations/firebase/firebase_access_fields.dart';
@@ -51,10 +53,11 @@ class UserStorage {
 
       await FirebaseFirestore.instance
           .collection(FirebaseCollectionNames.users)
-          .add(payload as Map<String, dynamic>);
+          .add(payload.toJson());
 
       return true;
-    } catch (_) {
+    } catch (error) {
+      log(error.toString());
       return false;
     }
   }
