@@ -24,6 +24,7 @@ class CustomAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget
 class _CustomAppBarState extends ConsumerState<CustomAppBar> {
   UserPayload? _userPayload;
 
+
   @override
   Widget build(BuildContext context) {
     final themeNotifier = ref.read(themeProvider.notifier);
@@ -45,20 +46,32 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
     const padding = EdgeInsets.symmetric(horizontal: 10);
 
     return AppBar(
-      leading: Padding(
-        padding: padding,
-        child: IconButton(
-          onPressed: themeNotifier.toggleTheme,
-          icon: theme.brightness == Brightness.light
-              ? const Icon(Icons.brightness_2, size: 35)
-              : const Icon(Icons.brightness_7, size: 35),
-        ),
+      // If need to change icons sizes, change also leadingWidth
+      leadingWidth: 122,
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (context.canPop())
+            IconButton(
+              icon: const Icon(Icons.arrow_back, size: 35),
+              onPressed: () => context.pop(),
+            ),
+          Padding(
+            padding: padding,
+            child: IconButton(
+              onPressed: themeNotifier.toggleTheme,
+              icon: theme.brightness == Brightness.light
+                  ? const Icon(Icons.brightness_2, size: 35)
+                  : const Icon(Icons.brightness_7, size: 35),
+            ),
+          ),
+        ],
       ),
       centerTitle: true,
       title: Container(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
         decoration: BoxDecoration(
-          color: AppColors.secondaryColorLight,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(

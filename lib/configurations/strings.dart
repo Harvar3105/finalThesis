@@ -7,13 +7,14 @@ class Strings {
   static const welcomeToAppName = 'Welcome to ${Strings.appName}';
   static const loading = "Loading...";
 
-  // Menu
+  // Pages
   static const menu = 'Menu';
   static const search = 'Search';
   static const profile = 'Profile';
   static const main = 'Main page';
   static const home = 'Home';
   static const chats = 'Chats';
+  static const calendar = 'Calendar';
 
   // Address
   static const selectLocation = 'Select a location!';

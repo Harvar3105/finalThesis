@@ -20,6 +20,7 @@ class CircleImageWithText extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding,),
       child: Column(
@@ -34,7 +35,7 @@ class CircleImageWithText extends StatelessWidget{
           SizedBox(height: 8),
           Text(
             label,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            style: theme.textTheme.bodySmall,
           ),
         ],
       ),

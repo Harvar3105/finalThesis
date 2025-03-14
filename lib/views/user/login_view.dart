@@ -1,4 +1,5 @@
 import 'package:final_thesis_app/views/widgets/buttons/custom_button.dart';
+import 'package:final_thesis_app/views/widgets/custom_app_bar.dart';
 import 'package:final_thesis_app/views/widgets/fields/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -87,9 +88,7 @@ class LoginViewState extends ConsumerState<LoginView> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(Strings.appName),
-      ),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
@@ -101,14 +100,14 @@ class LoginViewState extends ConsumerState<LoginView> {
                 const SizedBox(height: 40),
                 Text(
                   Strings.welcomeToAppName,
-                  style: Theme.of(context).textTheme.displaySmall,
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
                 const SizedBox(height: 10),
                 Text(
                   Strings.logIntoYourAccount,
                   style: Theme.of(context)
                       .textTheme
-                      .bodyMedium
+                      .bodySmall
                       ?.copyWith(height: 1.5),
                 ),
                 const DividerWithMargins(0),

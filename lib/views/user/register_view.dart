@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:final_thesis_app/app/domain/user.dart';
 import 'package:final_thesis_app/app/typedefs/e_role.dart';
 import 'package:final_thesis_app/views/widgets/buttons/custom_button.dart';
+import 'package:final_thesis_app/views/widgets/custom_app_bar.dart';
 import 'package:final_thesis_app/views/widgets/decorations/circle_image_with_text.dart';
 import 'package:final_thesis_app/views/widgets/decorations/divider_with_margins.dart';
 import 'package:final_thesis_app/views/widgets/fields/custom_text_form_field.dart';
@@ -94,8 +95,6 @@ class RegisterViewState extends ConsumerState<RegisterView> {
       onPressed: _attemptRegister,
       backgroundColor: AppColors.primaryColorLight,
       foregroundColor: AppColors.loginButtonTextColor,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
     );
 
     // If the user has registered successfully, we pop the current views
@@ -118,9 +117,7 @@ class RegisterViewState extends ConsumerState<RegisterView> {
         });
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(Strings.appName),
-      ),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(

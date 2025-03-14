@@ -44,13 +44,16 @@ class Theme extends _$Theme {
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.backgroundColorLight,
-        iconTheme: AppColors.iconThemeLight,
+        iconTheme: IconThemeData(color: Colors.white),
         titleTextStyle: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
       ),
       textTheme: const TextTheme(
-        displayLarge: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
-        bodyLarge: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.normal),
-        bodyMedium: TextStyle(color: Colors.black, fontSize: 18),
+        displayLarge: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        displayMedium: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        displaySmall: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        bodyLarge: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.normal),
+        bodyMedium: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.normal),
+        bodySmall: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.normal),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: const OutlineInputBorder(
@@ -66,7 +69,9 @@ class Theme extends _$Theme {
         errorStyle: const TextStyle(color: Colors.red),
         hintStyle: const TextStyle(color: Colors.grey),
       ),
-      iconTheme: const IconThemeData(color: Colors.black),
+      iconTheme: IconThemeData(
+        color: AppColors.iconThemeLight,
+      ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: Colors.pinkAccent,
         foregroundColor: Colors.white,
@@ -97,9 +102,12 @@ class Theme extends _$Theme {
         titleTextStyle: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
       ),
       textTheme: const TextTheme(
-        displayLarge: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-        bodyLarge: TextStyle(color: Colors.white, fontSize: 20),
-        bodyMedium: TextStyle(color: Colors.white, fontSize: 18),
+        displayLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        displayMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        displaySmall: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        bodyLarge: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.normal),
+        bodyMedium: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.normal),
+        bodySmall: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.normal),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: const OutlineInputBorder(
@@ -115,7 +123,9 @@ class Theme extends _$Theme {
         errorStyle: const TextStyle(color: Colors.red),
         hintStyle: const TextStyle(color: Colors.grey),
       ),
-      iconTheme: AppColors.iconThemeDark,
+      iconTheme: IconThemeData(
+        color: AppColors.iconThemeDark,
+      ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: Colors.pinkAccent,
         foregroundColor: Colors.black,
