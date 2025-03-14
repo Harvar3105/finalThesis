@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../app/domain/user.dart';
-import '../../app/services/authentication/providers/user_id.dart';
-import '../../app/storage/user/user_payload_provider.dart';
-import '../../app/theme/theme.dart';
-import '../../configurations/app_colours.dart';
-import '../../configurations/strings.dart';
+import '../../../app/models/domain/user.dart';
+import '../../../app/services/authentication/providers/user_id.dart';
+import '../../../app/storage/user/user_payload_provider.dart';
+import '../../../app/theme/theme.dart';
+import '../../../configurations/app_colours.dart';
+import '../../../configurations/strings.dart';
 
 class CustomAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({

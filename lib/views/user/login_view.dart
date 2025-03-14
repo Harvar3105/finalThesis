@@ -1,5 +1,5 @@
 import 'package:final_thesis_app/views/widgets/buttons/custom_button.dart';
-import 'package:final_thesis_app/views/widgets/custom_app_bar.dart';
+import 'package:final_thesis_app/views/widgets/navigation/custom_app_bar.dart';
 import 'package:final_thesis_app/views/widgets/fields/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

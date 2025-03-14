@@ -1,4 +1,4 @@
-import '../typedefs/entity.dart';
+import '../../typedefs/entity.dart';
 import 'entity.dart';
 import 'event.dart';
 

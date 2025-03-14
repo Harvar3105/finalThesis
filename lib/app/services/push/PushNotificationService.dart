@@ -1,8 +1,8 @@
 import 'dart:developer';
 
-import 'package:final_thesis_app/app/domain/user.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+import '../../models/domain/user.dart';
 import '../authentication/authenticator.dart';
 import '../../storage/user/user_strorage.dart';
 

@@ -1,10 +1,9 @@
 import 'dart:developer';
 import 'dart:ffi';
 
-import 'package:final_thesis_app/app/domain/user.dart';
 import 'package:final_thesis_app/app/typedefs/e_role.dart';
 import 'package:final_thesis_app/views/widgets/buttons/custom_button.dart';
-import 'package:final_thesis_app/views/widgets/custom_app_bar.dart';
+import 'package:final_thesis_app/views/widgets/navigation/custom_app_bar.dart';
 import 'package:final_thesis_app/views/widgets/decorations/circle_image_with_text.dart';
 import 'package:final_thesis_app/views/widgets/decorations/divider_with_margins.dart';
 import 'package:final_thesis_app/views/widgets/fields/custom_text_form_field.dart';
@@ -14,6 +13,7 @@ import 'package:go_router/go_router.dart';
 
 
 import '../../app/helpers/validators.dart';
+import '../../app/models/domain/user.dart';
 import '../../app/services/authentication/authentication_service.dart';
 import '../../app/services/authentication/models/auth_state.dart';
 import '../../app/services/authentication/models/e_authentication_result.dart';

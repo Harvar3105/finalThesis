@@ -1,8 +1,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_thesis_app/app/domain/user.dart';
 
 import '../../../configurations/firebase/firebase_access_fields.dart';
+import '../../models/domain/user.dart';
 
 class UserStorage {
   const UserStorage();

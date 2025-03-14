@@ -1,4 +1,4 @@
-import '../typedefs/entity.dart';
+import '../../typedefs/entity.dart';
 
 abstract class Entity {
   late final Id? id;

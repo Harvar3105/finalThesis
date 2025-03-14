@@ -1,6 +1,6 @@
-import 'package:final_thesis_app/app/domain/user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../models/domain/user.dart';
 import '../../storage/user/user_strorage.dart';
 import '../push/PushNotificationService.dart';
 import 'authenticator.dart';

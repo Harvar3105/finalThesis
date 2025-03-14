@@ -1,7 +1,7 @@
-import 'package:final_thesis_app/app/domain/calendar.dart';
-import 'package:final_thesis_app/app/domain/entity.dart';
+import 'package:final_thesis_app/app/models/domain/calendar.dart';
+import 'package:final_thesis_app/app/models/domain/entity.dart';
 
-import '../typedefs/entity.dart';
+import '../../typedefs/entity.dart';
 
 class Event extends Entity {
   final DateTime start;

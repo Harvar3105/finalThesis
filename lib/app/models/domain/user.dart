@@ -1,9 +1,9 @@
-import 'package:final_thesis_app/app/domain/entity.dart';
+import 'package:final_thesis_app/app/models/domain/entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
 
-import '../typedefs/e_role.dart';
-import '../typedefs/entity.dart';
+import '../../typedefs/e_role.dart';
+import '../../typedefs/entity.dart';
 
 part 'user.g.dart';
 
