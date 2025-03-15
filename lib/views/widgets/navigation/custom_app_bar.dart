@@ -1,3 +1,6 @@
+import 'package:final_thesis_app/app/models/dialog/dialog_model.dart';
+import 'package:final_thesis_app/app/services/authentication/authentication_service.dart';
+import 'package:final_thesis_app/views/widgets/navigation/avatar_with_cpeech_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +10,7 @@ import '../../../app/services/authentication/providers/user_id.dart';
 import '../../../app/storage/user/user_payload_provider.dart';
 import '../../../app/theme/theme.dart';
 import '../../../configurations/strings.dart';
+import '../dialogs/logout_dialog.dart';
 
 class CustomAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -83,23 +87,26 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
       actions: [
         Padding(
           padding: padding,
-          child: IconButton(
-            onPressed: () {
-              if (userId != null) {
-                context.push('/user_profile/$userId');
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text(Strings.notLoggedIn)),
-                );
+          child: AvatarWithSpeechBubble(
+            avatarImage: _userPayload?.avatarUrl != null
+              ? NetworkImage(_userPayload!.avatarUrl!)
+              : const AssetImage('assets/images/user_icon.png') as ImageProvider,
+            onButton1Pressed: () async {
+              final logout = await const LogoutDialog()
+                  .present(context)
+                  .then((value) => value ?? false);
+
+              if (logout) {
+                await ref.read(authenticationServiceProvider.notifier).logOut();
               }
             },
-            icon: CircleAvatar(
-              backgroundImage: _userPayload?.avatarUrl != null
-                ? NetworkImage(_userPayload!.avatarUrl!)
-                : const AssetImage('assets/images/user_icon.png') as ImageProvider,
-            ),
-            tooltip: Strings.profile,
-          ),
+            onButton2Pressed: () {
+              print('Кнопка 2 нажата');
+            },
+            onButton3Pressed: () {
+              print('Кнопка 3 нажата');
+            },
+          )
         ),
       ],
     );

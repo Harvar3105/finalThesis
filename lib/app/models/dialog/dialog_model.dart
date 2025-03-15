@@ -14,7 +14,7 @@ class AlertDialogModel<T> {
     required this.buttons,
   });
 }
-
+//TODO: configure colours according to the theme
 extension Present<T> on AlertDialogModel<T> {
   Future<T?> present(BuildContext context) {
     return showDialog<T?>(
