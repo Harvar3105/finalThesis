@@ -61,7 +61,6 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     final theme = ref.watch(themeProvider);
     final router = ref.watch(routerProvider);
-    final isLoggedIn = ref.watch(isLoggedInProvider);
 
     return FutureBuilder<void>(
       future: _initFuture,

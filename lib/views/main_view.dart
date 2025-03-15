@@ -30,7 +30,7 @@ class _MainViewState extends ConsumerState<MainView> {
     return Scaffold(
       appBar: CustomAppBar(),
       body: widget.innedWidget,
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }

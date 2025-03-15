@@ -15,7 +15,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1; //Home must be default
 
   final List<Map<String, dynamic>> navData = [
     {
@@ -30,7 +30,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     },
     {
       'icon': Icons.calendar_month_rounded,
-      'label': Strings.calendar,
+      'label': Strings.myCalendar,
       'route': '/',
     },
   ];

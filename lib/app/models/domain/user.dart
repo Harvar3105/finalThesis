@@ -41,6 +41,8 @@ class UserPayload {
   final String? aboutMe;
   final ERole? role;
   final String? fcmToken;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const UserPayload({
     this.userId,
@@ -52,6 +54,8 @@ class UserPayload {
     this.aboutMe,
     this.role,
     this.fcmToken,
+    this.createdAt,
+    this.updatedAt
   });
 
   userToPayload(User user) {
@@ -65,6 +69,8 @@ class UserPayload {
       aboutMe: user.aboutMe,
       role: user.role,
       fcmToken: user.fcmToken,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
     );
   }
 
@@ -79,6 +85,8 @@ class UserPayload {
     String? aboutMe,
     ERole? role,
     String? fcmToken,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return UserPayload(
       userId: userId ?? this.userId,
@@ -90,6 +98,8 @@ class UserPayload {
       aboutMe: aboutMe ?? this.aboutMe,
       role: role ?? this.role,
       fcmToken: fcmToken ?? this.fcmToken,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt
     );
   }
 

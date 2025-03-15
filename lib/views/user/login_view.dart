@@ -72,6 +72,7 @@ class LoginViewState extends ConsumerState<LoginView> {
       controller: _passwordController,
       validator: validatePassword,
       labelText: Strings.password,
+      obscureText: true,
     );
 
     CustomButton loginButton = CustomButton(
@@ -85,6 +86,7 @@ class LoginViewState extends ConsumerState<LoginView> {
       backgroundColor: AppColors.secondaryColorLight,
       foregroundColor: AppColors.loginButtonTextColor,
       onPressed: () {context.push("/register");},
+
     );
 
     return Scaffold(

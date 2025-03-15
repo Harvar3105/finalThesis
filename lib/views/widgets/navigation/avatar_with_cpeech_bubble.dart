@@ -6,15 +6,13 @@ class AvatarWithSpeechBubble extends StatefulWidget {
   final ImageProvider avatarImage;
   final VoidCallback? onButton1Pressed;
   final VoidCallback? onButton2Pressed;
-  final VoidCallback? onButton3Pressed;
 
   const AvatarWithSpeechBubble({
-    Key? key,
+    super.key,
     required this.avatarImage,
     this.onButton1Pressed,
     this.onButton2Pressed,
-    this.onButton3Pressed,
-  }) : super(key: key);
+  });
 
   @override
   State<AvatarWithSpeechBubble> createState() => _AvatarWithSpeechBubbleState();

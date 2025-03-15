@@ -78,7 +78,7 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
-          GoRouterState.of(context).name ?? 'unknown',
+          GoRouterState.of(context).topRoute?.name ?? 'unknown',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -102,9 +102,6 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
             },
             onButton2Pressed: () {
               print('Кнопка 2 нажата');
-            },
-            onButton3Pressed: () {
-              print('Кнопка 3 нажата');
             },
           )
         ),

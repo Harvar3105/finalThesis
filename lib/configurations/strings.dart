@@ -15,6 +15,7 @@ class Strings {
   static const home = 'Home';
   static const chats = 'Chats';
   static const calendar = 'Calendar';
+  static const myCalendar = 'My Calendar';
 
   // Address
   static const selectLocation = 'Select a location!';

@@ -18,4 +18,6 @@ class FirebaseUserFields {
   static const aboutMe = 'about_me';
   static const role = 'role';
   static const fmcToken = 'fmc_token';
+  static const createdAt = 'created_at';
+  static const updatedAt = 'updated_at';
 }
