@@ -23,14 +23,12 @@ class MainView extends ConsumerStatefulWidget {
 }
 
 class _MainViewState extends ConsumerState<MainView> {
-  final List<Widget> screens = [];
 
   @override
   Widget build(BuildContext context, ) {
 
     return Scaffold(
       appBar: CustomAppBar(),
-      // drawer: const Menu(),
       body: widget.innedWidget,
       bottomNavigationBar: CustomBottomNavigationBar(),
     );

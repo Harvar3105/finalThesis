@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:final_thesis_app/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../configurations/strings.dart';
 
@@ -19,14 +21,17 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     {
       'icon': Icons.settings,
       'label': Strings.menu,
+      'route': '/',
     },
     {
       'icon': Icons.home,
       'label': Strings.home,
+      'route': '/',
     },
     {
       'icon': Icons.calendar_month_rounded,
       'label': Strings.calendar,
+      'route': '/',
     },
   ];
 
@@ -39,11 +44,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     }).toList();
   }
 
+  //On taped use router
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
-
+    context.go(navData[index]['route'] as String);
   }
 
   @override
