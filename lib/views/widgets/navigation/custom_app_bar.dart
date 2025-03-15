@@ -9,7 +9,6 @@ import '../../../app/models/domain/user.dart';
 import '../../../app/services/authentication/providers/user_id.dart';
 import '../../../app/storage/user/user_payload_provider.dart';
 import '../../../app/theme/theme.dart';
-import '../../../configurations/strings.dart';
 import '../dialogs/logout_dialog.dart';
 
 class CustomAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {

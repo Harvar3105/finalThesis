@@ -1,5 +1,3 @@
-import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:final_thesis_app/app/typedefs/e_role.dart';
 import 'package:final_thesis_app/views/widgets/buttons/custom_button.dart';
@@ -11,15 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-
-import '../../app/helpers/validators.dart';
-import '../../app/models/domain/user.dart';
-import '../../app/services/authentication/authentication_service.dart';
-import '../../app/services/authentication/models/auth_state.dart';
-import '../../app/services/authentication/models/e_authentication_result.dart';
-import '../../app/services/authentication/providers/login_state.dart';
-import '../../configurations/app_colours.dart';
-import '../../configurations/strings.dart';
+import '../../../app/helpers/validators.dart';
+import '../../../app/models/domain/user.dart';
+import '../../../app/services/authentication/authentication_service.dart';
+import '../../../app/services/authentication/models/auth_state.dart';
+import '../../../app/services/authentication/models/e_authentication_result.dart';
+import '../../../app/services/authentication/providers/login_state.dart';
+import '../../../configurations/app_colours.dart';
+import '../../../configurations/strings.dart';
 
 
 
@@ -91,7 +88,7 @@ class RegisterViewState extends ConsumerState<RegisterView> {
     );
 
     CustomButton registerButton = CustomButton(
-      text: Strings.register,
+      text: Strings.registerPage,
       onPressed: _attemptRegister,
       backgroundColor: AppColors.primaryColorLight,
       foregroundColor: AppColors.loginButtonTextColor,

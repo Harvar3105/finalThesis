@@ -16,6 +16,9 @@ class Strings {
   static const chats = 'Chats';
   static const calendar = 'Calendar';
   static const myCalendar = 'My Calendar';
+  static const friends = 'Friends';
+  static const registerPage = 'Register';
+  static const loginPage = 'Login';
 
   // Address
   static const selectLocation = 'Select a location!';

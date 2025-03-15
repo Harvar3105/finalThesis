@@ -6,16 +6,16 @@ class AppColors {
   //Light mode
   static const backgroundColorLight = Color(0xffffffff);
   static const primaryColorLight = appColor;
-  static const secondaryColorLight = const Color(0xffd9d9d9);
+  static const secondaryColorLight = Color(0xffd9d9d9);
 
   //Text
-  static const primaryTextColorLight = const Color(0xff000000);
-  static const secondaryTextColorLight = const Color(0xff2c2c2c);
+  static const primaryTextColorLight = Color(0xff000000);
+  static const secondaryTextColorLight = Color(0xff2c2c2c);
   // static const generalTextColorLight = const Color(0xff000000);
 
   //Surface
-  static const surfaceColorLight = const Color(0xffd1d1d1);
-  static const onSurfaceColorLight = const Color(0xff000000);
+  static const surfaceColorLight = Color(0xffd1d1d1);
+  static const onSurfaceColorLight = Color(0xff000000);
 
   //other
   static const iconThemeLight = Colors.black;
@@ -25,16 +25,16 @@ class AppColors {
   //Dark mode
   static const backgroundColorDark = Color(0xff273342);
   static const primaryColorDark = appColor;
-  static const secondaryColorDark = const Color(0xff737373);
+  static const secondaryColorDark = Color(0xff737373);
 
   //Text
-  static const primaryTextColorDark = const Color(0xffffffff);
-  static const secondaryTextColorDark = const Color(0xffc5c5c5);
+  static const primaryTextColorDark = Color(0xffffffff);
+  static const secondaryTextColorDark = Color(0xffc5c5c5);
   // static const generalTextColorDark = const Color(0xffffffff);
 
   //Surface
-  static const surfaceColorDark = const Color(0xff505050);
-  static const onSurfaceColorDark = const Color(0xff000000);
+  static const surfaceColorDark = Color(0xff505050);
+  static const onSurfaceColorDark = Color(0xff000000);
 
   //other
   static const iconThemeDark = Colors.white;

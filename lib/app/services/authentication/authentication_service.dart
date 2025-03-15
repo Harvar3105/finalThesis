@@ -20,7 +20,7 @@ class AuthenticationService extends _$AuthenticationService {
       return AuthenticationState(
           result: EAuthenticationResult.success,
           isLoading: false,
-          userId: _authenticator.userId,
+          id: _authenticator.id,
           page: null
       );
     }
@@ -34,18 +34,18 @@ class AuthenticationService extends _$AuthenticationService {
 
     // Simulate a network request on slow environments
     //await Future.delayed(const Duration(seconds: 3));
-    final userId = _authenticator.userId;
+    final id = _authenticator.id;
 
     String? token = await PushNotificationService().getFcmToken();
-    if (userId != null && token != null) {
+    if (id != null && token != null) {
       // If user logs in from the different account, we need to update the fcm token
-      saveUserInfo(UserPayload(userId: userId, fcmToken: token));
+      saveUserInfo(UserPayload(id: id, fcmToken: token));
     }
 
     state = AuthenticationState(
         result: result,
         isLoading: false,
-        userId: userId,
+        id: id,
         page: "login"
     );
   }
@@ -61,12 +61,12 @@ class AuthenticationService extends _$AuthenticationService {
     final result =
     await _authenticator.registerWithEmailAndPassword(payload.email!, password);
 
-    final userId = _authenticator.userId;
+    final id = _authenticator.id;
 
     String? token = await PushNotificationService().getFcmToken();
     payload = payload.copyWith(fcmToken: token);
 
-    if (result == EAuthenticationResult.success && userId != null) {
+    if (result == EAuthenticationResult.success && id != null) {
       // If user creates a new account, we need to save the device FCM token
       saveUserInfo(payload);
     }
@@ -74,7 +74,7 @@ class AuthenticationService extends _$AuthenticationService {
     state = AuthenticationState(
         result: result,
         isLoading: false,
-        userId: userId,
+        id: id,
         page: "register"
     );
   }
@@ -94,13 +94,13 @@ class AuthenticationService extends _$AuthenticationService {
       newPassword: newPassword,
     );
 
-    final userId = _authenticator.userId;
+    final id = _authenticator.id;
 
     String? token = await PushNotificationService().getFcmToken();
 
-    if (result == EAuthenticationResult.success && userId != null) {
+    if (result == EAuthenticationResult.success && id != null) {
       // If user creates a new account, we need to save the device FCM token
-      saveUserInfo(UserPayload(userId: userId, fcmToken: token));
+      saveUserInfo(UserPayload(id: id, fcmToken: token));
     }
 
     state = state.copyWith(
@@ -120,12 +120,12 @@ class AuthenticationService extends _$AuthenticationService {
       newEmail: newEmail,
     );
 
-    final userId = _authenticator.userId;
+    final id = _authenticator.id;
 
     String? token = await PushNotificationService().getFcmToken();
 
-    if (result == EAuthenticationResult.success && userId != null) {
-      saveUserInfo(UserPayload(userId: userId, fcmToken: token));
+    if (result == EAuthenticationResult.success && id != null) {
+      saveUserInfo(UserPayload(id: id, fcmToken: token));
     }
 
     state = state.copyWith(

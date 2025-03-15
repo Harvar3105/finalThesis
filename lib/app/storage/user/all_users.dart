@@ -19,7 +19,7 @@ Stream<Iterable<UserPayload>> allUsers(Ref ref) {
     FirebaseCollectionNames.users,
   )
       .orderBy(
-    FirebaseUserFields.createdAt,
+    FirebaseFields.createdAt,
     descending: true,
   )
       .snapshots()
@@ -28,7 +28,7 @@ Stream<Iterable<UserPayload>> allUsers(Ref ref) {
       final users = snapshots.docs.map(
             (doc) => UserPayload
                 .fromJson(doc.data())
-                .copyWith(userId: doc.id),
+                .copyWith(id: doc.id),
       );
       controller.sink.add(users);
     },

@@ -7,9 +7,9 @@ import 'models/e_authentication_result.dart';
 class Authenticator {
   const Authenticator();
 
-  bool get isAlreadyLoggedIn => userId != null;
+  bool get isAlreadyLoggedIn => id != null;
 
-  Id? get userId => FirebaseAuth.instance.currentUser?.uid;
+  Id? get id => FirebaseAuth.instance.currentUser?.uid;
 
   Future<void> logOut() async {
     await FirebaseAuth.instance.signOut();

@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../app/helpers/validators.dart';
-import '../../app/services/authentication/authentication_service.dart';
-import '../../app/services/authentication/models/auth_state.dart';
-import '../../app/services/authentication/models/e_authentication_result.dart';
-import '../../configurations/app_colours.dart';
-import '../../configurations/strings.dart';
-import '../widgets/decorations/divider_with_margins.dart';
+import '../../../app/helpers/validators.dart';
+import '../../../app/services/authentication/authentication_service.dart';
+import '../../../app/services/authentication/models/auth_state.dart';
+import '../../../app/services/authentication/models/e_authentication_result.dart';
+import '../../../configurations/app_colours.dart';
+import '../../../configurations/strings.dart';
+import '../../widgets/decorations/divider_with_margins.dart';
 
 
 class LoginView extends ConsumerStatefulWidget {
@@ -76,13 +76,13 @@ class LoginViewState extends ConsumerState<LoginView> {
     );
 
     CustomButton loginButton = CustomButton(
-      text: Strings.login,
+      text: Strings.loginPage,
       backgroundColor: AppColors.primaryColorLight,
       foregroundColor: AppColors.loginButtonTextColor,
       onPressed: authProvider.isLoading ? null : _attemptLogin,
     );
     CustomButton registerButton = CustomButton(
-      text: Strings.register,
+      text: Strings.registerPage,
       backgroundColor: AppColors.secondaryColorLight,
       foregroundColor: AppColors.loginButtonTextColor,
       onPressed: () {context.push("/register");},

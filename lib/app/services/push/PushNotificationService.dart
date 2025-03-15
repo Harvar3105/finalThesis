@@ -21,7 +21,7 @@ class PushNotificationService {
   Future<String?> getFcmToken() async => await _firebaseMessaging.getToken();
 
   Future<void> initialize() async {
-    final userId = _authenticator.userId;
+    final id = _authenticator.id;
 
     try {
       final permission = await _firebaseMessaging.requestPermission();
@@ -31,8 +31,8 @@ class PushNotificationService {
       }
 
       final token = await getFcmToken();
-      if (token != null && userId != null) {
-        final userPayload = UserPayload(userId: userId, fcmToken: token);
+      if (token != null && id != null) {
+        final userPayload = UserPayload(id: id, fcmToken: token);
 
         await _userStorage.saveOrUpdateUserInfo(userPayload);
 

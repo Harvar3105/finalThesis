@@ -1,11 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../app/services/authentication/providers/login_state.dart';
-import '../../app/state/is_loading.dart';
-import '../main_view.dart';
-import '../widgets/animations/loading/loading_screen.dart';
-import 'login_view.dart';
 
 // class AuthenticationView extends StatelessWidget {
 //   const AuthenticationView({super.key});

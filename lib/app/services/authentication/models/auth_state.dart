@@ -10,7 +10,7 @@ class AuthenticationState with _$AuthenticationState {
   const factory AuthenticationState({
     required EAuthenticationResult? result,
     required bool isLoading,
-    required Id? userId,
+    required Id? id,
     required String? page,
   }) = _AuthState;
 
@@ -19,7 +19,7 @@ class AuthenticationState with _$AuthenticationState {
   factory AuthenticationState.unknown() => const AuthenticationState(
     result: null,
     isLoading: false,
-    userId: null,
+    id: null,
     page: null,
   );
 }

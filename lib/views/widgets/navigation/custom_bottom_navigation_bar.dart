@@ -1,7 +1,4 @@
-import 'dart:ui';
 
-import 'package:final_thesis_app/router.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,9 +16,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   final List<Map<String, dynamic>> navData = [
     {
-      'icon': Icons.settings,
-      'label': Strings.menu,
-      'route': '/',
+      'icon': Icons.supervisor_account_outlined,
+      'label': Strings.friends,
+      'route': '/friends',
     },
     {
       'icon': Icons.home,

@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:final_thesis_app/app/models/domain/entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../typedefs/e_role.dart';
 import '../../typedefs/entity.dart';
@@ -10,29 +11,39 @@ part 'user.g.dart';
 class User extends Entity {
   String firstName;
   String lastName;
-  String phoneNumber;
-  String? email;
+  String? phoneNumber;
+  String email;
   String? avatarUrl;
-  String aboutMe;
+  String? aboutMe;
   ERole role;
   String? fcmToken;
+  Set<String> friends;
+  Set<String> friendRequests;
+  Set<String> sentFriendRequests;
+  Set<String> blockedUsers;
 
   User({
     super.id,
     required this.firstName,
     required this.lastName,
-    required this.phoneNumber,
+    this.phoneNumber,
     required this.email,
     this.avatarUrl,
     this.aboutMe = '',
     this.role = ERole.None,
-    this.fcmToken
+    this.fcmToken,
+    super.createdAt,
+    super.updatedAt,
+    this.friends = const {},
+    this.friendRequests = const {},
+    this.sentFriendRequests = const {},
+    this.blockedUsers = const {},
   });
 }
 
 @JsonSerializable()
 class UserPayload {
-  final Id? userId;
+  final Id? id;
   final String? firstName;
   final String? lastName;
   final String? phoneNumber;
@@ -43,9 +54,13 @@ class UserPayload {
   final String? fcmToken;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final Set<String>? friends;
+  final Set<String>? friendRequests;
+  final Set<String>? sentFriendRequests;
+  final Set<String>? blockedUsers;
 
   const UserPayload({
-    this.userId,
+    this.id,
     this.firstName,
     this.lastName,
     this.phoneNumber,
@@ -55,12 +70,16 @@ class UserPayload {
     this.role,
     this.fcmToken,
     this.createdAt,
-    this.updatedAt
+    this.updatedAt,
+    this.friends,
+    this.friendRequests,
+    this.sentFriendRequests,
+    this.blockedUsers,
   });
 
-  userToPayload(User user) {
+  UserPayload userToPayload(User user) {
     return UserPayload(
-      userId: user.id ?? Uuid().v4(),
+      id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       phoneNumber: user.phoneNumber,
@@ -70,13 +89,42 @@ class UserPayload {
       role: user.role,
       fcmToken: user.fcmToken,
       createdAt: user.createdAt,
-      updatedAt: user.updatedAt
+      updatedAt: user.updatedAt,
+      friends: user.friends,
+      friendRequests: user.friendRequests,
+      sentFriendRequests: user.sentFriendRequests,
+      blockedUsers: user.blockedUsers,
     );
+  }
+
+  User? userFromPayload(){
+    try {
+      return User(
+        id: id,
+        firstName: firstName!,
+        lastName: lastName!,
+        phoneNumber: phoneNumber,
+        email: email!,
+        avatarUrl: avatarUrl,
+        aboutMe: aboutMe,
+        role: role ?? ERole.None,
+        fcmToken: fcmToken,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        friends: friends ?? {},
+        friendRequests: friendRequests!,
+        sentFriendRequests: sentFriendRequests!,
+        blockedUsers: blockedUsers!,
+      );
+    } catch(error) {
+      log('Error in userFromPayload: $error');
+      return null;
+    }
   }
 
   //TODO: For some reason freezed object could not generate from json. Need to investigate
   UserPayload copyWith({
-    Id? userId,
+    Id? id,
     String? firstName,
     String? lastName,
     String? phoneNumber,
@@ -87,9 +135,13 @@ class UserPayload {
     String? fcmToken,
     DateTime? createdAt,
     DateTime? updatedAt,
+    Set<String>? friends,
+    Set<String>? friendRequests,
+    Set<String>? sentFriendRequests,
+    Set<String>? blockedUsers,
   }) {
     return UserPayload(
-      userId: userId ?? this.userId,
+      id: id ?? this.id,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       phoneNumber: phoneNumber ?? this.phoneNumber,
@@ -99,7 +151,11 @@ class UserPayload {
       role: role ?? this.role,
       fcmToken: fcmToken ?? this.fcmToken,
       createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt
+      updatedAt: updatedAt ?? this.updatedAt,
+      friends: friends ?? this.friends,
+      friendRequests: friendRequests ?? this.friendRequests,
+      sentFriendRequests: sentFriendRequests ?? this.sentFriendRequests,
+      blockedUsers: blockedUsers ?? this.blockedUsers,
     );
   }
 

@@ -1,5 +1,4 @@
 import 'package:bubble/bubble.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AvatarWithSpeechBubble extends StatefulWidget {

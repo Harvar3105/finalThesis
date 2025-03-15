@@ -2,9 +2,6 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'app/services/authentication/authentication_service.dart';
-import 'app/services/authentication/models/e_authentication_result.dart';
-import 'app/services/authentication/providers/login_state.dart';
 import 'app/services/push/PushNotificationService.dart';
 import 'app/theme/theme.dart';
 import 'configurations/strings.dart';

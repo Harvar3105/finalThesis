@@ -8,5 +8,5 @@ part 'user_id.g.dart';
 
 @riverpod
 Id? userId(Ref ref) {
-  return ref.watch(authenticationServiceProvider).userId;
+  return ref.watch(authenticationServiceProvider).id;
 }
