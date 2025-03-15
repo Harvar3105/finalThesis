@@ -1,4 +1,5 @@
-import 'package:final_thesis_app/views/widgets/navigation/speech_bubble.dart';
+import 'package:bubble/bubble.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AvatarWithSpeechBubble extends StatefulWidget {
@@ -8,12 +9,12 @@ class AvatarWithSpeechBubble extends StatefulWidget {
   final VoidCallback? onButton3Pressed;
 
   const AvatarWithSpeechBubble({
-    super.key,
+    Key? key,
     required this.avatarImage,
     this.onButton1Pressed,
     this.onButton2Pressed,
     this.onButton3Pressed,
-  });
+  }) : super(key: key);
 
   @override
   State<AvatarWithSpeechBubble> createState() => _AvatarWithSpeechBubbleState();
@@ -23,33 +24,48 @@ class _AvatarWithSpeechBubbleState extends State<AvatarWithSpeechBubble> {
   OverlayEntry? _overlayEntry;
 
   void _showOverlay(BuildContext context) {
-    if (_overlayEntry != null) return; // Если Overlay уже отображается, ничего не делаем
+    if (_overlayEntry != null) return;
 
     final overlay = Overlay.of(context);
     final renderBox = context.findRenderObject() as RenderBox;
     final offset = renderBox.localToGlobal(Offset.zero);
+    final size = renderBox.size;
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        left: offset.dx - 120,
-        top: offset.dy + 55,
-        child: SpeechBubble(
-          buttons: [
-            TextButton(
-              onPressed: () {
-                widget.onButton1Pressed?.call();
-                _hideOverlay();
-              },
-              child: const Text('Logout'),
+        left: offset.dx - 45,
+        top: offset.dy + 60,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: 200,
+            maxHeight: 54*2,
+          ),
+          child: Bubble(
+            nip: BubbleNip.no,
+            color: Colors.white,
+            borderWidth: 1,
+            borderColor: Colors.black,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    widget.onButton1Pressed?.call();
+                    _hideOverlay();
+                  },
+                  child: const Text('Logout'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    widget.onButton2Pressed?.call();
+                    _hideOverlay();
+                  },
+                  child: const Text('To profile'),
+                ),
+              ],
             ),
-            TextButton(
-              onPressed: () {
-                widget.onButton2Pressed?.call();
-                _hideOverlay();
-              },
-              child: const Text('To profile'),
-            ),
-          ],
+          ),
         ),
       ),
     );
