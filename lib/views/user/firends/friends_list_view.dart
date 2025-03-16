@@ -1,7 +1,11 @@
 
 import 'dart:developer';
 
-import 'package:final_thesis_app/app/storage/user/combined/combined_user_friends.dart';
+import 'package:final_thesis_app/app/storage/user/combined/combined_user.dart';
+import 'package:final_thesis_app/configurations/firebase/firebase_access_fields.dart';
+import 'package:final_thesis_app/views/widgets/animations/animation_with_text.dart';
+import 'package:final_thesis_app/views/widgets/animations/error_animation.dart';
+import 'package:final_thesis_app/views/widgets/animations/loading/loading_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,7 +14,7 @@ class FriendsListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final combinedAsync = ref.watch(combinedUserWithFriendsProvider);
+    final combinedAsync = ref.watch(combinedUserProvider(FirebaseFields.friends));
 
     return combinedAsync.when(
       data: (data) {
@@ -42,8 +46,12 @@ class FriendsListView extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stackTrace) => Center(child: Text('Error: $error')),
+      loading: () => const AnimationWithText(animation: LoadingAnimationView(), text: 'Loading friends...'),
+      error: (error, stackTrace) {
+        log('FriendsListView: Error occurred: $error, at $stackTrace');
+        return AnimationWithText(
+            animation: ErrorAnimationView(), text: 'Oops! An error occurred.');
+      },
     );
   }
 }

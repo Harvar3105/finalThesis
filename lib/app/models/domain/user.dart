@@ -39,6 +39,26 @@ class User extends Entity {
     this.sentFriendRequests = const {},
     this.blockedUsers = const {},
   });
+
+  @override
+  String toString(){
+    return '\nUser:\n'
+        'id: $id\n'
+        'firstName: $firstName\n'
+        'lastName: $lastName\n'
+        'phoneNumber: $phoneNumber\n'
+        'email: $email\n'
+        'avatarUrl: $avatarUrl\n'
+        'aboutMe: $aboutMe\n'
+        'role: $role\n'
+        'fcmToken: $fcmToken\n'
+        'createdAt: $createdAt\n'
+        'updatedAt: $updatedAt\n'
+        'friends: $friends\n'
+        'friendRequests: $friendRequests\n'
+        'sentFriendRequests: $sentFriendRequests\n'
+        'blockedUsers: $blockedUsers\n';
+  }
 }
 
 @JsonSerializable()
@@ -163,4 +183,24 @@ class UserPayload {
       _$UserPayloadFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserPayloadToJson(this);
+
+  @override
+  String toString(){
+    return '\nUserPayload:\n'
+        'id: $id\n'
+        'firstName: $firstName\n'
+        'lastName: $lastName\n'
+        'phoneNumber: $phoneNumber\n'
+        'email: $email\n'
+        'avatarUrl: $avatarUrl\n'
+        'aboutMe: $aboutMe\n'
+        'role: $role\n'
+        'fcmToken: $fcmToken\n'
+        'createdAt: $createdAt\n'
+        'updatedAt: $updatedAt\n'
+        'friends: $friends\n'
+        'friendRequests: $friendRequests\n'
+        'sentFriendRequests: $sentFriendRequests\n'
+        'blockedUsers: $blockedUsers\n';
+  }
 }

@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/storage/user/combined/combined_user_users.dart';
+import '../../widgets/animations/animation_with_text.dart';
+import '../../widgets/animations/error_animation.dart';
+import '../../widgets/animations/loading/loading_animation.dart';
 
 class UsersListView extends ConsumerWidget {
   const UsersListView({super.key});
@@ -40,8 +45,12 @@ class UsersListView extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stackTrace) => Center(child: Text('Error: $error')),
+      loading: () => const AnimationWithText(animation: LoadingAnimationView(), text: 'Loading users...'),
+      error: (error, stackTrace) {
+        log('FriendsListView: Error occurred: $error, at $stackTrace');
+        return AnimationWithText(
+            animation: ErrorAnimationView(), text: 'Oops! An error occurred.');
+      },
     );
   }
 }

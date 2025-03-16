@@ -1,4 +1,4 @@
-import 'lottie_animation_view.dart';
+import '../lottie_animation_view.dart';
 
 class LoadingAnimationView extends LottieAnimationView {
   const LoadingAnimationView({super.key})

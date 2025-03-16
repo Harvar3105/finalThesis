@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:final_thesis_app/configurations/firebase/firebase_access_fields.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -10,23 +12,26 @@ import '../users_by_ids.dart';
 part 'combined_user.g.dart';
 
 @riverpod
-Future<(User?, List<User>)> combinedUser(Ref ref, FirebaseFields field) async {
-  final userId = ref.read(userIdProvider);
+Future<(User?, List<User>)> combinedUser(Ref ref, String field) async {
+  try {
+    final userId = ref.read(userIdProvider);
+    if (userId == null) throw Exception("User id is null");
 
-  if (userId == null) {
+    final userPayload = (await ref.watch(userPayloadProvider(userId).future));
+    final user = userPayload.userFromPayload();
+    if (user == null) throw Exception("User is null. payload: $userPayload, user: $user");
+
+    final Map<String, dynamic> userMap = userPayload.toJson();
+    var ids = userMap[field];
+    if (ids == null || ids.isEmpty) throw Exception("Ids are null or empty");
+
+    final result = await ref.watch(usersByIdsProvider(ids).future);
+    if (result.isEmpty) return (user, result);
+
+    result.removeWhere((u) => u.id == userId);
+    return (user, result);
+  } catch (error, stackTrace) {
+    log('${error.toString()}, ${stackTrace.toString()}');
     return (null, [].cast<User>());
   }
-
-  final userPayload = (await ref.watch(userPayloadProvider(userId).future));
-  final user = userPayload.userFromPayload();
-
-  if (user == null || user.friends.isEmpty) {
-    return (user, [].cast<User>());
-  }
-  final Map<String, dynamic> userMap = userPayload.toJson();
-  var ids = userMap[field.toString()];
-
-  final friends = await ref.watch(usersByIdsProvider(ids).future);
-
-  return (user, friends);
 }
