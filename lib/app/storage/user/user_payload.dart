@@ -8,11 +8,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../models/domain/user.dart';
 import '../../typedefs/entity.dart';
 
-part 'user_payload_provider.g.dart';
+part 'user_payload.g.dart';
 
 @riverpod
 Stream<UserPayload> userPayload(Ref ref, Id id) {
-  log('userPayloadProvider: Called with userId = $id');
   return FirebaseFirestore.instance
       .collection(FirebaseCollectionNames.users)
       .where(FirebaseFields.id, isEqualTo: id)

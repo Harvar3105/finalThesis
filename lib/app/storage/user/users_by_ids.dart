@@ -8,10 +8,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../configurations/firebase/firebase_access_fields.dart';
 import '../../models/domain/user.dart';
 
-part 'users_friends.g.dart';
+part 'users_by_ids.g.dart';
 
 @riverpod
-Future<List<User>> usersFriends(Ref ref, Set<String> usersIds) async {
+Future<List<User>> usersByIds(Ref ref, Set<String> usersIds) async {
   log('usersFriendsProvider: Called with usersIds = $usersIds');
   if (usersIds.isEmpty) {
     log('usersFriendsProvider: no friends, return empty list');

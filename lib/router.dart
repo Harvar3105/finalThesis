@@ -1,6 +1,7 @@
 import 'package:final_thesis_app/views/calendar/calendar_view.dart';
 import 'package:final_thesis_app/views/main_view.dart';
-import 'package:final_thesis_app/views/user/friends_list_view.dart';
+import 'package:final_thesis_app/views/user/firends/friends_list_view.dart';
+import 'package:final_thesis_app/views/user/friends_view.dart';
 import 'package:final_thesis_app/views/user/self/login_view.dart';
 import 'package:final_thesis_app/views/user/self/register_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,7 +50,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             name: Strings.friends,
             path: '/friends',
-            builder: (context, state) => const FriendsListView(),
+            builder: (context, state) => const FriendsView(),
           )
         ],
       ),

@@ -1,10 +1,10 @@
-import 'package:final_thesis_app/app/storage/user/user_payload_provider.dart';
-import 'package:final_thesis_app/app/storage/user/users_friends.dart';
+import 'package:final_thesis_app/app/storage/user/user_payload.dart';
+import 'package:final_thesis_app/app/storage/user/users_by_ids.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../models/domain/user.dart';
-import '../../services/authentication/providers/user_id.dart';
+import '../../../models/domain/user.dart';
+import '../../../services/authentication/providers/user_id.dart';
 
 part 'combined_user_friends.g.dart';
 
@@ -22,7 +22,7 @@ Future<(User?, List<User>)> combinedUserWithFriends(Ref ref) async {
     return (user, [].cast<User>());
   }
 
-  final friends = await ref.watch(usersFriendsProvider(user.friends).future);
+  final friends = await ref.watch(usersByIdsProvider(user.friends).future);
 
   return (user, friends);
 }
