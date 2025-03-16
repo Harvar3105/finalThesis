@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:final_thesis_app/app/models/domain/entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../configurations/firebase/firebase_access_fields.dart';
 import '../../typedefs/e_role.dart';
 import '../../typedefs/entity.dart';
 
@@ -17,10 +18,10 @@ class User extends Entity {
   String? aboutMe;
   ERole role;
   String? fcmToken;
-  Set<String> friends;
-  Set<String> friendRequests;
-  Set<String> sentFriendRequests;
-  Set<String> blockedUsers;
+  Set<String>? friends;
+  Set<String>? friendRequests;
+  Set<String>? sentFriendRequests;
+  Set<String>? blockedUsers;
 
   User({
     super.id,
@@ -63,20 +64,35 @@ class User extends Entity {
 
 @JsonSerializable()
 class UserPayload {
+  @JsonKey(name: FirebaseFields.id)
   final Id? id;
+  @JsonKey(name: FirebaseFields.firstName)
   final String? firstName;
+  @JsonKey(name: FirebaseFields.lastName)
   final String? lastName;
+  @JsonKey(name: FirebaseFields.phoneNumber)
   final String? phoneNumber;
+  @JsonKey(name: FirebaseFields.email)
   final String? email;
+  @JsonKey(name: FirebaseFields.avatarUrl)
   final String? avatarUrl;
+  @JsonKey(name: FirebaseFields.aboutMe)
   final String? aboutMe;
+  @JsonKey(name: FirebaseFields.role)
   final ERole? role;
+  @JsonKey(name: FirebaseFields.fcmToken)
   final String? fcmToken;
+  @JsonKey(name: FirebaseFields.createdAt)
   final DateTime? createdAt;
+  @JsonKey(name: FirebaseFields.updatedAt)
   final DateTime? updatedAt;
+  @JsonKey(name: FirebaseFields.friends)
   final Set<String>? friends;
+  @JsonKey(name: FirebaseFields.friendRequests)
   final Set<String>? friendRequests;
+  @JsonKey(name: FirebaseFields.sentFriendRequests)
   final Set<String>? sentFriendRequests;
+  @JsonKey(name: FirebaseFields.blockedUsers)
   final Set<String>? blockedUsers;
 
   const UserPayload({
@@ -131,10 +147,10 @@ class UserPayload {
         fcmToken: fcmToken,
         createdAt: createdAt,
         updatedAt: updatedAt,
-        friends: friends ?? {},
-        friendRequests: friendRequests!,
-        sentFriendRequests: sentFriendRequests!,
-        blockedUsers: blockedUsers!,
+        friends: friends,
+        friendRequests: friendRequests,
+        sentFriendRequests: sentFriendRequests,
+        blockedUsers: blockedUsers,
       );
     } catch(error) {
       log('Error in userFromPayload: $error');
@@ -179,8 +195,11 @@ class UserPayload {
     );
   }
 
-  factory UserPayload.fromJson(Map<String, dynamic> json) =>
-      _$UserPayloadFromJson(json);
+  factory UserPayload.fromJson(Map<String, dynamic> json){
+    var result = _$UserPayloadFromJson(json);
+    log("UserPayload.fromJson:\njson: $json\nresult: $result");
+    return result;
+  }
 
   Map<String, dynamic> toJson() => _$UserPayloadToJson(this);
 

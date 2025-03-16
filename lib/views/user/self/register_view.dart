@@ -57,7 +57,9 @@ class RegisterViewState extends ConsumerState<RegisterView> {
         firstName: firstName,
         lastName: secondName,
         email: email,
-        role: role
+        role: role,
+        createdAt: DateTime.now().toUtc(),
+        updatedAt: DateTime.now().toUtc(),
       ), password);
     }
   }

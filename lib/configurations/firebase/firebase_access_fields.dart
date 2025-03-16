@@ -30,20 +30,20 @@ class FirebaseFields {
 
   static const allFields = {
     'id': id,
-    'firstName': firstName,
-    'lastName': lastName,
+    'first_name': firstName,
+    'last_name': lastName,
     'phoneNumber': phoneNumber,
     'email': email,
     'avatarUrl': avatarUrl,
     'aboutMe': aboutMe,
     'role': role,
-    'fcmToken': fcmToken,
-    'createdAt': createdAt,
-    'updatedAt': updatedAt,
+    'fmc_token': fcmToken,
+    'created_at': createdAt,
+    'updated_at': updatedAt,
     'friends': friends,
-    'friendRequests': friendRequests,
-    'sentFriendRequests': sentFriendRequests,
-    'blockedUsers': blockedUsers,
+    'friend_requests': friendRequests,
+    'sent_friend_requests': sentFriendRequests,
+    'blocked_users': blockedUsers,
   };
 
   static String mapFirebaseField(String payloadField) {

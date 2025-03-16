@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/domain/user.dart';
 import '../../../services/authentication/providers/user_id.dart';
+import '../user_payload_feature.dart';
 
 part 'combined_user_users.g.dart';
 
@@ -16,7 +17,7 @@ Future<(User?, List<User>)> combinedUserWithUsers(Ref ref) async {
     return (null, [].cast<User>());
   }
 
-  final user = (await ref.watch(userPayloadProvider(userId).future)).userFromPayload();
+  final user = (await ref.watch(userPayloadFeatureProvider(userId).future)).userFromPayload();
 
   if (user == null) {
     return (user, [].cast<User>());

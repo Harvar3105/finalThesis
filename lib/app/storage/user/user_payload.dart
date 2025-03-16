@@ -20,6 +20,7 @@ Stream<UserPayload> userPayload(Ref ref, Id id) {
       .where((snapshot) => snapshot.docs.isNotEmpty)
       .map((snapshot) {
     final doc = snapshot.docs.first;
+    log('userPayload: ${doc.data()}');
     return UserPayload.fromJson(doc.data());
   });
 }
