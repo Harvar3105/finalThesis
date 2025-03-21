@@ -9,12 +9,15 @@ import '../../../app/models/domain/user.dart';
 import '../../../app/services/authentication/providers/user_id.dart';
 import '../../../app/storage/user/user_payload.dart';
 import '../../../app/theme/theme.dart';
+import '../../../configurations/strings.dart';
 import '../dialogs/logout_dialog.dart';
 
 class CustomAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
   });
+
+  static const forbiddenPages = [Strings.login, Strings.register, Strings.userProfile];
 
   @override
   ConsumerState<CustomAppBar> createState() => _CustomAppBarState();
@@ -32,6 +35,8 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
     final themeNotifier = ref.read(themeProvider.notifier);
     final theme = ref.watch(themeProvider);
     final userId = ref.watch(userIdProvider);
+
+    final String routeName = GoRouterState.of(context).topRoute?.name ?? 'unknown';
 
     if (userId != null) {
       ref.listen<AsyncValue<UserPayload>>(userPayloadProvider(userId), (previous, next) {
@@ -77,7 +82,7 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
-          GoRouterState.of(context).topRoute?.name ?? 'unknown',
+          routeName,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -86,7 +91,9 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
       actions: [
         Padding(
           padding: padding,
-          child: AvatarWithSpeechBubble(
+          child:
+          !CustomAppBar.forbiddenPages.contains(routeName)
+          ? AvatarWithSpeechBubble(
             avatarImage: _userPayload?.avatarUrl != null
               ? NetworkImage(_userPayload!.avatarUrl!)
               : const AssetImage('assets/images/user_icon.png') as ImageProvider,
@@ -100,9 +107,11 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
               }
             },
             onButton2Pressed: () {
-              print('Кнопка 2 нажата');
+              context.push('/user-profile-edit', extra: _userPayload);
             },
           )
+          : null,
+
         ),
       ],
     );

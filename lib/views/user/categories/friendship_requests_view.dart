@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../app/models/domain/user.dart';
 import '../../../app/storage/user/combined/combined_user.dart';
 import '../../../configurations/firebase/firebase_access_fields.dart';
 import '../../widgets/animations/animation_with_text.dart';
@@ -10,7 +11,8 @@ import '../../widgets/animations/error_animation.dart';
 import '../../widgets/animations/loading/loading_animation.dart';
 
 class FriendshipRequestsView extends ConsumerWidget {
-  const FriendshipRequestsView({super.key});
+  const FriendshipRequestsView({super.key, required this.users});
+  final List<User>? users;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

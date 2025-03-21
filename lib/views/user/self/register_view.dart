@@ -50,7 +50,7 @@ class RegisterViewState extends ConsumerState<RegisterView> {
       final secondName = _lastNameController.text;
       final email = _emailController.text;
       final password = _passwordController.text;
-      final role = _isSelected[0] ? ERole.Coach : ERole.Sportsman;
+      final role = _isSelected[0] ? ERole.coach : ERole.athlete;
 
       final authProvider = ref.read(authenticationServiceProvider.notifier);
       await authProvider.register(UserPayload(

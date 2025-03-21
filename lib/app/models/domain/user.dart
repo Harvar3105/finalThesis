@@ -31,7 +31,7 @@ class User extends Entity {
     required this.email,
     this.avatarUrl,
     this.aboutMe = '',
-    this.role = ERole.None,
+    this.role = ERole.none,
     this.fcmToken,
     super.createdAt,
     super.updatedAt,
@@ -143,7 +143,7 @@ class UserPayload {
         email: email!,
         avatarUrl: avatarUrl,
         aboutMe: aboutMe,
-        role: role ?? ERole.None,
+        role: role ?? ERole.none,
         fcmToken: fcmToken,
         createdAt: createdAt,
         updatedAt: updatedAt,
@@ -197,7 +197,7 @@ class UserPayload {
 
   factory UserPayload.fromJson(Map<String, dynamic> json){
     var result = _$UserPayloadFromJson(json);
-    log("UserPayload.fromJson:\njson: $json\nresult: $result");
+    // log("UserPayload.fromJson:\njson: $json\nresult: $result");
     return result;
   }
 
