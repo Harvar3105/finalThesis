@@ -28,14 +28,17 @@ class AuthenticationService extends _$AuthenticationService {
   Future<void> login(String email, String password) async {
     state = state.copyWith(isLoading: true);
     final authenticator = ref.watch(authenticationProvider);
-    final notificationService = ref.watch(pushNotificationsServiceProvider);
+    final notificationService = ref.read(pushNotificationsServiceProvider);
 
     final result = await authenticator.loginWithEmailAndPassword(email, password);
     final id = authenticator.id;
 
-    String? token = await notificationService.getFcmToken();
-    if (id != null && token != null) {
-      saveUserInfo(UserPayload(id: id, fcmToken: token));
+    if (id != null) {
+      String? token = await notificationService.getFcmToken();
+
+      if (token != null) {
+        saveUserInfo(UserPayload(id: id, fcmToken: token));
+      }
     }
 
     state = AuthenticationState(

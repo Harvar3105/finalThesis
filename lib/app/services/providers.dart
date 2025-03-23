@@ -15,5 +15,6 @@ final imageServiceProvider = Provider<ImageService>((ref) {
 });
 
 final pushNotificationsServiceProvider = Provider<PushNotificationsService>((ref) {
-  return PushNotificationsService();
+  return PushNotificationsService(ref.watch(pushNotificationsProvider));
 });
+

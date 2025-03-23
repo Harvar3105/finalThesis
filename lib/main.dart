@@ -18,12 +18,8 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  final container = ProviderContainer();
-  await container.read(pushNotificationsServiceProvider.future);
-
   runApp(
     ProviderScope(
-      parent: container,
       child: const MyApp(),
     ),
   );
