@@ -163,14 +163,15 @@ class UserStorage extends Repository<FirebaseFirestore> {
     }
   }
 
-  Future<List<UserPayload>> searchUsersByName(
+  Future<List<UserPayload>?> searchUsersByName(
       String searchingSubstring,
       int type,
       Id currentUserId,
       ERole role,
       ESortingOrder sortingOrder
       ) async {
-    log('usersByName: Called with name = $searchingSubstring');
+
+    log("usersByName: Called with name $searchingSubstring\ntype $type\nrole $role\nsortingOrder $sortingOrder");
 
     dynamic snapshot = FirebaseFirestore.instance
         .collection(FirebaseCollectionNames.users);
@@ -195,21 +196,29 @@ class UserStorage extends Repository<FirebaseFirestore> {
     final currentUser = users.firstWhere((user) => user.id == currentUserId);
     users.removeWhere((user) => user.id == currentUserId);
 
-    List<UserPayload>? selectedTypeUsers;
+    List<UserPayload>? selectedTypeUsers = [];
     switch (type) {
       case 0:
+        if (currentUser.friends == null) break;
+
         selectedTypeUsers = users.where((listUser) =>
         currentUser.friends?.contains(listUser.id) ?? false
         ).toList();
+        log("current user friends: ${currentUser.friends}");
+        break;
+      case 1:
+        selectedTypeUsers = users;
         break;
       case 2:
+        if (currentUser.friendRequests == null) break;
+
         selectedTypeUsers = users.where((listUser) =>
         (currentUser.friendRequests?.contains(listUser.id) ?? false) ||
             (currentUser.sentFriendRequests?.contains(listUser.id) ?? false)
         ).toList();
         break;
     }
-    selectedTypeUsers ??= users;
+    if (selectedTypeUsers.isEmpty) return null;
 
     List<UserPayload> filteredUsers;
     searchingSubstring == ""
@@ -219,7 +228,7 @@ class UserStorage extends Repository<FirebaseFirestore> {
         .toList();
 
     filteredUsers.sort((a, b) => '${a.firstName} ${a.lastName}'.compareTo('${b.firstName} ${b.lastName}'));
-
+    log("Search results: ${filteredUsers.length}");
     return filteredUsers;
   }
 

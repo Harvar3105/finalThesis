@@ -25,7 +25,6 @@ class FriendsListView extends ConsumerWidget {
       data: (data) {
         final user = data.$1;
         final friends = data.$2;
-        log('FriendsListView: Got user $user and friends $friends');
 
         if (friends.isEmpty) {
           return const Center(

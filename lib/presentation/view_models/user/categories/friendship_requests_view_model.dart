@@ -16,7 +16,7 @@ class FriendshipRequestsViewModel extends _$FriendshipRequestsViewModel {
     }
 
     if (preloadedUsers != null) {
-      return (user, preloadedUsers, [] as List<User>);
+      return (user, preloadedUsers, [].cast<User>());
     }
 
     final incomingRequests = await userService.getUsersByIds(user.friendRequests ?? {});

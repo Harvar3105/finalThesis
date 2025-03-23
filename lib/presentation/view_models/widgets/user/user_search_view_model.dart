@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../app/typedefs/e_role.dart';
@@ -12,7 +14,7 @@ part 'user_search_view_model.g.dart';
 @riverpod
 class UserSearchViewModel extends _$UserSearchViewModel {
   @override
-  FutureOr<List<User>> build() async => [];
+  FutureOr<List<User>?> build() async => [];
 
   Future<void> searchUsers({
     required String query,
@@ -28,10 +30,14 @@ class UserSearchViewModel extends _$UserSearchViewModel {
       final users = await userService.searchUsersByName(
         query, selectedIndex, userId, role, sortingOrder,
       );
-
-      state = AsyncValue.data(users ?? []);
+      log("Searhing users, result ${users?.length.toString()}");
+      state = AsyncValue.data(users);
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
     }
+  }
+
+  void clearSearch() {
+    state = const AsyncValue.data(null);
   }
 }

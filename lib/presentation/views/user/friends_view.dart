@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,6 +32,7 @@ class _FriendsViewState extends ConsumerState<FriendsView> {
       children: [
         UserSearch(
           onSearch: (result) {
+            log("result: $result");
             ref.watch(searchUsersProvider.notifier).state = result;
           },
           onFlash: (flash) {
@@ -42,9 +45,9 @@ class _FriendsViewState extends ConsumerState<FriendsView> {
         DividerWithMargins(1),
         Expanded(
           child: switch (searchResult?.$2) {
-            0 => FriendsListView(users: searchResult?.$1),
-            1 => UsersListView(users: searchResult?.$1),
-            2 => FriendshipRequestsView(users: searchResult?.$1),
+            0 => FriendsListView(users: searchResult?.$2 == 0 ? searchResult?.$1 : null),
+            1 => UsersListView(users: searchResult?.$2 == 1 ? searchResult?.$1 : null),
+            2 => FriendshipRequestsView(users: searchResult?.$2 == 2 ? searchResult?.$1 : null),
             _ => Text("Start searching..."),
           },
         ),

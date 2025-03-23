@@ -59,7 +59,7 @@ class UserService {
       currentUserId,
       role,
       sortingOrder,
-      )).map((user) => user.userFromPayload())
+      ))?.map((user) => user.userFromPayload())
         .whereType<User>()
         .toList();
   }

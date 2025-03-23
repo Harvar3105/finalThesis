@@ -6,6 +6,7 @@ import 'package:final_thesis_app/app/typedefs/entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../configurations/strings.dart';
 import '../../../../data/domain/user.dart';
 import '../../../view_models/widgets/user/user_search_view_model.dart';
 
@@ -28,8 +29,9 @@ class UserSearch extends ConsumerStatefulWidget {
 
 class _UserSearchState extends ConsumerState<UserSearch> {
   late final TextEditingController _searchController;
-  final ESortingOrder _nameSorting = ESortingOrder.none;
-  final ERole _roleFiltering = ERole.none;
+  ESortingOrder _nameSorting = ESortingOrder.none;
+  ERole _roleFiltering = ERole.none;
+  bool _isInUse = false;
   int selectedIndex = 0;
 
   @override
@@ -41,8 +43,14 @@ class _UserSearchState extends ConsumerState<UserSearch> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    final userSearchState = ref.watch(userSearchViewModelProvider);
-    final userSearchVM = ref.read(userSearchViewModelProvider.notifier);
+    final searchState = ref.watch(userSearchViewModelProvider);
+    final searchNotifier = ref.read(userSearchViewModelProvider.notifier);
+
+    ref.listen(userSearchViewModelProvider, (previous, next) {
+      if (next is AsyncData<List<User>?>) {
+        widget.onSearch((next.value, selectedIndex));
+      }
+    });
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -53,39 +61,134 @@ class _UserSearchState extends ConsumerState<UserSearch> {
               Expanded(
                 child: TextFormField(
                   controller: _searchController,
-                  style: TextStyle(fontSize: 20, height: 0.5, color: theme.colorScheme.onPrimary),
+                  style: TextStyle(
+                    fontSize: 20,
+                    height: 0.5,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                   decoration: InputDecoration(
-                    hintText: "Search",
-                    hintStyle: TextStyle(color: theme.colorScheme.onPrimary),
-                    border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(100))),
+                    hintText: Strings.search,
+                    hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                    ),
                   ),
                   keyboardType: TextInputType.text,
                 ),
               ),
               IconButton(
-                onPressed: () {
-                  userSearchVM.searchUsers(
+                onPressed: () async {
+                  await searchNotifier.searchUsers(
                     query: _searchController.text,
                     selectedIndex: selectedIndex,
                     userId: widget.userId,
                     role: _roleFiltering,
                     sortingOrder: _nameSorting,
                   );
+
+                  setState(() {
+                    _isInUse = true;
+                  });
                 },
                 icon: const Icon(Icons.search, size: 40),
               ),
+              _isInUse
+                  ? IconButton(
+                onPressed: () {
+                  searchNotifier.clearSearch();
+                  widget.onFlash(true);
+
+                  setState(() {
+                    _isInUse = false;
+                    _nameSorting = ESortingOrder.none;
+                  });
+                },
+                icon: const Icon(Icons.cancel_outlined, size: 40),
+              )
+                  : const SizedBox(width: 0),
             ],
           ),
-          userSearchState.when(
-            data: (users) {
-              return users.isEmpty
-                  ? const Text("No users found.")
-                  : Column(
-                children: users.map((user) => Text(user.firstName)).toList(),
-              );
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              IconButton(
+                onPressed: () async {
+                  setState(() {
+                    _isInUse = _nameSorting.next() != ESortingOrder.none ||
+                        _roleFiltering != ERole.none;
+                    _nameSorting = _nameSorting.next();
+                  });
+                },
+                icon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.abc_outlined, size: 40),
+                    switch (_nameSorting) {
+                      ESortingOrder.none => const Icon(Icons.cancel_outlined, size: 40),
+                      ESortingOrder.ascending =>
+                      const Icon(Icons.arrow_circle_up_sharp, size: 40, color: Colors.greenAccent),
+                      ESortingOrder.descending =>
+                      const Icon(Icons.arrow_circle_down_sharp, size: 40, color: Colors.redAccent),
+                    }
+                  ],
+                ),
+              ),
+              IconButton(
+                onPressed: () async {
+                  setState(() {
+                    _isInUse = _roleFiltering.next() != ERole.none ||
+                        _nameSorting != ESortingOrder.none;
+                    _roleFiltering = _roleFiltering.next();
+                  });
+                },
+                icon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.account_circle_outlined, size: 40),
+                    switch (_roleFiltering) {
+                      ERole.none => const Icon(Icons.cancel_outlined, size: 40),
+                      ERole.coach =>
+                      const Icon(Icons.man, size: 40, color: Colors.greenAccent),
+                      ERole.athlete =>
+                      const Icon(Icons.directions_run_outlined, size: 40, color: Colors.redAccent),
+                    }
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SegmentedButton(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.selected)) {
+                  return theme.colorScheme.primary;
+                }
+                return theme.colorScheme.secondary;
+              }),
+              textStyle: WidgetStateProperty.resolveWith<TextStyle>((states) {
+                if (states.contains(WidgetState.selected)) {
+                  return theme.textTheme.bodySmall!;
+                }
+                return theme.textTheme.bodySmall!;
+              }),
+              padding: WidgetStatePropertyAll(
+                const EdgeInsets.symmetric(horizontal: 20),
+              ),
+            ),
+            segments: const [
+              ButtonSegment(value: 0, label: Center(child: Text('Friends'))),
+              ButtonSegment(value: 1, label: Center(child: Text('Users'))),
+              ButtonSegment(value: 2, label: Center(child: Text('Requests'))),
+            ],
+            selected: {selectedIndex},
+            onSelectionChanged: (Set<int> newSelection) {
+              setState(() {
+                selectedIndex = newSelection.first;
+              });
             },
-            loading: () => const CircularProgressIndicator(),
-            error: (error, _) => Text("Error: $error"),
+            showSelectedIcon: false,
           ),
         ],
       ),

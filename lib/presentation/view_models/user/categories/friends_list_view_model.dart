@@ -20,7 +20,7 @@ class FriendsListViewModel extends _$FriendsListViewModel {
       return (user, preloadedFriends);
     }
 
-    final friends = await userService.getUsersByIds(user.friends ?? {});
+    final friends = await userService.getUsersFriends(user);
     return (user, friends ?? []);
   }
 }
