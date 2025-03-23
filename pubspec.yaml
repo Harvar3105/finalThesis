@@ -46,7 +46,7 @@ dependencies:
   intl: ^0.20.1 # localization
   font_awesome_flutter: ^10.8.0
   dio: ^5.7.0 # HTTP networking package
-  shared_preferences: ^2.2.2 # Local repositories
+  shared_preferences: ^2.2.2 # Local storage
 
   image_picker: ^1.1.2
   image: ^4.3.0
