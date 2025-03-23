@@ -72,6 +72,7 @@ class LoginViewState extends ConsumerState<LoginView> {
       controller: _passwordController,
       validator: validatePassword,
       labelText: Strings.password,
+      keyboardType: TextInputType.visiblePassword,
       obscureText: true,
     );
 

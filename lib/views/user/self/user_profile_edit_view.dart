@@ -27,72 +27,96 @@ class UserProfileEditView extends ConsumerWidget {
       backgroundColor: AppColors.profileButtons,
     );
 
+    var fieldDecoration = BoxDecoration(
+      color: AppColors.profileButtons,
+      borderRadius: BorderRadius.circular(30)
+    );
+
+    fieldText(String text) {
+      return Text(
+        text,
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.clip,
+        softWrap: true,
+        style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurface),
+      );
+    }
+
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Center(
-            child: UserAvatar(url: user.avatarUrl, radius: 100),
-          ),
-          const SizedBox(height: 24),
-
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(10)
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(60),
+          color: theme.colorScheme.surface
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                  child: UserAvatar(url: user.avatarUrl, radius: 60),
+                ),
+                Column(
+                  children: [
+                    SizedBox(height: 5.0),
+                    Container(
+                      width: 250,
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      decoration: fieldDecoration,
+                      child: fieldText('${user.firstName} ${user.lastName}'),
+                    ),
+                    SizedBox(height: 3.0),
+                    Container(
+                      width: 250,
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      decoration: fieldDecoration,
+                      child: fieldText(user.phoneNumber ?? 'No phone number'),
+                    ),
+                    SizedBox(height: 3.0),
+                    Container(
+                      width: 250,
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      decoration: fieldDecoration,
+                      child: fieldText(user.email),
+                    ),
+                  ],
+                )
+              ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                '${user.firstName} ${user.lastName}',
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.clip,
-                softWrap: true,
-              ),
+            const SizedBox(height: 24),
+            Container(
+              height: 100,
+              decoration: fieldDecoration,
+              child: fieldText(user.aboutMe ?? 'No information about user')
             ),
-          ),
-          const SizedBox(height: 8),
-          DecoratedBox(
-            decoration: BoxDecoration(
-                color: theme.colorScheme.surface,
-                borderRadius: BorderRadius.circular(10)
+            const SizedBox(height: 24),
+            TextButton(
+              onPressed: () {
+                context.push('/change-name-and-photo', extra: user);
+              },
+              style: buttonsStyle,
+              child: Text(Strings.changeNameAndPhoto, style: buttonsTextStyle,),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Email: ${user.email}',
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.clip,
-                softWrap: true,
-              ),
+            const SizedBox(height: 10,),
+            TextButton(
+              onPressed: () {
+                context.push('/change-email', extra: user);
+              },
+              style: buttonsStyle,
+              child: Text(Strings.changeEmail, style: buttonsTextStyle),
             ),
-          ),
-          const SizedBox(height: 10),
-          TextButton(
-            onPressed: () {
-              context.push('/change-name-and-photo', extra: user);
-            },
-            style: buttonsStyle,
-            child: Text(Strings.changeNameAndPhoto, style: buttonsTextStyle,),
-          ),
-          const SizedBox(height: 10,),
-          TextButton(
-            onPressed: () {
-              context.push('/change-email', extra: user);
-            },
-            style: buttonsStyle,
-            child: Text(Strings.changeEmail, style: buttonsTextStyle),
-          ),
-          const SizedBox(height: 10,),
-          TextButton(
-            onPressed: () {
-              context.push('/change-password', extra: user);
-            },
-            style: buttonsStyle,
-            child: Text(Strings.changePassword, style: buttonsTextStyle,),
-          ),
-        ],
+            const SizedBox(height: 10,),
+            TextButton(
+              onPressed: () {
+                context.push('/change-password', extra: user);
+              },
+              style: buttonsStyle,
+              child: Text(Strings.changePassword, style: buttonsTextStyle,),
+            ),
+          ],
+        ),
       ),
     );
   }

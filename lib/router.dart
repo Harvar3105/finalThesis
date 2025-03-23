@@ -1,6 +1,9 @@
 import 'package:final_thesis_app/views/calendar/calendar_view.dart';
 import 'package:final_thesis_app/views/main_view.dart';
 import 'package:final_thesis_app/views/user/friends_view.dart';
+import 'package:final_thesis_app/views/user/self/change_email_view.dart';
+import 'package:final_thesis_app/views/user/self/change_name_and_photo_view.dart';
+import 'package:final_thesis_app/views/user/self/change_password_view.dart';
 import 'package:final_thesis_app/views/user/self/login_view.dart';
 import 'package:final_thesis_app/views/user/self/register_view.dart';
 import 'package:final_thesis_app/views/user/self/user_profile_edit_view.dart';
@@ -46,6 +49,28 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final user = state.extra as UserPayload;
           return UserProfileEditView(user: user.userFromPayload()!);
+        },
+      ),
+      GoRoute(
+        name: Strings.changeEmail,
+        path: '/change-email',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ChangeEmailView();
+        },
+      ),
+      GoRoute(
+        name: Strings.changePassword,
+        path: '/change-password',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ChangePasswordView();
+        },
+      ),
+      GoRoute(
+        name: Strings.changeNameAndPhoto,
+        path: '/change-name-and-photo',
+        builder: (BuildContext context, GoRouterState state) {
+          final userPayload = state.extra as UserPayload;
+          return ChangeNamePhotoView(userPayload: userPayload,);
         },
       ),
       ShellRoute(
