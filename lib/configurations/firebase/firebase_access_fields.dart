@@ -20,6 +20,7 @@ class FirebaseFields {
   static const phoneNumber = 'phone_number';
   static const email = 'email';
   static const avatarUrl = 'avatar_url';
+  static const avatarName = 'avatar_name';
   static const aboutMe = 'about_me';
   static const role = 'role';
   static const fcmToken = 'fmc_token';

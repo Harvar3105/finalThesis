@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'app/services/push/PushNotificationService.dart';
+import 'app/services/push/push_notifications_service.dart';
 import 'app/theme/theme.dart';
 import 'configurations/strings.dart';
 import 'firebase_options.dart';
@@ -14,16 +14,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await PushNotificationService().initialize();
 
+  final container = ProviderContainer();
+  await container.read(pushNotificationsServiceProvider.future);
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+    ProviderScope(
+      parent: container,
+      child: const MyApp(),
+    ),
+  );
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
