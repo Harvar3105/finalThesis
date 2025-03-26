@@ -62,6 +62,25 @@ class UserStorage extends Repository<FirebaseFirestore> {
     }
   }
 
+  Stream<UserPayload?> watchCurrentUser() {
+    final Id? userId = authenticator.id;
+    if (userId == null) {
+      return Stream.error(Exception("Cannot get current user id!"));
+    }
+
+    return base
+        .collection(FirebaseCollectionNames.users)
+        .where(FirebaseFields.id, isEqualTo: userId)
+        .limit(1)
+        .snapshots()
+        .map((querySnapshot) {
+      if (querySnapshot.docs.isEmpty) return null;
+      return UserPayload.fromJson(querySnapshot.docs.first.data());
+    }).handleError((error) {
+      log("Cannot get current user! Error $error");
+    });
+  }
+
   Future<List<UserPayload>?> getAllUsers() async {
     try {
       final querySnapshot = await base

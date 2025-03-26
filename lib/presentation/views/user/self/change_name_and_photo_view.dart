@@ -1,7 +1,12 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:final_thesis_app/app/helpers/validators.dart';
+import 'package:final_thesis_app/presentation/views/widgets/buttons/custom_button.dart';
+import 'package:final_thesis_app/presentation/views/widgets/fields/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../configurations/app_colours.dart';
 import '../../../../configurations/strings.dart';
@@ -21,6 +26,7 @@ class ChangeNamePhotoView extends ConsumerStatefulWidget {
 class _ChangeNamePhotoPageState extends ConsumerState<ChangeNamePhotoView> {
   final _formKey = GlobalKey<FormState>();
   final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   File? _photoToUpload;
   bool _photoDeleted = false;
 
@@ -28,12 +34,14 @@ class _ChangeNamePhotoPageState extends ConsumerState<ChangeNamePhotoView> {
   void initState() {
     super.initState();
     _firstNameController.text = widget.user.firstName;
+    _lastNameController.text = widget.user.lastName;
     _photoDeleted = widget.user.avatarUrl == null;
   }
 
   @override
   void dispose() {
     _firstNameController.dispose();
+    _lastNameController.dispose();
     super.dispose();
   }
 
@@ -46,13 +54,19 @@ class _ChangeNamePhotoPageState extends ConsumerState<ChangeNamePhotoView> {
     if (_formKey.currentState?.validate() ?? false) {
       final viewModel = ref.read(changeNamePhotoViewModelProvider.notifier);
 
-      await viewModel.changeNameAndPhoto(
+      final updatedUser = await viewModel.changeNameAndPhoto(
         user: widget.user,
         newFirstName: _firstNameController.text.trim(),
+        newLastName: _lastNameController.text.trim(),
         newPhoto: _photoToUpload,
       );
+      log("Updated user: $updatedUser");
 
-      if (_photoToUpload != null) setState(() => _photoDeleted = false);
+      if (_photoToUpload != null)
+      {
+        context.pop(updatedUser);
+        context.pushReplacementNamed(Strings.userProfile, extra: updatedUser);
+      }
     }
   }
 
@@ -69,7 +83,30 @@ class _ChangeNamePhotoPageState extends ConsumerState<ChangeNamePhotoView> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final state = ref.watch(changeNamePhotoViewModelProvider);
+
+    if (state.isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final CustomTextFormField firstNameField = CustomTextFormField(
+      controller: _firstNameController,
+      labelText: Strings.newLastName,
+      validator: validateName,
+    );
+    final CustomTextFormField lastNameField = CustomTextFormField(
+      controller: _lastNameController,
+      labelText: Strings.newLastName,
+      validator: validateName,
+    );
+    final CustomButton saveButton = CustomButton(
+      onPressed: _changeNameAndPhoto,
+      text: Strings.save,
+      backgroundColor: AppColors.primaryColorLight,
+      foregroundColor: AppColors.onSurfaceColorLight,
+    );
 
     return Scaffold(
       appBar: AppBar(title: const Text(Strings.changeNameAndPhoto)),
@@ -96,27 +133,17 @@ class _ChangeNamePhotoPageState extends ConsumerState<ChangeNamePhotoView> {
               GestureDetector(
                 onTap: _selectPhoto,
                 child: _photoToUpload != null
-                    ? Image.file(_photoToUpload!, fit: BoxFit.cover)
+                    ? Image.file(_photoToUpload!, fit: BoxFit.cover, height: 400,)
                     : widget.user.avatarUrl != null && !_photoDeleted
-                    ? Image.network(widget.user.avatarUrl!, fit: BoxFit.cover, errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 200))
+                    ? Image.network(widget.user.avatarUrl!, fit: BoxFit.cover, height: 400, errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 200))
                     : const Icon(Icons.image, size: 200),
               ),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _firstNameController,
-                decoration: const InputDecoration(labelText: Strings.newName, border: OutlineInputBorder()),
-                validator: (value) => value == null || value.isEmpty ? Strings.nameIsRequired : null,
-              ),
+              const SizedBox(height: 20),
+              firstNameField,
               const SizedBox(height: 16),
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: AppColors.primaryColorLight,
-                  foregroundColor: AppColors.loginButtonTextColor,
-                  textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                onPressed: _changeNameAndPhoto,
-                child: const Text(Strings.save),
-              ),
+              lastNameField,
+              const SizedBox(height: 16),
+              saveButton
             ],
           ),
         ),

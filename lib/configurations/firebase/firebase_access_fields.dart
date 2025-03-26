@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 
 @immutable
@@ -20,7 +22,6 @@ class FirebaseFields {
   static const phoneNumber = 'phone_number';
   static const email = 'email';
   static const avatarUrl = 'avatar_url';
-  static const avatarName = 'avatar_name';
   static const aboutMe = 'about_me';
   static const role = 'role';
   static const fcmToken = 'fmc_token';
@@ -29,14 +30,15 @@ class FirebaseFields {
   static const sentFriendRequests = 'sent_friend_requests';
   static const blockedUsers = 'blocked_users';
 
+
   static const allFields = {
     'id': id,
     'first_name': firstName,
     'last_name': lastName,
-    'phoneNumber': phoneNumber,
+    'phone_number': phoneNumber,
     'email': email,
-    'avatarUrl': avatarUrl,
-    'aboutMe': aboutMe,
+    'avatar_url': avatarUrl,
+    'about_me': aboutMe,
     'role': role,
     'fmc_token': fcmToken,
     'created_at': createdAt,
@@ -48,6 +50,11 @@ class FirebaseFields {
   };
 
   static String mapFirebaseField(String payloadField) {
-    return allFields[payloadField] ?? 'unknownField';
+    final result = allFields[payloadField];
+    if (result == null) {
+      log('Unknown field: $payloadField');
+      return 'unknownField';
+    }
+    return result;
   }
 }

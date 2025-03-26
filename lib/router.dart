@@ -47,8 +47,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: Strings.userProfile,
         path: '/user-profile-edit',
         builder: (context, state) {
-          final user = state.extra as UserPayload;
-          return UserProfileEditView(user: user.userFromPayload()!);
+          final user = state.extra as User;
+          return UserProfileEditView(user: user);
         },
       ),
       GoRoute(

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import '../../../data/domain/user.dart';
 import '../../../data/repositories/image/image_storage.dart';
 
 class ImageService {
@@ -9,20 +10,16 @@ class ImageService {
 
   Future<Map<String, String>?> uploadUserImage({
     required File file,
-    required String userId,
+    required User user,
   }) async {
-    return await _imageUpload.uploadUserImage(file: file, userId: userId);
+    return await _imageUpload.uploadUserImage(file: file, user: UserPayload().userToPayload(user));
   }
 
   Future<bool> deleteUserImage({
-    required String userId,
-    required String avatarName,
-    // required String thumbnailName,
+    required User user,
   }) async {
     return await _imageUpload.deleteUserImage(
-      userId: userId,
-      avatarName: avatarName,
-      // thumbnailName: thumbnailName,
+      user: UserPayload().userToPayload(user)
     );
   }
 }

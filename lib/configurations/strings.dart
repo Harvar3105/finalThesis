@@ -73,7 +73,8 @@ class Strings {
   static const photoDeleteSuccess = 'Photo deleted successfully';
   static const changeNameAndPhoto = 'Change Name & Photo';
   static const pfp = 'Profile picture:';
-  static const newName = 'New Name';
+  static const newFirstName = 'New first name';
+  static const newLastName = 'New last name';
   static const nameIsRequired = 'Name is required!';
   static const save = 'Save';
 

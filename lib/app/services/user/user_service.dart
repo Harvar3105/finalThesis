@@ -13,6 +13,12 @@ class UserService {
     return (await _userStorage.getCurrentUser())?.userFromPayload();
   }
 
+  Stream<User?> watchCurrentUser() {
+    return _userStorage.watchCurrentUser().map((payload) {
+      return payload?.userFromPayload();
+    });
+  }
+
   Future<User?> getUserById(String id) async {
     return (await _userStorage.gerUserById(id))?.userFromPayload();
   }

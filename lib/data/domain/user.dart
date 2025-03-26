@@ -79,8 +79,6 @@ class UserPayload {
   final String? email;
   @JsonKey(name: FirebaseFields.avatarUrl)
   final String? avatarUrl;
-  @JsonKey(name: FirebaseFields.avatarName)
-  final String? avatarName;
   @JsonKey(name: FirebaseFields.aboutMe)
   final String? aboutMe;
   @JsonKey(name: FirebaseFields.role)
@@ -107,7 +105,6 @@ class UserPayload {
     this.phoneNumber,
     this.email,
     this.avatarUrl,
-    this.avatarName,
     this.aboutMe,
     this.role,
     this.fcmToken,
@@ -127,7 +124,6 @@ class UserPayload {
       phoneNumber: user.phoneNumber,
       email: user.email,
       avatarUrl: user.avatarUrl,
-      avatarName: user.avatarName,
       aboutMe: user.aboutMe,
       role: user.role,
       fcmToken: user.fcmToken,
@@ -149,7 +145,6 @@ class UserPayload {
         phoneNumber: phoneNumber,
         email: email!,
         avatarUrl: avatarUrl,
-        avatarName: avatarName,
         aboutMe: aboutMe,
         role: role ?? ERole.none,
         fcmToken: fcmToken,
@@ -192,7 +187,6 @@ class UserPayload {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       email: email ?? this.email,
       avatarUrl: avatarUrl ?? this.avatarUrl,
-      avatarName: avatarName ?? this.avatarName,
       aboutMe: aboutMe ?? this.aboutMe,
       role: role ?? this.role,
       fcmToken: fcmToken ?? this.fcmToken,
@@ -222,7 +216,6 @@ class UserPayload {
         'phoneNumber: $phoneNumber\n'
         'email: $email\n'
         'avatarUrl: $avatarUrl\n'
-        'avatarName: $avatarName\n'
         'aboutMe: $aboutMe\n'
         'role: $role\n'
         'fcmToken: $fcmToken\n'

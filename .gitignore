@@ -165,3 +165,4 @@ app.*.map.json
 .gclient_previous_custom_vars
 .gclient_previous_sync_commits
 /lib/firebase_options.dart
+/pubspec.lock

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:final_thesis_app/data/domain/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 
@@ -15,13 +16,13 @@ class ImageStorage extends Repository<FirebaseStorage> {
 
   Future<Map<String, String>?> uploadUserImage({
     required File file,
-    required String userId,
+    required UserPayload user,
   }) async {
     try {
       final fileBytes = await file.readAsBytes();
       final fileAsImage = img.decodeImage(fileBytes);
       if (fileAsImage == null) {
-        print('Error decoding image file');
+        log('Error decoding image file');
         return null;
       }
 
@@ -31,6 +32,7 @@ class ImageStorage extends Repository<FirebaseStorage> {
       final fileName = const Uuid().v4();
       final thumbnailName = 'thumb_$fileName';
 
+      final userId = user.id!;
       final imagePath = "$userId/avatars/$fileName.jpg";
       final thumbnailPath = "$userId/avatars/thumbnails/$thumbnailName.jpg";
 
@@ -49,32 +51,28 @@ class ImageStorage extends Repository<FirebaseStorage> {
         'thumbnailName': thumbnailName,
       };
     } catch (e) {
-      print('Error uploading image: $e');
+      log('Error uploading image: $e');
       return null;
     }
   }
 
   Future<bool> deleteUserImage({
-    required String userId,
-    required String avatarName,
-    // required String thumbnailName,
+    required UserPayload user,
   }) async {
-    if (userId.isEmpty || avatarName.isEmpty) {
-      log('Invalid user id or avatar name. Cannot delete avatar!');
+    //TODO: Add avatar thumbnail deletion Also preffer showing thumbnail?
+    if (user.id == null || user.avatarUrl == null) {
+      log('Invalid user id or avatarUrl. Cannot delete avatar! Id: ${user.id}, avatarUrl: ${user.avatarUrl}');
       return false;
     }
 
     try {
-      final imagePath = "$userId/avatars/$avatarName.jpg";
-      // final thumbnailPath = "$userId/avatars/thumbnails/$thumbnailName.jpg";
-
+      final imagePath = Uri.parse(user.avatarUrl!).pathSegments.last;
       await base.ref(imagePath).delete();
-      // await base.ref(thumbnailPath).delete();
 
-      print('Picture deletion success.');
+      log('Picture deletion success.');
       return true;
     } catch (e) {
-      print('Picture deletion error: $e');
+      log('Picture deletion error: $e');
       return false;
     }
   }
