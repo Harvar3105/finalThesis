@@ -1,7 +1,6 @@
 
 import 'dart:developer';
 
-import 'package:final_thesis_app/configurations/firebase/firebase_access_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'app/services/push/push_notifications_service.dart';
 import 'app/theme/theme.dart';
 import 'configurations/strings.dart';
 import 'firebase_options.dart';

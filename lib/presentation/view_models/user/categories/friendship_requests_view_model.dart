@@ -1,12 +1,15 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../data/domain/user.dart';
-import '../../../../app/services/user/user_service.dart';
 import '../../../../app/services/providers.dart';
 
 part 'friendship_requests_view_model.g.dart';
 
 @riverpod
 class FriendshipRequestsViewModel extends _$FriendshipRequestsViewModel {
+  List<User>? _cachedIncomingRequests;
+  List<User>? _cachedOutcomingRequests;
+
+  @override
   Future<(User, List<User>, List<User>)> build({List<User>? preloadedUsers}) async {
     final userService = ref.watch(userServiceProvider);
 
@@ -22,6 +25,35 @@ class FriendshipRequestsViewModel extends _$FriendshipRequestsViewModel {
     final incomingRequests = await userService.getUsersByIds(user.friendRequests ?? {});
     final sentRequests = await userService.getUsersByIds(user.sentFriendRequests ?? {});
 
+    _cachedIncomingRequests = incomingRequests;
+    _cachedOutcomingRequests = sentRequests;
+
     return (user, incomingRequests ?? [], sentRequests ?? []);
+  }
+
+  Future<void> addFriends(User user) async {
+    final friendshipService = ref.watch(friendshipServiceProvider);
+    final result = await friendshipService.sendRequest(user);
+    if (result) {
+      _cachedIncomingRequests!.removeWhere((id) => id == user.id);
+      state = AsyncValue.data((
+        state.value!.$1,
+        _cachedIncomingRequests!,
+        _cachedOutcomingRequests ?? [],
+      ));
+    }
+  }
+
+  Future<void> decideFriendship(User user, bool isAccept) async {
+    final friendshipService = ref.watch(friendshipServiceProvider);
+    final result = await friendshipService.decideFriendship(user, isAccept);
+    if (result) {
+      _cachedOutcomingRequests!.removeWhere((id) => id == user.id);
+      state = AsyncValue.data((
+        state.value!.$1,
+        _cachedIncomingRequests ?? [],
+        _cachedOutcomingRequests!,
+      ));
+    }
   }
 }

@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../app/services/providers.dart';
-import '../../../../app/services/user/user_service.dart';
-import '../../../../app/services/image/image_service.dart';
 import '../../../../data/domain/user.dart';
 
 part 'change_name_and_photo_view_model.g.dart';

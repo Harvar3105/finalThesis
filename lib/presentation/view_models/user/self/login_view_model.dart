@@ -1,4 +1,3 @@
-import 'package:final_thesis_app/app/services/providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../app/services/authentication/authentication_service.dart';
 import '../../../../app/services/authentication/models/auth_state.dart';

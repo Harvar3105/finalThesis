@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,7 +40,34 @@ class FriendshipRequestsView extends ConsumerWidget {
                 title: Text(friend.firstName),
                 subtitle: Text(friend.email),
                 leading: CircleAvatar(
-                  child: Text(friend.lastName.isNotEmpty ? friend.lastName[0] : '?'),
+                  child: Text(friend.lastName.isNotEmpty
+                      ? friend.lastName[0]
+                      : '?'),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.check, color: Colors.green),
+                      onPressed: () {
+                        ref
+                            .read(friendshipRequestsViewModelProvider(
+                            preloadedUsers: users)
+                            .notifier)
+                            .decideFriendship(friend, true);
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close, color: Colors.red),
+                      onPressed: () {
+                        ref
+                            .read(friendshipRequestsViewModelProvider(
+                            preloadedUsers: users)
+                            .notifier)
+                            .decideFriendship(friend, false);
+                      },
+                    ),
+                  ],
                 ),
               )),
             if (sentRequests.isNotEmpty)
@@ -49,9 +75,22 @@ class FriendshipRequestsView extends ConsumerWidget {
                 title: Text(friend.firstName),
                 subtitle: Text(friend.email),
                 leading: CircleAvatar(
-                  child: Text(friend.lastName.isNotEmpty ? friend.lastName[0] : '?'),
+                  child: Text(friend.lastName.isNotEmpty
+                      ? friend.lastName[0]
+                      : '?'),
                 ),
-              )),
+                trailing: IconButton(
+                  icon: const Icon(Icons.cancel, color: Colors.orange),
+                  onPressed: () {
+                    ref
+                        .read(friendshipRequestsViewModelProvider(
+                        preloadedUsers: users)
+                        .notifier)
+                        .decideFriendship(friend, false);
+                  },
+                ),
+              )
+            ),
           ],
         );
       },

@@ -19,10 +19,10 @@ class User extends Entity {
   String? aboutMe;
   ERole role;
   String? fcmToken;
-  Set<String>? friends;
-  Set<String>? friendRequests;
-  Set<String>? sentFriendRequests;
-  Set<String>? blockedUsers;
+  Set<Id>? friends;
+  Set<Id>? friendRequests;
+  Set<Id>? sentFriendRequests;
+  Set<Id>? blockedUsers;
 
   User({
     super.id,
@@ -180,10 +180,10 @@ class UserPayload {
     String? fcmToken,
     DateTime? createdAt,
     DateTime? updatedAt,
-    Set<String>? friends,
-    Set<String>? friendRequests,
-    Set<String>? sentFriendRequests,
-    Set<String>? blockedUsers,
+    Set<Id>? friends,
+    Set<Id>? friendRequests,
+    Set<Id>? sentFriendRequests,
+    Set<Id>? blockedUsers,
   }) {
     return UserPayload(
       id: id ?? this.id,

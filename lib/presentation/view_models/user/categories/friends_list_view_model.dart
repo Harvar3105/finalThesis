@@ -1,6 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../data/domain/user.dart';
-import '../../../../app/services/user/user_service.dart';
 import '../../../../app/services/providers.dart';
 
 part 'friends_list_view_model.g.dart';

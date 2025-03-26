@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../configurations/app_colours.dart';
-import '../../../../configurations/strings.dart';
 import '../../../../data/domain/user.dart';
 import '../../widgets/user/user_avatar.dart';
 

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:final_thesis_app/app/typedefs/e_role.dart';
 import 'package:final_thesis_app/app/typedefs/e_sorting_order.dart';

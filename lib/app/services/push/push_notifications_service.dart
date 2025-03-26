@@ -1,6 +1,4 @@
 import 'package:final_thesis_app/data/repositories/push/push_notifications.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../data/providers.dart';
 
 class PushNotificationsService {
   final PushNotifications _pushNotifications;

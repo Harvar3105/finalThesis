@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_thesis_app/app/typedefs/entity.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../app/typedefs/e_role.dart';
 import '../../../app/typedefs/e_sorting_order.dart';
@@ -21,7 +20,7 @@ class UserStorage extends Repository<FirebaseFirestore> {
     log("saveOrUpdateUserInfo: $payload");
 
     try {
-      final Id? userId = authenticator.id ?? payload.id;
+      final Id? userId = payload.id ?? authenticator.id;
 
       final userRef = base
           .collection(FirebaseCollectionNames.users)
