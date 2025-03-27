@@ -33,6 +33,7 @@ class _ChangeNamePhotoPageState extends ConsumerState<ChangeNamePhotoView> {
   @override
   void initState() {
     super.initState();
+    //TODO: add change about me
     _firstNameController.text = widget.user.firstName;
     _lastNameController.text = widget.user.lastName;
     _photoDeleted = widget.user.avatarUrl == null;
