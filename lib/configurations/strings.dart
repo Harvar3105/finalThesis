@@ -19,6 +19,7 @@ class Strings {
   static const friends = 'Friends';
   static const registerPage = 'Register';
   static const loginPage = 'Login';
+  static const dayView = 'Day View';
 
   // Address
   static const selectLocation = 'Select a location!';

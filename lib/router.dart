@@ -1,4 +1,5 @@
 import 'package:final_thesis_app/presentation/views/calendar/calendar_view.dart';
+import 'package:final_thesis_app/presentation/views/calendar/day_view.dart';
 import 'package:final_thesis_app/presentation/views/main_view.dart';
 import 'package:final_thesis_app/presentation/views/user/friends_view.dart';
 import 'package:final_thesis_app/presentation/views/user/self/change_email_view.dart';
@@ -81,6 +82,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             name: Strings.home,
             path: '/',
             builder: (context, state) => const CalendarView(),
+          ),
+          GoRoute(
+            name: Strings.dayView,
+            path: '/day-view',
+            pageBuilder: (context, state) => NoTransitionPage(
+              child: const DayViewCalendar(),
+            ),
           ),
           GoRoute(
             name: Strings.friends,

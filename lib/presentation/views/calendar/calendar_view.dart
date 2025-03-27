@@ -3,7 +3,10 @@ import 'dart:developer';
 import 'package:final_thesis_app/app/helpers/calendar_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../../../configurations/strings.dart';
 
 class CalendarView extends ConsumerStatefulWidget{
   const CalendarView({super.key});
@@ -34,6 +37,7 @@ class CalendarViewState extends ConsumerState<CalendarView>{
         availableCalendarFormats: const {
           CalendarFormat.month: 'Month',
           CalendarFormat.twoWeeks: 'Weeks',
+          CalendarFormat.week: 'Day',
         },
         headerStyle: HeaderStyle(
           formatButtonTextStyle: theme.textTheme.bodySmall!,
@@ -65,9 +69,13 @@ class CalendarViewState extends ConsumerState<CalendarView>{
           log('Selected: $selectedDay; Focused: $focusedDay');
         },
         onFormatChanged: (format) {
-          setState(() {
-            _calendarFormat = format;
-          });
+          if (format == CalendarFormat.week) {
+            context.replaceNamed(Strings.dayView);
+          } else {
+            setState(() {
+              _calendarFormat = format;
+            });
+          }
         },
 
         calendarBuilders: CalendarBuilders(
