@@ -1,5 +1,6 @@
 
 import 'package:final_thesis_app/data/repositories/authentication/authenticator.dart';
+import 'package:final_thesis_app/data/repositories/event/event_storage.dart';
 import 'package:final_thesis_app/data/repositories/image/image_storage.dart';
 import 'package:final_thesis_app/data/repositories/push/push_notifications.dart';
 import 'package:final_thesis_app/data/repositories/user/user_storage.dart';
@@ -19,4 +20,8 @@ final authenticationProvider = Provider<Authenticator>((ref) {
 
 final pushNotificationsProvider = Provider<PushNotifications>((ref) {
   return PushNotifications(ref.watch(authenticationProvider), ref.watch(userStorageProvider));
+});
+
+final eventStorageProvider = Provider<EventStorage>((ref) {
+  return EventStorage();
 });

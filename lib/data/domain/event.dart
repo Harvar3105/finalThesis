@@ -10,6 +10,8 @@ import '../../configurations/firebase/firebase_access_fields.dart';
 part 'event.g.dart';
 
 class Event extends Entity {
+  final Id coachId;
+  final Id athleteId;
   final DateTime start;
   final DateTime end;
   final String title;
@@ -20,6 +22,8 @@ class Event extends Entity {
 
   Event({
     super.id,
+    required this.coachId,
+    required this.athleteId,
     required this.start,
     required this.end,
     required this.title,
@@ -34,14 +38,16 @@ class Event extends Entity {
   @override
   String toString() {
     return '\nEvent:\n'
-        'id: $id\n'
-        'start: $start\n'
-        'end: $end\n'
-        'title: $title\n'
-        'description: $description\n'
-        'location: $location\n'
-        'type: $type\n'
-        'notifyBefore: $notifyBefore\n';
+      'id: $id\n'
+      'coachId: $coachId\n'
+      'athleteId: $athleteId\n'
+      'start: $start\n'
+      'end: $end\n'
+      'title: $title\n'
+      'description: $description\n'
+      'location: $location\n'
+      'type: $type\n'
+      'notifyBefore: $notifyBefore\n';
   }
 }
 
@@ -49,6 +55,10 @@ class Event extends Entity {
 class EventPayload {
   @JsonKey(name: FirebaseFields.id)
   final Id? id;
+  @JsonKey(name: FirebaseFields.coachId)
+  final Id? coachId;
+  @JsonKey(name: FirebaseFields.athleteId)
+  final Id? athleteId;
   @JsonKey(name: FirebaseFields.start)
   final DateTime? start;
   @JsonKey(name: FirebaseFields.end)
@@ -70,6 +80,8 @@ class EventPayload {
 
   const EventPayload({
     this.id,
+    this.coachId,
+    this.athleteId,
     this.start,
     this.end,
     this.title,
@@ -84,6 +96,8 @@ class EventPayload {
   EventPayload eventToPayload(Event event) {
     return EventPayload(
       id: event.id,
+      coachId: event.coachId,
+      athleteId: event.athleteId,
       start: event.start,
       end: event.end,
       title: event.title,
@@ -99,6 +113,9 @@ class EventPayload {
   Event? eventFromPayload(){
     try {
       return Event(
+        id: id!,
+        coachId: coachId!,
+        athleteId: athleteId!,
         start: start!,
         end: end!,
         title: title!,
@@ -117,6 +134,8 @@ class EventPayload {
 
   EventPayload copyWith({
     Id? id,
+    Id? coachId,
+    Id? athleteId,
     DateTime? start,
     DateTime? end,
     String? title,
@@ -129,6 +148,8 @@ class EventPayload {
   }) {
     return EventPayload(
       id: id ?? this.id,
+      coachId: coachId ?? this.coachId,
+      athleteId: athleteId ?? this.athleteId,
       start: start ?? this.start,
       end: end ?? this.end,
       title: title ?? this.title,
@@ -152,6 +173,8 @@ class EventPayload {
   String toString() {
     return '\nEventPayload:\n'
       'id: $id\n'
+      'coachId: $coachId\n'
+      'athleteId: $athleteId\n'
       'start: $start\n'
       'end: $end\n'
       'title: $title\n'

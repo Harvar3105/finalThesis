@@ -163,6 +163,7 @@ class UserStorage extends Repository<FirebaseFirestore> {
         ),
       );
       updatedData[FirebaseFields.avatarUrl] = null;
+      updatedData[FirebaseFields.avatarThumbnailUrl] = null;
 
       if (userInfo.docs.isNotEmpty) {
         if (updatedData.isNotEmpty) {

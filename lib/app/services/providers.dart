@@ -4,6 +4,7 @@ import 'package:final_thesis_app/app/services/user/user_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/providers.dart';
+import 'event/event_service.dart';
 import 'mixed_services/friendship_service.dart';
 
 
@@ -21,5 +22,9 @@ final pushNotificationsServiceProvider = Provider<PushNotificationsService>((ref
 
 final friendshipServiceProvider = Provider<FriendshipService>((ref) {
   return FriendshipService(ref.watch(userServiceProvider), ref.watch(pushNotificationsServiceProvider));
+});
+
+final eventServiceProvider = Provider<EventService>((ref) {
+  return EventService(ref.watch(eventStorageProvider));
 });
 
