@@ -21,6 +21,9 @@ class Strings {
   static const loginPage = 'Login';
   static const dayView = 'Day View';
 
+  // Events
+  static const addEvent = 'Add Event';
+
   // Address
   static const selectLocation = 'Select a location!';
   static const confirmLocation = 'Confirm location!';

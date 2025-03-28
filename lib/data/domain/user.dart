@@ -48,23 +48,23 @@ class User extends Entity {
   @override
   String toString(){
     return '\nUser:\n'
-        'id: $id\n'
-        'firstName: $firstName\n'
-        'lastName: $lastName\n'
-        'phoneNumber: $phoneNumber\n'
-        'email: $email\n'
-        'avatarUrl: $avatarUrl\n'
-        'avatarThumbnailUrl: $avatarThumbnailUrl\n'
-        'avatarName: $avatarName\n'
-        'aboutMe: $aboutMe\n'
-        'role: $role\n'
-        'fcmToken: $fcmToken\n'
-        'createdAt: $createdAt\n'
-        'updatedAt: $updatedAt\n'
-        'friends: $friends\n'
-        'friendRequests: $friendRequests\n'
-        'sentFriendRequests: $sentFriendRequests\n'
-        'blockedUsers: $blockedUsers\n';
+      'id: $id\n'
+      'firstName: $firstName\n'
+      'lastName: $lastName\n'
+      'phoneNumber: $phoneNumber\n'
+      'email: $email\n'
+      'avatarUrl: $avatarUrl\n'
+      'avatarThumbnailUrl: $avatarThumbnailUrl\n'
+      'avatarName: $avatarName\n'
+      'aboutMe: $aboutMe\n'
+      'role: $role\n'
+      'fcmToken: $fcmToken\n'
+      'createdAt: $createdAt\n'
+      'updatedAt: $updatedAt\n'
+      'friends: $friends\n'
+      'friendRequests: $friendRequests\n'
+      'sentFriendRequests: $sentFriendRequests\n'
+      'blockedUsers: $blockedUsers\n';
   }
 }
 
@@ -220,21 +220,21 @@ class UserPayload {
   @override
   String toString(){
     return '\nUserPayload:\n'
-        'id: $id\n'
-        'firstName: $firstName\n'
-        'lastName: $lastName\n'
-        'phoneNumber: $phoneNumber\n'
-        'email: $email\n'
-        'avatarUrl: $avatarUrl\n'
-        'avatarThumbnailUrl: $avatarThumbnailUrl\n'
-        'aboutMe: $aboutMe\n'
-        'role: $role\n'
-        'fcmToken: $fcmToken\n'
-        'createdAt: $createdAt\n'
-        'updatedAt: $updatedAt\n'
-        'friends: $friends\n'
-        'friendRequests: $friendRequests\n'
-        'sentFriendRequests: $sentFriendRequests\n'
-        'blockedUsers: $blockedUsers\n';
+      'id: $id\n'
+      'firstName: $firstName\n'
+      'lastName: $lastName\n'
+      'phoneNumber: $phoneNumber\n'
+      'email: $email\n'
+      'avatarUrl: $avatarUrl\n'
+      'avatarThumbnailUrl: $avatarThumbnailUrl\n'
+      'aboutMe: $aboutMe\n'
+      'role: $role\n'
+      'fcmToken: $fcmToken\n'
+      'createdAt: $createdAt\n'
+      'updatedAt: $updatedAt\n'
+      'friends: $friends\n'
+      'friendRequests: $friendRequests\n'
+      'sentFriendRequests: $sentFriendRequests\n'
+      'blockedUsers: $blockedUsers\n';
   }
 }

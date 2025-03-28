@@ -67,6 +67,7 @@ class CalendarViewState extends ConsumerState<CalendarView>{
             _focusedDay = focusedDay;
           });
           log('Selected: $selectedDay; Focused: $focusedDay');
+          GoRouter.of(context).goNamed(Strings.dayView, extra: _selectedDay);
         },
         onFormatChanged: (format) {
           if (format == CalendarFormat.week) {

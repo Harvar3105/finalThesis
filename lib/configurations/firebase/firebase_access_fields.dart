@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 @immutable
 class FirebaseCollectionNames {
   static const users = 'users';
+  static const events = 'events';
 
   const FirebaseCollectionNames._();
 }
@@ -31,9 +32,23 @@ class FirebaseFields {
   static const sentFriendRequests = 'sent_friend_requests';
   static const blockedUsers = 'blocked_users';
 
+  // Event related
+  static const start = 'start';
+  static const end = 'end';
+  static const title = 'title';
+  static const description = 'description';
+  static const location = 'location';
+  static const type = 'type';
+  static const notifyBefore = 'notify_before';
+
 
   static const allFields = {
+    // Shared
     'id': id,
+    'created_at': createdAt,
+    'updated_at': updatedAt,
+
+    // User related
     'first_name': firstName,
     'last_name': lastName,
     'phone_number': phoneNumber,
@@ -43,12 +58,19 @@ class FirebaseFields {
     'about_me': aboutMe,
     'role': role,
     'fmc_token': fcmToken,
-    'created_at': createdAt,
-    'updated_at': updatedAt,
     'friends': friends,
     'friend_requests': friendRequests,
     'sent_friend_requests': sentFriendRequests,
     'blocked_users': blockedUsers,
+
+    // Event related
+    'start': start,
+    'end': end,
+    'title': title,
+    'description': description,
+    'location': location,
+    'type': type,
+    'notify_before': notifyBefore,
   };
 
   static String mapFirebaseField(String payloadField) {
@@ -59,4 +81,6 @@ class FirebaseFields {
     }
     return result;
   }
+
+  const FirebaseFields._();
 }

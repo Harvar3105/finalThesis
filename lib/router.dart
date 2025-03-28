@@ -95,7 +95,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             name: Strings.dayView,
             path: '/day-view',
             pageBuilder: (context, state) => NoTransitionPage(
-              child: const DayViewCalendar(),
+              child: DayViewCalendar(selectedDay: state.extra != null ? state.extra as DateTime : null),
             ),
           ),
           GoRoute(
