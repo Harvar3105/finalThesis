@@ -26,7 +26,7 @@ class ImageStorage extends Repository<FirebaseStorage> {
         return null;
       }
 
-      final thumbnail = img.copyResize(fileAsImage, width: 150);
+      final thumbnail = img.copyResize(fileAsImage, width: 100);
       final thumbnailData = Uint8List.fromList(img.encodeJpg(thumbnail));
 
       final fileName = const Uuid().v4();
@@ -59,7 +59,7 @@ class ImageStorage extends Repository<FirebaseStorage> {
   Future<bool> deleteUserImage({
     required UserPayload user,
   }) async {
-    //TODO: Add avatar thumbnail deletion Also preffer showing thumbnail?
+    //TODO: Add avatar thumbnail deletion
     if (user.id == null || user.avatarUrl == null) {
       log('Invalid user id or avatarUrl. Cannot delete avatar! Id: ${user.id}, avatarUrl: ${user.avatarUrl}');
       return false;
@@ -68,6 +68,11 @@ class ImageStorage extends Repository<FirebaseStorage> {
     try {
       final imagePath = Uri.parse(user.avatarUrl!).pathSegments.last;
       await base.ref(imagePath).delete();
+
+      if (user.avatarThumbnailUrl != null) {
+        final thumbnailPath = Uri.parse(user.avatarThumbnailUrl!).pathSegments.last;
+        await base.ref(thumbnailPath).delete();
+      }
 
       log('Picture deletion success.');
       return true;

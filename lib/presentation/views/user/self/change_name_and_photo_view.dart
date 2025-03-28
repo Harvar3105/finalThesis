@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../configurations/app_colours.dart';
 import '../../../../configurations/strings.dart';
 import '../../../../data/domain/user.dart';
-import '../../../../data/repositories/image/image_picker_helper.dart';
+import '../../../../app/helpers/image_picker_helper.dart';
 import '../../../view_models/user/self/change_name_and_photo_view_model.dart';
 
 class ChangeNamePhotoView extends ConsumerStatefulWidget {

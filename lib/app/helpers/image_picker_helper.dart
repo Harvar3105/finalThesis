@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:final_thesis_app/data/repositories/image/to_file.dart';
+import 'package:final_thesis_app/app/helpers/to_file.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerHelper {

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../app/services/providers.dart';
@@ -25,11 +26,11 @@ class ChangeNamePhotoViewModel extends _$ChangeNamePhotoViewModel {
 
       if (newPhoto != null) {
         await deleteProfilePhoto(user, onlyStorage: true);
+        state = const AsyncValue.loading(); // Process above is heavy enough to reset state. Set loading again
         imageData = await imageService.uploadUserImage(
           file: newPhoto,
           user: user,
         );
-        state = const AsyncValue.loading();
       }
 
       final updatedUser = User(
@@ -40,6 +41,7 @@ class ChangeNamePhotoViewModel extends _$ChangeNamePhotoViewModel {
         phoneNumber: user.phoneNumber,
         aboutMe: user.aboutMe,
         avatarUrl: imageData?['imageUrl'],
+        avatarThumbnailUrl: imageData? ['thumbnailUrl'],
         friends: user.friends,
         friendRequests: user.friendRequests,
         sentFriendRequests: user.sentFriendRequests,
@@ -48,7 +50,6 @@ class ChangeNamePhotoViewModel extends _$ChangeNamePhotoViewModel {
         createdAt: user.createdAt,
         updatedAt: DateTime.now(),
       );
-
       await userService.saveOrUpdateUser(updatedUser);
       state = AsyncValue.data(updatedUser);
       return updatedUser;

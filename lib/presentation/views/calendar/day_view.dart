@@ -57,7 +57,8 @@ class DayViewCalendarState extends State<DayViewCalendar> {
             });
           },
           onFormatChanged: (format) {
-            context.goNamed(Strings.home);
+            //TODO: Redirect to proper page without animation
+            context.goNamed(Strings.home, extra: {'disableAnimation': true});
           },
           calendarBuilders: CalendarBuilders(
             headerTitleBuilder: (BuildContext context, DateTime day) {

@@ -68,8 +68,8 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
           child: !CustomAppBar.forbiddenPages.contains(routeName)
               ? userAsync.when(
             data: (user) => AvatarWithSpeechBubble(
-              avatarImage: user?.avatarUrl != null
-                  ? NetworkImage(user!.avatarUrl!)
+              avatarImage: user?.avatarThumbnailUrl != null
+                  ? NetworkImage(user!.avatarThumbnailUrl!)
                   : const AssetImage('assets/images/user_icon.png') as ImageProvider,
               onButton1Pressed: () async {
                 final logout = await const LogoutDialog()

@@ -22,6 +22,7 @@ class FirebaseFields {
   static const phoneNumber = 'phone_number';
   static const email = 'email';
   static const avatarUrl = 'avatar_url';
+  static const avatarThumbnailUrl = 'avatar_thumbnail_url';
   static const aboutMe = 'about_me';
   static const role = 'role';
   static const fcmToken = 'fmc_token';
@@ -38,6 +39,7 @@ class FirebaseFields {
     'phone_number': phoneNumber,
     'email': email,
     'avatar_url': avatarUrl,
+    'avatar_thumbnail_url': avatarThumbnailUrl,
     'about_me': aboutMe,
     'role': role,
     'fmc_token': fcmToken,

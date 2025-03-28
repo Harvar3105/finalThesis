@@ -9,7 +9,7 @@ import 'package:final_thesis_app/presentation/views/user/self/login_view.dart';
 import 'package:final_thesis_app/presentation/views/user/self/register_view.dart';
 import 'package:final_thesis_app/presentation/views/user/self/user_profile_edit_view.dart';
 import 'package:final_thesis_app/presentation/views/user/self/user_profile_view.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -81,7 +81,15 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             name: Strings.home,
             path: '/',
-            builder: (context, state) => const CalendarView(),
+            pageBuilder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>?;
+              final disableAnimation = extra?['disableAnimation'] == true;
+              if (disableAnimation) {
+                return MaterialPage(child: const CalendarView());
+              } else {
+                return NoTransitionPage(child: const CalendarView());
+              }
+            },
           ),
           GoRoute(
             name: Strings.dayView,

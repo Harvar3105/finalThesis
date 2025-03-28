@@ -70,6 +70,7 @@ class CalendarViewState extends ConsumerState<CalendarView>{
         },
         onFormatChanged: (format) {
           if (format == CalendarFormat.week) {
+            //TODO: Redirect to proper page without animation
             context.replaceNamed(Strings.dayView);
           } else {
             setState(() {

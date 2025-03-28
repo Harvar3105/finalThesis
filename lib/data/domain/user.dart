@@ -15,6 +15,7 @@ class User extends Entity {
   String? phoneNumber;
   String email;
   String? avatarUrl;
+  String? avatarThumbnailUrl;
   String? avatarName;
   String? aboutMe;
   ERole role;
@@ -31,6 +32,7 @@ class User extends Entity {
     this.phoneNumber,
     required this.email,
     this.avatarUrl,
+    this.avatarThumbnailUrl,
     this.avatarName,
     this.aboutMe = '',
     this.role = ERole.none,
@@ -52,6 +54,7 @@ class User extends Entity {
         'phoneNumber: $phoneNumber\n'
         'email: $email\n'
         'avatarUrl: $avatarUrl\n'
+        'avatarThumbnailUrl: $avatarThumbnailUrl\n'
         'avatarName: $avatarName\n'
         'aboutMe: $aboutMe\n'
         'role: $role\n'
@@ -79,6 +82,8 @@ class UserPayload {
   final String? email;
   @JsonKey(name: FirebaseFields.avatarUrl)
   final String? avatarUrl;
+  @JsonKey(name: FirebaseFields.avatarThumbnailUrl)
+  final String? avatarThumbnailUrl;
   @JsonKey(name: FirebaseFields.aboutMe)
   final String? aboutMe;
   @JsonKey(name: FirebaseFields.role)
@@ -105,6 +110,7 @@ class UserPayload {
     this.phoneNumber,
     this.email,
     this.avatarUrl,
+    this.avatarThumbnailUrl,
     this.aboutMe,
     this.role,
     this.fcmToken,
@@ -124,6 +130,7 @@ class UserPayload {
       phoneNumber: user.phoneNumber,
       email: user.email,
       avatarUrl: user.avatarUrl,
+      avatarThumbnailUrl: user.avatarThumbnailUrl,
       aboutMe: user.aboutMe,
       role: user.role,
       fcmToken: user.fcmToken,
@@ -145,6 +152,7 @@ class UserPayload {
         phoneNumber: phoneNumber,
         email: email!,
         avatarUrl: avatarUrl,
+        avatarThumbnailUrl: avatarThumbnailUrl,
         aboutMe: aboutMe,
         role: role ?? ERole.none,
         fcmToken: fcmToken,
@@ -169,6 +177,7 @@ class UserPayload {
     String? phoneNumber,
     String? email,
     String? avatarUrl,
+    String? avatarThumbnailUrl,
     String? avatarName,
     String? aboutMe,
     ERole? role,
@@ -187,6 +196,7 @@ class UserPayload {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       email: email ?? this.email,
       avatarUrl: avatarUrl ?? this.avatarUrl,
+      avatarThumbnailUrl: avatarThumbnailUrl ?? this.avatarThumbnailUrl,
       aboutMe: aboutMe ?? this.aboutMe,
       role: role ?? this.role,
       fcmToken: fcmToken ?? this.fcmToken,
@@ -216,6 +226,7 @@ class UserPayload {
         'phoneNumber: $phoneNumber\n'
         'email: $email\n'
         'avatarUrl: $avatarUrl\n'
+        'avatarThumbnailUrl: $avatarThumbnailUrl\n'
         'aboutMe: $aboutMe\n'
         'role: $role\n'
         'fcmToken: $fcmToken\n'
