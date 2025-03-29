@@ -33,8 +33,8 @@ class FirebaseFields {
   static const blockedUsers = 'blocked_users';
 
   // Event related
-  static const coachId = 'coach_id';
-  static const athleteId = 'athlete_id';
+  static const firstUserId = 'first_user_id';
+  static const secondUserId = 'second_user_id';
   static const start = 'start';
   static const end = 'end';
   static const title = 'title';
@@ -66,8 +66,8 @@ class FirebaseFields {
     'blocked_users': blockedUsers,
 
     // Event related
-    'coach_id': coachId,
-    'athlete_id': athleteId,
+    'first_user_id': firstUserId,
+    'second_user_id': secondUserId,
     'start': start,
     'end': end,
     'title': title,

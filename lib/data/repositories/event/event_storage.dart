@@ -36,6 +36,21 @@ class EventStorage extends Repository<FirebaseFirestore> {
     }
   }
 
+  Future<List<EventPayload>?> getEventsByDate(DateTime date) async {
+    try {
+      final querySnapshot = await base
+          .collection(FirebaseCollectionNames.events)
+          .where(FirebaseFields.start, isLessThanOrEqualTo: date)
+          .where(FirebaseFields.end, isGreaterThanOrEqualTo: date)
+          .get();
+
+      return querySnapshot.docs.map((doc) => EventPayload.fromJson(doc.data())).toList();
+    }catch (error) {
+      log("Cannot get events by date! Error $error");
+      return null;
+    }
+  }
+
   Future<List<EventPayload>?> getAllEvents() async {
     try {
       final querySnapshot = await base
@@ -65,15 +80,24 @@ class EventStorage extends Repository<FirebaseFirestore> {
     }
   }
 
-  Future<List<EventPayload>?> getEventsByUserId(Id userId, isCoach) async {
+  Future<List<EventPayload>?> getEventsByUserId(Id userId, isCurrentUser) async {
     try {
-      final querySnapshot = await base
+      final firstQuery = base
           .collection(FirebaseCollectionNames.events)
-          .where(isCoach ? FirebaseFields.coachId : FirebaseFields.athleteId, isEqualTo: userId)
+          .where(FirebaseFields.firstUserId, isEqualTo: userId)
           .orderBy(FirebaseFields.createdAt, descending: true)
           .get();
 
-      return querySnapshot.docs.map((doc) => EventPayload.fromJson(doc.data())).toList();
+      final secondQuery = base
+          .collection(FirebaseCollectionNames.events)
+          .where(FirebaseFields.secondUserId, isEqualTo: userId)
+          .orderBy(FirebaseFields.createdAt, descending: true)
+          .get();
+
+      final results = await Future.wait([firstQuery, secondQuery]);
+      final allDocuments = results.expand((snapshot) => snapshot.docs).toList();
+
+      return allDocuments.map((doc) => EventPayload.fromJson(doc.data())).toList();
     }catch (error) {
       log("Cannot get events by user id! Error $error");
       return null;

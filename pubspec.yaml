@@ -51,6 +51,7 @@ dependencies:
   image_picker: ^1.1.2
   image: ^4.3.0
 
+  calendar_day_view: ^4.0.2
   table_calendar: ^3.2.0
   bubble: ^1.2.1
 

@@ -2,18 +2,20 @@ import 'dart:developer';
 
 import 'package:final_thesis_app/app/typedefs/e_event_type.dart';
 import 'package:final_thesis_app/data/domain/entity.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../app/helpers/time_of_day_json_converter.dart';
 import '../../app/typedefs/entity.dart';
 import '../../configurations/firebase/firebase_access_fields.dart';
 
 part 'event.g.dart';
 
 class Event extends Entity {
-  final Id coachId;
-  final Id athleteId;
-  final DateTime start;
-  final DateTime end;
+  final Id firstUserId;
+  final Id secondUserId;
+  final TimeOfDay start;
+  final TimeOfDay end;
   final String title;
   final String description;
   final String location; //TODO: change to Location
@@ -22,8 +24,8 @@ class Event extends Entity {
 
   Event({
     super.id,
-    required this.coachId,
-    required this.athleteId,
+    required this.firstUserId,
+    required this.secondUserId,
     required this.start,
     required this.end,
     required this.title,
@@ -39,8 +41,8 @@ class Event extends Entity {
   String toString() {
     return '\nEvent:\n'
       'id: $id\n'
-      'coachId: $coachId\n'
-      'athleteId: $athleteId\n'
+      'firstUserId: $firstUserId\n'
+      'secondUserId: $secondUserId\n'
       'start: $start\n'
       'end: $end\n'
       'title: $title\n'
@@ -55,14 +57,16 @@ class Event extends Entity {
 class EventPayload {
   @JsonKey(name: FirebaseFields.id)
   final Id? id;
-  @JsonKey(name: FirebaseFields.coachId)
-  final Id? coachId;
-  @JsonKey(name: FirebaseFields.athleteId)
-  final Id? athleteId;
+  @JsonKey(name: FirebaseFields.firstUserId)
+  final Id? firstUserId;
+  @JsonKey(name: FirebaseFields.secondUserId)
+  final Id? secondUserId;
   @JsonKey(name: FirebaseFields.start)
-  final DateTime? start;
+  @TimeOfDayConverter()
+  final TimeOfDay? start;
   @JsonKey(name: FirebaseFields.end)
-  final DateTime? end;
+  @TimeOfDayConverter()
+  final TimeOfDay? end;
   @JsonKey(name: FirebaseFields.title)
   final String? title;
   @JsonKey(name: FirebaseFields.description)
@@ -80,8 +84,8 @@ class EventPayload {
 
   const EventPayload({
     this.id,
-    this.coachId,
-    this.athleteId,
+    this.firstUserId,
+    this.secondUserId,
     this.start,
     this.end,
     this.title,
@@ -96,8 +100,8 @@ class EventPayload {
   EventPayload eventToPayload(Event event) {
     return EventPayload(
       id: event.id,
-      coachId: event.coachId,
-      athleteId: event.athleteId,
+      firstUserId: event.firstUserId,
+      secondUserId: event.secondUserId,
       start: event.start,
       end: event.end,
       title: event.title,
@@ -114,8 +118,8 @@ class EventPayload {
     try {
       return Event(
         id: id!,
-        coachId: coachId!,
-        athleteId: athleteId!,
+        firstUserId: firstUserId!,
+        secondUserId: secondUserId!,
         start: start!,
         end: end!,
         title: title!,
@@ -134,10 +138,10 @@ class EventPayload {
 
   EventPayload copyWith({
     Id? id,
-    Id? coachId,
-    Id? athleteId,
-    DateTime? start,
-    DateTime? end,
+    Id? firstUserId,
+    Id? secondUserId,
+    TimeOfDay? start,
+    TimeOfDay? end,
     String? title,
     String? description,
     String? location,
@@ -148,8 +152,8 @@ class EventPayload {
   }) {
     return EventPayload(
       id: id ?? this.id,
-      coachId: coachId ?? this.coachId,
-      athleteId: athleteId ?? this.athleteId,
+      firstUserId: firstUserId ?? this.firstUserId,
+      secondUserId: secondUserId ?? this.secondUserId,
       start: start ?? this.start,
       end: end ?? this.end,
       title: title ?? this.title,
@@ -173,8 +177,8 @@ class EventPayload {
   String toString() {
     return '\nEventPayload:\n'
       'id: $id\n'
-      'coachId: $coachId\n'
-      'athleteId: $athleteId\n'
+      'firstUserId: $firstUserId\n'
+      'secondUserId: $secondUserId\n'
       'start: $start\n'
       'end: $end\n'
       'title: $title\n'

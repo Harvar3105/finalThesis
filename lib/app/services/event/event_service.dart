@@ -10,6 +10,13 @@ class EventService {
     return (await _eventService.getEventById(id))?.eventFromPayload();
   }
 
+  Future<List<Event>?> getEventsByDate(DateTime date) async {
+    return (await _eventService.getEventsByDate(date))
+        ?.map((event) => event.eventFromPayload())
+        .whereType<Event>()
+        .toList();
+  }
+
   Future<List<Event>?> getAllEvents() async {
     return (await _eventService.getAllEvents())
         ?.map((event) => event.eventFromPayload())

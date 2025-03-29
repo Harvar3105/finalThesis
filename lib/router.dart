@@ -1,5 +1,6 @@
 import 'package:final_thesis_app/presentation/views/calendar/calendar_view.dart';
 import 'package:final_thesis_app/presentation/views/calendar/day_view.dart';
+import 'package:final_thesis_app/presentation/views/calendar/event_create_view.dart';
 import 'package:final_thesis_app/presentation/views/main_view.dart';
 import 'package:final_thesis_app/presentation/views/user/friends_view.dart';
 import 'package:final_thesis_app/presentation/views/user/self/change_email_view.dart';
@@ -72,6 +73,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (BuildContext context, GoRouterState state) {
           final user = state.extra as User;
           return ChangeNamePhotoView(user: user,);
+        },
+      ),
+      GoRoute(
+        name: Strings.addEvent,
+        path: '/add-event',
+        builder: (BuildContext context, GoRouterState state) {
+          final day = state.extra as DateTime;
+          return CreateEventView(selectedDay: day);
         },
       ),
       ShellRoute(
