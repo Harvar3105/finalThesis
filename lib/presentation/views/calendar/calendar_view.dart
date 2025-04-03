@@ -86,16 +86,11 @@ class CalendarViewState extends ConsumerState<CalendarView>{
         },
 
         onDaySelected: (selectedDay, focusedDay) {
-          setState(() {
-            _selectedDay = selectedDay;
-            _focusedDay = focusedDay;
-          });
-          log('Selected: $selectedDay; Focused: $focusedDay');
-          GoRouter.of(context).goNamed(Strings.dayView, extra: _selectedDay);
+          log('Selected: $selectedDay;');
+          context.replaceNamed(Strings.dayView, extra: selectedDay);
         },
         onFormatChanged: (format) {
           if (format == CalendarFormat.week) {
-            //TODO: Redirect to proper page without animation
             context.replaceNamed(Strings.dayView);
           } else {
             setState(() {

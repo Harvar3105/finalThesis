@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -25,7 +27,7 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
   @override
   void initState() {
     super.initState();
-    selectedDay = widget.selectedDay ?? DateTime.now();
+    selectedDay = widget.selectedDay?.toLocal() ?? DateTime.now();
   }
 
   @override
@@ -79,13 +81,13 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                 return Center(
                   child: Text(
                     DateFormat.E().format(day).toUpperCase(),
-                    style: theme.textTheme.bodySmall?.copyWith(fontSize: 15),
+                    style: theme.textTheme.bodySmall?.copyWith(fontSize: 10),
                   ),
                 );
               },
             ),
           ),
-          const Divider(height: 1),
+          const Divider(height: 5),
           Expanded(
             child: Consumer(
               builder: (context, ref, child) {
@@ -110,7 +112,7 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                         dividerColor: Colors.black,
                         currentDate: selectedDay,
                         timeGap: 60,
-                        heightPerMin: 2,
+                        heightPerMin: 1.5,
                         endOfDay: const TimeOfDay(hour: 24, minute: 0),
                         startOfDay: const TimeOfDay(hour: 0, minute: 0),
                         showCurrentTimeLine: true,
