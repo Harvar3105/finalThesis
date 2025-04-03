@@ -21,8 +21,8 @@ class CreateEventView extends ConsumerStatefulWidget {
 class _CreateEventViewState extends ConsumerState<CreateEventView> {
   final _formKey = GlobalKey<FormState>();
   User? _selectedFriend;
-  TimeOfDay? _startTime;
-  TimeOfDay? _endTime;
+  DateTime? _startTime;
+  DateTime? _endTime;
   String _title = '';
   String _description = '';
   String _location = '';
@@ -75,8 +75,8 @@ class _CreateEventViewState extends ConsumerState<CreateEventView> {
             decoration: const InputDecoration(labelText: 'Location'),
             onChanged: (value) => _location = value,
           ),
-          TimePickerWidget(label: 'Start Time', onTimeSelected: (date) => setState(() => _startTime = date)),
-          TimePickerWidget(label: 'End Time', onTimeSelected: (date) => setState(() => _endTime = date)),
+          DateTimePicker(onDateSelected: (date) => setState(() => _startTime = date), label: 'Start Time'),
+          DateTimePicker(onDateSelected: (date) => setState(() => _endTime = date), label: 'End Time'),
           ElevatedButton(
             onPressed: _submitForm,
             child: const Text('Create Event'),

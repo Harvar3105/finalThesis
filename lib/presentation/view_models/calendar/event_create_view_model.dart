@@ -38,8 +38,8 @@ class EventCreateViewModel extends _$EventCreateViewModel {
 
   Future<bool> createEvent(
       Id otherUserId,
-      TimeOfDay start,
-      TimeOfDay end,
+      DateTime start,
+      DateTime end,
       String title,
       String description,
       String location,

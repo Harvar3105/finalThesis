@@ -14,8 +14,8 @@ part 'event.g.dart';
 class Event extends Entity {
   final Id firstUserId;
   final Id secondUserId;
-  final TimeOfDay start;
-  final TimeOfDay end;
+  final DateTime start;
+  final DateTime end;
   final String title;
   final String description;
   final String location; //TODO: change to Location
@@ -62,11 +62,9 @@ class EventPayload {
   @JsonKey(name: FirebaseFields.secondUserId)
   final Id? secondUserId;
   @JsonKey(name: FirebaseFields.start)
-  @TimeOfDayConverter()
-  final TimeOfDay? start;
+  final DateTime? start;
   @JsonKey(name: FirebaseFields.end)
-  @TimeOfDayConverter()
-  final TimeOfDay? end;
+  final DateTime? end;
   @JsonKey(name: FirebaseFields.title)
   final String? title;
   @JsonKey(name: FirebaseFields.description)
@@ -140,8 +138,8 @@ class EventPayload {
     Id? id,
     Id? firstUserId,
     Id? secondUserId,
-    TimeOfDay? start,
-    TimeOfDay? end,
+    DateTime? start,
+    DateTime? end,
     String? title,
     String? description,
     String? location,

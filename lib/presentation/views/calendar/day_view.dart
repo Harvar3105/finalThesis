@@ -99,8 +99,8 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                   data: (events) {
                     List<DayEvent<Event>> calendarEvents = events?.map((e) {
                       return DayEvent<Event>(
-                        start: combineDateAndTime(selectedDay, e.start),
-                        end: combineDateAndTime(selectedDay, e.end),
+                        start: e.start,
+                        end: e.end,
                         value: e,
                       );
                     }).toList() ?? [];
@@ -122,7 +122,8 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                         showMoreOnRowButton: true,
                         time12: false,
                         timeLabelBuilder: (context, time) => Text(
-                          time.toString(),
+                          '${time.hour}:${time.minute.toString().trim().length < 2 ?
+                          '${time.minute}0' : time.minute.toString()}',
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -135,8 +136,8 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                           key: ValueKey(event.hashCode),
                           onTap: () {
                             print(event.value);
-                            print(event.start);
-                            print(event.end);
+                            print('!' + event.start.toString());
+                            print('!' + event.end.toString());
                           },
                           child: Container(
                             margin: const EdgeInsets.only(right: 3, left: 3),
