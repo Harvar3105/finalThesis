@@ -37,13 +37,18 @@ class EventCreateViewModel extends _$EventCreateViewModel {
   }
 
   Future<bool> createEvent(
-      Id otherUserId,
-      DateTime start,
-      DateTime end,
-      String title,
-      String description,
-      String location,
-      Duration? notifyBefore) async {
+      {required Id otherUserId,
+      required DateTime start,
+      required DateTime end,
+      required String title,
+      required String description,
+      required String location,
+      Duration? notifyBefore = const Duration(minutes: 30)}) async {
+    if (end.isBefore(start) || end == start) {
+      state = AsyncValue.error("End time must be after start time", StackTrace.current);
+      return false;
+    }
+
     final userService = ref.read(userServiceProvider);
     final eventService = ref.read(eventServiceProvider);
 

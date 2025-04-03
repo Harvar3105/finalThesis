@@ -1,6 +1,7 @@
 import 'package:final_thesis_app/presentation/views/calendar/calendar_view.dart';
 import 'package:final_thesis_app/presentation/views/calendar/day_view.dart';
-import 'package:final_thesis_app/presentation/views/calendar/event_create_view.dart';
+import 'package:final_thesis_app/presentation/views/event/event_create_view.dart';
+import 'package:final_thesis_app/presentation/views/event/event_view.dart';
 import 'package:final_thesis_app/presentation/views/main_view.dart';
 import 'package:final_thesis_app/presentation/views/user/friends_view.dart';
 import 'package:final_thesis_app/presentation/views/user/self/change_email_view.dart';
@@ -16,6 +17,7 @@ import 'package:go_router/go_router.dart';
 
 import 'app/services/authentication/other_providers/login_state.dart';
 import 'configurations/strings.dart';
+import 'data/domain/event.dart';
 import 'data/domain/user.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -118,6 +120,14 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (context, state) {
               final user = state.extra as User;
               return UserProfileView(user: user);
+            }
+          ),
+          GoRoute(
+            name: Strings.eventView,
+            path: '/event-view',
+            builder: (context, state) {
+              final event = state.extra as Event;
+              return EventView(event: event);
             }
           ),
         ],

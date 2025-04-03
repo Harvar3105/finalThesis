@@ -135,9 +135,7 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                           behavior: HitTestBehavior.opaque,
                           key: ValueKey(event.hashCode),
                           onTap: () {
-                            print(event.value);
-                            print('!' + event.start.toString());
-                            print('!' + event.end.toString());
+                            context.pushNamed(Strings.eventView, extra: event.value);
                           },
                           child: Container(
                             margin: const EdgeInsets.only(right: 3, left: 3),

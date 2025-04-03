@@ -1,13 +1,14 @@
 
 
 import 'package:final_thesis_app/presentation/views/widgets/buttons/time_picker.dart';
+import 'package:final_thesis_app/presentation/views/widgets/fields/duration_picker.dart';
 import 'package:final_thesis_app/presentation/views/widgets/navigation/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../data/domain/user.dart';
-import '../../view_models/calendar/event_create_view_model.dart';
+import '../../view_models/event/event_create_view_model.dart';
 import '../widgets/buttons/date_time_picker.dart';
 
 class CreateEventView extends ConsumerStatefulWidget {
@@ -33,7 +34,7 @@ class _CreateEventViewState extends ConsumerState<CreateEventView> {
     final eventCreateViewModel = ref.watch(eventCreateViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Event')),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: eventCreateViewModel.when(
@@ -77,6 +78,13 @@ class _CreateEventViewState extends ConsumerState<CreateEventView> {
           ),
           DateTimePicker(onDateSelected: (date) => setState(() => _startTime = date), label: 'Start Time'),
           DateTimePicker(onDateSelected: (date) => setState(() => _endTime = date), label: 'End Time'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Notify before: "),
+              DurationPicker(onDurationSelected: (span) => _notifyBefore = span),
+            ],
+          ),
           ElevatedButton(
             onPressed: _submitForm,
             child: const Text('Create Event'),
@@ -90,13 +98,13 @@ class _CreateEventViewState extends ConsumerState<CreateEventView> {
     if (_formKey.currentState!.validate()) {
       final viewModel = ref.read(eventCreateViewModelProvider.notifier);
       final success = await viewModel.createEvent(
-        _selectedFriend!.id!,
-        _startTime!,
-        _endTime!,
-        _title,
-        _description,
-        _location,
-        _notifyBefore,
+        otherUserId: _selectedFriend!.id!,
+        start: _startTime!,
+        end: _endTime!,
+        title: _title,
+        description: _description,
+        location: _location,
+        notifyBefore: _notifyBefore,
       );
       if (success) {
         Navigator.pop(context);

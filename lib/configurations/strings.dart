@@ -23,6 +23,7 @@ class Strings {
 
   // Events
   static const addEvent = 'Add Event';
+  static const eventView = 'Event View';
 
   // Address
   static const selectLocation = 'Select a location!';
