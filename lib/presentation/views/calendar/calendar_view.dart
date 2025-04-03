@@ -1,12 +1,15 @@
 import 'dart:developer';
 
 import 'package:final_thesis_app/app/helpers/calendar_parser.dart';
+import 'package:final_thesis_app/app/services/providers.dart';
+import 'package:final_thesis_app/presentation/view_models/calendar/day_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../configurations/strings.dart';
+import '../../../data/domain/event.dart';
 
 class CalendarView extends ConsumerStatefulWidget{
   const CalendarView({super.key});
@@ -24,6 +27,26 @@ class CalendarViewState extends ConsumerState<CalendarView>{
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var defaultDaysStyle = theme.textTheme.bodySmall?.copyWith(fontSize: 20);
+    final eventsAsync = ref.watch(dayViewModelProvider);
+
+    return eventsAsync.when(
+      data: (events) {
+        return _buildCalendar(events, theme, defaultDaysStyle!);
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) => Center(child: Text(error.toString())),
+    );
+  }
+
+  List<Event> _getEventsForDay(DateTime day, List<Event> events) {
+    return events.where((event) {
+      return isSameDay(event.start, day) || isSameDay(event.end, day);
+    }).toList();
+  }
+
+  Widget _buildCalendar(List<Event>? events, ThemeData theme, TextStyle defaultDaysStyle) {
+    dynamic loaderFunc = (day) {};
+    if (events != null) loaderFunc = (day) => _getEventsForDay(day, events);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -34,6 +57,7 @@ class CalendarViewState extends ConsumerState<CalendarView>{
         focusedDay: _focusedDay,
         calendarFormat: _calendarFormat,
         startingDayOfWeek: StartingDayOfWeek.monday,
+        eventLoader: loaderFunc,
         availableCalendarFormats: const {
           CalendarFormat.month: 'Month',
           CalendarFormat.twoWeeks: 'Weeks',
@@ -43,8 +67,8 @@ class CalendarViewState extends ConsumerState<CalendarView>{
           formatButtonTextStyle: theme.textTheme.bodySmall!,
           formatButtonDecoration: BoxDecoration(
             border: Border.all(
-              width: 1.0,
-              color: theme.colorScheme.primary
+                width: 1.0,
+                color: theme.colorScheme.primary
             ),
             color: theme.colorScheme.secondary,
             borderRadius: BorderRadius.circular(25.0),
@@ -115,8 +139,8 @@ class CalendarViewState extends ConsumerState<CalendarView>{
                       day.day.toString(),
                       style: defaultDaysStyle,
                     ),
-                  ]
-                )
+                  ],
+                ),
               ),
             );
           },
@@ -125,18 +149,18 @@ class CalendarViewState extends ConsumerState<CalendarView>{
           todayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
             return SizedBox.expand(
               child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: theme.colorScheme.primary,width: 3),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      day.day.toString(),
-                      style: defaultDaysStyle!,
-                    ),
-                  ]
-                )
+                  decoration: BoxDecoration(
+                    border: Border.all(color: theme.colorScheme.primary,width: 3),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        day.day.toString(),
+                        style: defaultDaysStyle!,
+                      ),
+                    ]
+                  )
               ),
             );
           },
@@ -145,18 +169,18 @@ class CalendarViewState extends ConsumerState<CalendarView>{
           outsideBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
             return SizedBox.expand(
               child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      day.day.toString(),
-                      style: defaultDaysStyle!.copyWith(color: theme.colorScheme.secondary),
-                    ),
-                  ]
-                )
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                      children: [
+                        Text(
+                          day.day.toString(),
+                          style: defaultDaysStyle!.copyWith(color: theme.colorScheme.secondary),
+                        ),
+                      ]
+                  )
               ),
             );
           },
@@ -168,25 +192,40 @@ class CalendarViewState extends ConsumerState<CalendarView>{
           selectedBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
             return SizedBox.expand(
               child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                  color: theme.colorScheme.surface,
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      day.day.toString(),
-                      style: defaultDaysStyle!,
-                    ),
-                  ]
-                )
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
+                    color: theme.colorScheme.surface,
+                  ),
+                  child: Column(
+                      children: [
+                        Text(
+                          day.day.toString(),
+                          style: defaultDaysStyle!,
+                        ),
+                      ]
+                  )
               ),
             );
           },
 
           // Marker for events below days
-          // markerBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {},
+          markerBuilder: (context, date, events) {
+            if (events.isNotEmpty) {
+              return Positioned(
+                bottom: 15,
+                child: Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.red,
+                  ),
+                ),
+              );
+            }
+            return null;
+          },
         ),
       ),
     );

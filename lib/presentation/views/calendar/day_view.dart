@@ -28,11 +28,6 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
     selectedDay = widget.selectedDay ?? DateTime.now();
   }
 
-  // Помогает объединить выбранную дату и время из TimeOfDay в DateTime.
-  DateTime combineDateAndTime(DateTime date, TimeOfDay time) {
-    return DateTime(date.year, date.month, date.day, time.hour, time.minute);
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -169,7 +164,7 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                   loading: () =>
                   const Center(child: CircularProgressIndicator()),
                   error: (error, stackTrace) =>
-                      Center(child: Text(error.toString())),
+                    Center(child: Text(error.toString())),
                 );
               },
             ),
