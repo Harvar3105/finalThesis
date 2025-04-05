@@ -30,7 +30,6 @@ class UserSearchViewModel extends _$UserSearchViewModel {
       final users = await userService.searchUsersByName(
         query, selectedIndex, userId, role, sortingOrder,
       );
-      log("Searhing users, result ${users?.length.toString()}");
       state = AsyncValue.data(users);
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);

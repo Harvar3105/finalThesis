@@ -36,39 +36,31 @@ class EventCreateViewModel extends _$EventCreateViewModel {
     return friends;
   }
 
-  Future<bool> createEvent(
-      {required Id otherUserId,
-      required DateTime start,
-      required DateTime end,
-      required String title,
-      required String description,
-      required String location,
-      Duration? notifyBefore = const Duration(minutes: 30)}) async {
-    if (end.isBefore(start) || end == start) {
-      state = AsyncValue.error("End time must be after start time", StackTrace.current);
-      return false;
-    }
-
-    final userService = ref.read(userServiceProvider);
+  Future<bool> createEvent({
+    required Id otherUserId,
+    required DateTime start,
+    required DateTime end,
+    required String title,
+    required String description,
+    required String location,
+    Duration? notifyBefore = const Duration(minutes: 30)
+  }) async {
     final eventService = ref.read(eventServiceProvider);
-
-    final currentUser = await userService.getCurrentUser();
-    if (currentUser == null) {
-      state = AsyncValue.error("User not found", StackTrace.current);
-      return false;
-    }
-
-    final event = Event(
-      firstUserId: currentUser.id!,
-      secondUserId: otherUserId,
+    final result = await eventService.createNewEvent(
+      otherUserId: otherUserId,
       start: start,
       end: end,
       title: title,
       description: description,
       location: location,
-      type: EEventType.Declared,
       notifyBefore: notifyBefore,
     );
-    return eventService.saveOrUpdateEvent(event);
+
+    if (result != null) {
+      state = result;
+      return false;
+    } else {
+      return true;
+    }
   }
 }

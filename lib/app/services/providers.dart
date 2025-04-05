@@ -9,7 +9,7 @@ import 'mixed_services/friendship_service.dart';
 
 
 final userServiceProvider = Provider<UserService>((ref) {
-  return UserService(ref.watch(userStorageProvider));
+  return UserService(ref.watch(userStorageProvider), ref.watch(imageServiceProvider));
 });
 
 final imageServiceProvider = Provider<ImageService>((ref) {
@@ -25,6 +25,6 @@ final friendshipServiceProvider = Provider<FriendshipService>((ref) {
 });
 
 final eventServiceProvider = Provider<EventService>((ref) {
-  return EventService(ref.watch(eventStorageProvider));
+  return EventService(ref.watch(eventStorageProvider), ref.watch(userServiceProvider));
 });
 
