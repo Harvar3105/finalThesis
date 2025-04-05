@@ -38,7 +38,7 @@ class EventService {
         .toList();
   }
 
-  Future<AsyncValue<List<User>>?> createNewEvent({
+  Future<AsyncValue<List<User>>?> saveOrUpdateEvent({
     required Id otherUserId,
     required DateTime start,
     required DateTime end,

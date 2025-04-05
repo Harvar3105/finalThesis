@@ -96,8 +96,12 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                 return eventsAsync.when(
                   data: (events) {
                     List<DayEvent<Event>> calendarEvents = events?.where((event) =>
-                    event.start.isBefore(DateTime.now().toUtc()) &&
-                        event.end.isAfter(DateTime.now().toUtc())
+                        event.start.year == selectedDay.year &&
+                          event.start.month == selectedDay.month &&
+                          event.start.day == selectedDay.day &&
+                          event.end.year == selectedDay.year &&
+                          event.end.month == selectedDay.month &&
+                          event.end.day == selectedDay.day
                     ).map((e) {
                       return DayEvent<Event>(
                         start: e.start,
@@ -105,7 +109,7 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                         value: e,
                       );
                     }).toList() ?? [];
-
+                    log(calendarEvents.toString());
                     if (calendarEvents.isEmpty) {
                       return const Center(child: Text('No events'));
                     }

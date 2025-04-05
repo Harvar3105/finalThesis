@@ -46,7 +46,7 @@ class EventCreateViewModel extends _$EventCreateViewModel {
     Duration? notifyBefore = const Duration(minutes: 30)
   }) async {
     final eventService = ref.read(eventServiceProvider);
-    final result = await eventService.createNewEvent(
+    final result = await eventService.saveOrUpdateEvent(
       otherUserId: otherUserId,
       start: start,
       end: end,

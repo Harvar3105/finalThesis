@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:final_thesis_app/app/typedefs/e_event_type.dart';
 import 'package:final_thesis_app/data/domain/event.dart';
@@ -23,7 +24,7 @@ class DayViewModel extends _$DayViewModel {
     }
 
     final events = await correspondingEvents.getEventsByUserId(currentUser.id!, currentUser.role == ERole.coach);
-
+    log(events.toString());
     return events;
   }
 

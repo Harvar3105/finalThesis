@@ -12,15 +12,22 @@ class UserService {
   final UserStorage _userStorage;
   final ImageService _imageService;
 
+  User? _currentUser;
+
   UserService(this._userStorage, this._imageService);
 
   Future<User?> getCurrentUser() async {
-    return (await _userStorage.getCurrentUser())?.userFromPayload();
+    if (_currentUser != null) {
+      return _currentUser;
+    }
+    _currentUser = (await _userStorage.getCurrentUser())?.userFromPayload();
+    return _currentUser;
   }
 
   Stream<User?> watchCurrentUser() {
     return _userStorage.watchCurrentUser().map((payload) {
-      return payload?.userFromPayload();
+      _currentUser = payload?.userFromPayload();
+      return _currentUser;
     });
   }
 
@@ -50,11 +57,19 @@ class UserService {
   }
 
   Future<bool> saveOrUpdateUser(User user) async {
-    return await _userStorage.saveOrUpdateUserInfo(UserPayload().userToPayload(user));
+    final result = await _userStorage.saveOrUpdateUserInfo(UserPayload().userToPayload(user));
+    if (result && _currentUser != null && _currentUser!.id == user.id) {
+      _currentUser = user;
+    }
+    return result;
   }
 
   Future<bool> deleteUserPicture(User user) async {
-    return await _userStorage.deleteUserPicture(UserPayload().userToPayload(user));
+    final result = await _userStorage.deleteUserPicture(UserPayload().userToPayload(user));
+    if (result && _currentUser != null && _currentUser!.id == user.id) {
+      _currentUser = user;
+    }
+    return result;
   }
 
   Future<List<User>?> searchUsersByName(
@@ -97,6 +112,9 @@ class UserService {
     );
 
     await _userStorage.saveOrUpdateUserInfo(updatedUser);
+    if (_currentUser != null && _currentUser!.id == user.id) {
+      _currentUser = updatedUser.userFromPayload()!;
+    }
     return updatedUser.userFromPayload()!;
   }
 
@@ -106,6 +124,10 @@ class UserService {
     if (isDeleted && !onlyStorage) {
       await _userStorage.deleteUserPicture(userPayload);
     }
-    return userPayload.copyWith(avatarUrl: null, avatarThumbnailUrl: null).userFromPayload()!;
+    final result = userPayload.copyWith(avatarUrl: null, avatarThumbnailUrl: null).userFromPayload()!;
+    if (_currentUser != null && _currentUser!.id == result.id) {
+      _currentUser = result;
+    }
+    return result;
   }
 }
