@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:final_thesis_app/app/typedefs/e_event_type.dart';
 import 'package:final_thesis_app/data/domain/event.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -21,20 +22,30 @@ class DayViewModel extends _$DayViewModel {
       return [];
     }
 
-    final events = correspondingEvents.getEventsByUserId(currentUser.id!, currentUser.role == ERole.coach);
+    final events = await correspondingEvents.getEventsByUserId(currentUser.id!, currentUser.role == ERole.coach);
 
     return events;
   }
 
-  Future<void> addEvent() async {
-    //TODO: 'Implement addEvent';
-  }
+  bool checkEventOverlap(Event event) {
+    if (event.type == EEventType.Shadow) {
+      return false; // No overlap check for shadow events
+    }
 
-  Future<void> deleteEvent() async {
-    //TODO: 'Implement deleteEvent';
-  }
+    final events = state.value;
+    if (events == null) {
+      return false;
+    }
 
-  Future<void> getRelatedEvents(DateTime day) async {
-    //TODO: 'Implement getRelatedEvents';
+    for (var e in events) {
+      if (e.id != event.id &&
+          e.type != EEventType.Shadow &&
+          e.start.isBefore(event.end) &&
+          e.end.isAfter(event.start)
+      ) {
+        return true; // Overlap found
+      }
+    }
+    return false; // No overlap
   }
 }

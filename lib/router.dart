@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:final_thesis_app/presentation/views/calendar/calendar_view.dart';
 import 'package:final_thesis_app/presentation/views/calendar/day_view.dart';
 import 'package:final_thesis_app/presentation/views/event/event_create_view.dart';
@@ -126,8 +128,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             name: Strings.eventView,
             path: '/event-view',
             builder: (context, state) {
-              final event = state.extra as Event;
-              return EventView(event: event);
+              log(state.extra.toString());
+              final data = state.extra as List<dynamic>;
+
+              final event = data[0] as Event;
+              final isOverlapping = data[1] as bool;
+              return EventView(event: data[0], isOverlapping: data[1]);
             }
           ),
         ],

@@ -92,9 +92,13 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
             child: Consumer(
               builder: (context, ref, child) {
                 final eventsAsync = ref.watch(dayViewModelProvider);
+                final viewModel = ref.read(dayViewModelProvider.notifier);
                 return eventsAsync.when(
                   data: (events) {
-                    List<DayEvent<Event>> calendarEvents = events?.map((e) {
+                    List<DayEvent<Event>> calendarEvents = events?.where((event) =>
+                    event.start.isBefore(DateTime.now().toUtc()) &&
+                        event.end.isAfter(DateTime.now().toUtc())
+                    ).map((e) {
                       return DayEvent<Event>(
                         start: e.start,
                         end: e.end,
@@ -118,6 +122,7 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                         showCurrentTimeLine: true,
                         showMoreOnRowButton: true,
                         time12: false,
+                        renderRowAsListView: true,
                         timeLabelBuilder: (context, time) => Text(
                           '${time.hour}:${time.minute.toString().trim().length < 2 ?
                           '${time.minute}0' : time.minute.toString()}',
@@ -125,36 +130,46 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                         ),
                       ),
                       onTimeTap: (t) {
-                        print(t);
+                        log(t.toString());
                       },
                       overflowItemBuilder: (context, constraints, itemIndex, event) {
+                        final overlap = viewModel.checkEventOverlap(event.value);
                         return GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           key: ValueKey(event.hashCode),
                           onTap: () {
-                            context.pushNamed(Strings.eventView, extra: event.value);
+                            context.pushNamed(Strings.eventView, extra: [event.value, overlap]);
                           },
                           child: Container(
                             margin: const EdgeInsets.only(right: 3, left: 3),
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                             key: ValueKey(event.hashCode),
                             width: size.width / 4 - 6,
                             height: constraints.maxHeight,
                             decoration: BoxDecoration(
-                              color: itemIndex % 2 == 0
-                                  ? theme.colorScheme.tertiaryContainer
-                                  : theme.colorScheme.secondaryContainer,
-                              border: Border.all(color: theme.colorScheme.tertiary, width: 2),
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              color: overlap ?
+                                Colors.red.shade500 :
+                                switch (event.value.type) {
+                                EEventType.Declared => Colors.grey,
+                                EEventType.Shadow => Colors.blueGrey,
+                                EEventType.Accepted => Colors.green,
+                                EEventType.Canceled => Colors.red,
+                                EEventType.ConterOffered => Colors.amberAccent,
+                              },
                             ),
-                            child: Center(
-                              child: Text(
-                                event.value.title,
-                                textAlign: TextAlign.center,
-                                overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                  color: theme.colorScheme.onSecondaryContainer,
-                                  fontWeight: FontWeight.bold,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.tertiaryContainer
+                              ),
+                              child: Center(
+                                child: Text(
+                                  event.value.title,
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                    color: theme.colorScheme.onSecondaryContainer,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),

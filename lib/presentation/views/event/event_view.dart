@@ -4,8 +4,9 @@ import '../../../data/domain/event.dart';
 
 class EventView extends StatelessWidget {
   final Event event;
+  final bool isOverlapping;
 
-  const EventView({super.key, required this.event});
+  const EventView({super.key, required this.event, required this.isOverlapping});
 
   @override
   Widget build(BuildContext context) {

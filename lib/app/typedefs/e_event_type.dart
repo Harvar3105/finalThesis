@@ -3,4 +3,5 @@ enum EEventType {
   Accepted,
   Canceled,
   ConterOffered,
+  Shadow,
 }
