@@ -18,7 +18,9 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
+  //TODO: Register all projects in firebase AppCheck when app is finished
   await FirebaseAppCheck.instance.activate(
+    webProvider: ReCaptchaV3Provider('someTestSiteKey'),
     androidProvider: AndroidProvider.playIntegrity,
     appleProvider: AppleProvider.deviceCheck,
   );
