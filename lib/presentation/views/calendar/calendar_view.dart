@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:final_thesis_app/app/helpers/calendar_parser.dart';
-import 'package:final_thesis_app/app/services/providers.dart';
 import 'package:final_thesis_app/presentation/view_models/calendar/day_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +19,7 @@ class CalendarView extends ConsumerStatefulWidget{
 
 class CalendarViewState extends ConsumerState<CalendarView>{
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
+  final DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
   @override
@@ -152,7 +151,7 @@ class CalendarViewState extends ConsumerState<CalendarView>{
                     children: [
                       Text(
                         day.day.toString(),
-                        style: defaultDaysStyle!,
+                        style: defaultDaysStyle,
                       ),
                     ]
                   )
@@ -172,7 +171,7 @@ class CalendarViewState extends ConsumerState<CalendarView>{
                       children: [
                         Text(
                           day.day.toString(),
-                          style: defaultDaysStyle!.copyWith(color: theme.colorScheme.secondary),
+                          style: defaultDaysStyle.copyWith(color: theme.colorScheme.secondary),
                         ),
                       ]
                   )
@@ -196,7 +195,7 @@ class CalendarViewState extends ConsumerState<CalendarView>{
                       children: [
                         Text(
                           day.day.toString(),
-                          style: defaultDaysStyle!,
+                          style: defaultDaysStyle,
                         ),
                       ]
                   )

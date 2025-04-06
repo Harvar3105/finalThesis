@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:final_thesis_app/presentation/views/calendar/calendar_view.dart';
 import 'package:final_thesis_app/presentation/views/calendar/day_view.dart';
-import 'package:final_thesis_app/presentation/views/event/event_create_view.dart';
+import 'package:final_thesis_app/presentation/views/event/event_create_update_view.dart';
 import 'package:final_thesis_app/presentation/views/event/event_view.dart';
 import 'package:final_thesis_app/presentation/views/main_view.dart';
 import 'package:final_thesis_app/presentation/views/user/friends_view.dart';
@@ -84,7 +84,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/add-event',
         builder: (BuildContext context, GoRouterState state) {
           final eventOrNull = state.extra is Event ? state.extra as Event : null;
-          return CreateEventView(editingEvent: eventOrNull);
+          return EventCreateUpdateView(editingEvent: eventOrNull);
         },
       ),
       ShellRoute(

@@ -7,7 +7,9 @@ class Message extends Entity {
   final String text;
   final Id senderId;
   final Id receiverId;
+  @override
   final DateTime createdAt;
+  @override
   final DateTime updatedAt;
 
   Message({

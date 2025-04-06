@@ -15,7 +15,7 @@ import '../../view_models/calendar/day_view_model.dart'; // Импортируй
 
 class DayViewCalendar extends ConsumerStatefulWidget {
   final DateTime? selectedDay;
-  const DayViewCalendar({Key? key, this.selectedDay}) : super(key: key);
+  const DayViewCalendar({super.key, this.selectedDay});
 
   @override
   _DayViewCalendarState createState() => _DayViewCalendarState();

@@ -2,10 +2,8 @@ import 'dart:developer';
 
 import 'package:final_thesis_app/app/typedefs/e_event_type.dart';
 import 'package:final_thesis_app/data/domain/entity.dart';
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../app/helpers/time_of_day_json_converter.dart';
 import '../../app/typedefs/entity.dart';
 import '../../configurations/firebase/firebase_access_fields.dart';
 

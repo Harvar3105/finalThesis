@@ -1,8 +1,6 @@
 import 'dart:developer';
 
-import 'package:final_thesis_app/app/services/providers.dart';
 import 'package:final_thesis_app/presentation/view_models/event/event_view_model.dart';
-import 'package:final_thesis_app/presentation/views/widgets/buttons/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

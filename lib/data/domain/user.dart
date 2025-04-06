@@ -46,6 +46,18 @@ class User extends Entity {
   });
 
   @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! User) return false;
+
+    return other.id == id;
+  }
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => id.hashCode ^ firstName.hashCode ^ lastName.hashCode;
+
+  @override
   String toString(){
     return '\nUser:\n'
       'id: $id\n'

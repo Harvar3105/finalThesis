@@ -5,10 +5,10 @@ class TimePickerWidget extends StatelessWidget {
   final String label;
 
   const TimePickerWidget({
-    Key? key,
+    super.key,
     required this.onTimeSelected,
     required this.label,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

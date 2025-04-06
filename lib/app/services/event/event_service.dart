@@ -59,6 +59,7 @@ class EventService {
     }
 
     final event = Event(
+      id: id,
       firstUserId: currentUserId,
       secondUserId: otherUserId,
       start: start,
@@ -69,9 +70,6 @@ class EventService {
       type: EEventType.Declared,
       notifyBefore: notifyBefore,
     );
-    if (id != null) {
-      event.id = id;
-    }
 
     final result = await _eventStorage.saveOrUpdateEvent(EventPayload().eventToPayload(event));
     if (!result) {
