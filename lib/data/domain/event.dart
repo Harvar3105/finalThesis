@@ -18,6 +18,7 @@ class Event extends Entity {
   final String description;
   final String location; //TODO: change to Location
   final EEventType type;
+  final Id? counterOfferOf;
   final Duration? notifyBefore;
 
   Event({
@@ -30,6 +31,7 @@ class Event extends Entity {
     required this.description,
     required this.location,
     required this.type,
+    this.counterOfferOf,
     this.notifyBefore,
     super.createdAt,
     super.updatedAt,
@@ -47,6 +49,7 @@ class Event extends Entity {
       'description: $description\n'
       'location: $location\n'
       'type: $type\n'
+      'counterOfferOf: $counterOfferOf\n'
       'notifyBefore: $notifyBefore\n';
   }
 }
@@ -71,6 +74,8 @@ class EventPayload {
   final String? location; //TODO: change to Location
   @JsonKey(name: FirebaseFields.type)
   final EEventType? type;
+  @JsonKey(name: FirebaseFields.counterOfferOf)
+  final Id? counterOfferOf;
   @JsonKey(name: FirebaseFields.notifyBefore)
   final Duration? notifyBefore;
   @JsonKey(name: FirebaseFields.createdAt)
@@ -88,6 +93,7 @@ class EventPayload {
     this.description,
     this.location,
     this.type,
+    this.counterOfferOf,
     this.notifyBefore,
     this.createdAt,
     this.updatedAt,
@@ -104,6 +110,7 @@ class EventPayload {
       description: event.description,
       location: event.location,
       type: event.type,
+      counterOfferOf: event.counterOfferOf,
       notifyBefore: event.notifyBefore,
       createdAt: event.createdAt,
       updatedAt: event.updatedAt,
@@ -122,6 +129,7 @@ class EventPayload {
         description: description!,
         location: location!,
         type: type!,
+        counterOfferOf: counterOfferOf,
         notifyBefore: notifyBefore,
         createdAt: createdAt,
         updatedAt: updatedAt,
@@ -142,6 +150,7 @@ class EventPayload {
     String? description,
     String? location,
     EEventType? type,
+    Id? counterOfferOf,
     Duration? notifyBefore,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -156,6 +165,7 @@ class EventPayload {
       description: description ?? this.description,
       location: location ?? this.location,
       type: type ?? this.type,
+      counterOfferOf: counterOfferOf ?? this.counterOfferOf,
       notifyBefore: notifyBefore ?? this.notifyBefore,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -164,7 +174,7 @@ class EventPayload {
 
   factory EventPayload.fromJson(Map<String, dynamic> json) {
     var result = _$EventPayloadFromJson(json);
-    log("EventPayload.fromJson:\njson: $json\nresult: $result");
+    // log("EventPayload.fromJson:\njson: $json\nresult: $result");
     return result;
   }
   Map<String, dynamic> toJson() => _$EventPayloadToJson(this);
@@ -181,6 +191,7 @@ class EventPayload {
       'description: $description\n'
       'location: $location\n'
       'type: $type\n'
+      'counterOfferOf: $counterOfferOf\n'
       'notifyBefore: $notifyBefore\n'
       'createdAt: $createdAt\n'
       'updatedAt: $updatedAt\n';

@@ -41,6 +41,7 @@ class FirebaseFields {
   static const description = 'description';
   static const location = 'location';
   static const type = 'type';
+  static const counterOfferOf = 'counter_offer_of';
   static const notifyBefore = 'notify_before';
 
 
@@ -74,6 +75,7 @@ class FirebaseFields {
     'description': description,
     'location': location,
     'type': type,
+    'counter_offer_of': counterOfferOf,
     'notify_before': notifyBefore,
   };
 
