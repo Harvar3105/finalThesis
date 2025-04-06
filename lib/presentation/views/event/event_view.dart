@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../configurations/strings.dart';
 import '../../../data/domain/event.dart';
 
 class EventView extends ConsumerWidget {
@@ -67,7 +68,7 @@ class EventView extends ConsumerWidget {
                       icon: const Icon(Icons.delete_forever, color: Colors.red, size: 45,),
                     ),
                     IconButton(
-                        onPressed: () => log("pressed Edit"),
+                        onPressed: () => GoRouter.of(context).replaceNamed(Strings.addEvent, extra: event),
                         icon: const Icon(Icons.edit_rounded, color: Colors.yellow, size: 45,),
                     ),
                   ],

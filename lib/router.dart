@@ -83,8 +83,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: Strings.addEvent,
         path: '/add-event',
         builder: (BuildContext context, GoRouterState state) {
-          final day = state.extra as DateTime;
-          return CreateEventView(selectedDay: day);
+          final eventOrNull = state.extra is Event ? state.extra as Event : null;
+          return CreateEventView(editingEvent: eventOrNull);
         },
       ),
       ShellRoute(
@@ -133,7 +133,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
               final event = data[0] as Event;
               final isOverlapping = data[1] as bool;
-              return EventView(event: data[0], isOverlapping: data[1]);
+              return EventView(event: event, isOverlapping: isOverlapping);
             }
           ),
         ],

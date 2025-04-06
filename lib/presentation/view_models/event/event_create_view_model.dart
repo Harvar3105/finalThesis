@@ -36,17 +36,21 @@ class EventCreateViewModel extends _$EventCreateViewModel {
     return friends;
   }
 
-  Future<bool> createEvent({
+  Future<bool> saveOrUpdateEvent({
+    Id? id,
+    Id? firstUserId,
     required Id otherUserId,
     required DateTime start,
     required DateTime end,
     required String title,
     required String description,
     required String location,
-    Duration? notifyBefore = const Duration(minutes: 30)
+    required Duration notifyBefore
   }) async {
     final eventService = ref.read(eventServiceProvider);
     final result = await eventService.saveOrUpdateEvent(
+      id: id,
+      firstUserId: firstUserId,
       otherUserId: otherUserId,
       start: start,
       end: end,

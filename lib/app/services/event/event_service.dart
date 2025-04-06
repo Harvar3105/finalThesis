@@ -39,25 +39,27 @@ class EventService {
   }
 
   Future<AsyncValue<List<User>>?> saveOrUpdateEvent({
+    Id? id,
+    Id? firstUserId,
     required Id otherUserId,
     required DateTime start,
     required DateTime end,
     required String title,
     required String description,
     required String location,
-    Duration? notifyBefore = const Duration(minutes: 30)
+    Duration? notifyBefore = const Duration(minutes: 30),
   }) async {
     if (end.isBefore(start) || end == start) {
       return AsyncValue.error("End time must be after start time", StackTrace.current);
     }
 
-    final currentUser = await userService.getCurrentUser();
-    if (currentUser == null) {
+    final currentUserId = firstUserId ?? (await userService.getCurrentUser())?.id;
+    if (currentUserId == null) {
       return AsyncValue.error("User not found", StackTrace.current);
     }
 
     final event = Event(
-      firstUserId: currentUser.id!,
+      firstUserId: currentUserId,
       secondUserId: otherUserId,
       start: start,
       end: end,
@@ -67,6 +69,10 @@ class EventService {
       type: EEventType.Declared,
       notifyBefore: notifyBefore,
     );
+    if (id != null) {
+      event.id = id;
+    }
+
     final result = await _eventStorage.saveOrUpdateEvent(EventPayload().eventToPayload(event));
     if (!result) {
       return AsyncValue.error("Could not create event!", StackTrace.current);

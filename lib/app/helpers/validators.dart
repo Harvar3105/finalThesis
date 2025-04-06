@@ -8,6 +8,13 @@ String? validateName(String? name) {
   return null;
 }
 
+String? validateNotEmpty(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Please fill this field';
+  }
+  return null;
+}
+
 String? validateEmail(String? email) {
   if (email == null || email.isEmpty) {
     return 'Please enter your email';
