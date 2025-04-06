@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:final_thesis_app/data/domain/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -48,6 +50,7 @@ class EventService {
     required String description,
     required String location,
     Duration? notifyBefore = const Duration(minutes: 30),
+    Id? counterOfferOf,
   }) async {
     if (end.isBefore(start) || end == start) {
       return AsyncValue.error("End time must be after start time", StackTrace.current);
@@ -58,6 +61,8 @@ class EventService {
       return AsyncValue.error("User not found", StackTrace.current);
     }
 
+    //TODO: if counter offer of counter offer, delete previous and reference original
+
     final event = Event(
       id: id,
       firstUserId: currentUserId,
@@ -67,9 +72,17 @@ class EventService {
       title: title,
       description: description,
       location: location,
-      type: EEventType.Declared,
+      type: counterOfferOf == null ? EEventType.Declared : EEventType.ConterOffered,
+      counterOfferOf: counterOfferOf,
       notifyBefore: notifyBefore,
     );
+
+    if (event.counterOfferOf != null) {
+      final success = await changeEventStatus(event.counterOfferOf!, EEventType.Shadow);
+      if (!success) {
+        return AsyncValue.error("Could not change origin event status", StackTrace.current);
+      }
+    }
 
     final result = await _eventStorage.saveOrUpdateEvent(EventPayload().eventToPayload(event));
     if (!result) {
@@ -79,7 +92,60 @@ class EventService {
     return null;
   }
 
+  Future<bool> makeDecision(Event event, bool isAccept) async {
+    if (isAccept) {
+      if (event.counterOfferOf != null) {
+        final deletionSuccess = await deleteEventById(event.counterOfferOf!, null);
+        if (!deletionSuccess) {
+          return false;
+        }
+      }
+      final updatedEventPayload = EventPayload().eventToPayload(event).copyWith(type: EEventType.Accepted);
+      final updateSuccess = await _eventStorage.saveOrUpdateEvent(updatedEventPayload);
+      return updateSuccess;
+    } else {
+      if (event.counterOfferOf != null) {
+        final statusChangeSuccess = await changeEventStatus(event.counterOfferOf!, EEventType.Declared);
+        if (!statusChangeSuccess) {
+          return false;
+        }
+      }
+
+      final deletionSuccess = await deleteEvent(event);
+      return deletionSuccess;
+    }
+  }
+
+  Future<bool> changeEventStatus(Id eventId, EEventType decision) async {
+    final event = await _eventStorage.getEventById(eventId);
+    if (event == null) {
+      return false;
+    }
+
+    final updatedEvent = event.copyWith(
+      type: decision,
+    );
+
+    return await _eventStorage.saveOrUpdateEvent(updatedEvent);
+  }
+
   Future<bool> deleteEvent(Event event) async {
+    if (event.counterOfferOf != null) {
+      final success = await changeEventStatus(event.counterOfferOf!, EEventType.Declared);
+      if (!success) {
+        return false;
+      }
+    }
     return await _eventStorage.deleteEvent(EventPayload().eventToPayload(event));
+  }
+
+  Future<bool> deleteEventById(Id eventId, Id? counterOfferOf) async {
+    if (counterOfferOf != null) {
+      final success = await changeEventStatus(counterOfferOf, EEventType.Declared);
+      if (!success) {
+        return false;
+      }
+    }
+    return await _eventStorage.deleteEventById(eventId);
   }
 }

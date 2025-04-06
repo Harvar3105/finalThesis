@@ -17,12 +17,13 @@ import '../../view_models/event/event_create_update_view_model.dart';
 import '../widgets/buttons/date_time_picker.dart';
 
 class EventCreateUpdateView extends ConsumerWidget {
+  final bool isCounterOffer;
   final Event? editingEvent;
-  const EventCreateUpdateView({super.key, this.editingEvent});
+  const EventCreateUpdateView({super.key, this.editingEvent, this.isCounterOffer = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vmAsync = ref.watch(eventCreateUpdateViewModelProvider(event: editingEvent));
+    final vmAsync = ref.watch(eventCreateUpdateViewModelProvider(event: editingEvent, isCounterOffer: isCounterOffer));
 
     return Scaffold(
       appBar: CustomAppBar(),
@@ -30,7 +31,7 @@ class EventCreateUpdateView extends ConsumerWidget {
         padding: const EdgeInsets.all(16.0),
         child: vmAsync.when(
           data: (friends) {
-            final viewModel = ref.read(eventCreateUpdateViewModelProvider(event: editingEvent).notifier);
+            final viewModel = ref.read(eventCreateUpdateViewModelProvider(event: editingEvent, isCounterOffer: isCounterOffer).notifier);
             log("Friends: $friends");
             log("User: ${viewModel.selectedFriend}");
             return _buildForm(context, viewModel, friends);
@@ -49,7 +50,8 @@ class EventCreateUpdateView extends ConsumerWidget {
       key: GlobalKey<FormState>(),
       child: Column(
         children: [
-          DropdownButtonFormField<User>(
+          isCounterOffer ? Text("Counter Offer for: ${viewModel.originalUser!.firstName} ${viewModel.originalUser!.lastName}")
+          : DropdownButtonFormField<User>(
             decoration: const InputDecoration(labelText: 'Select Friend'),
             value: viewModel.selectedFriend,
             items: friends.map((user) {

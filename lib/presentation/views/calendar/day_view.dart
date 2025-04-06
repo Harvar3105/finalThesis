@@ -159,6 +159,7 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                                 EEventType.Accepted => Colors.green,
                                 EEventType.Canceled => Colors.red,
                                 EEventType.ConterOffered => Colors.amberAccent,
+                                EEventType.Processed => Colors.blueGrey.withAlpha(125),
                               },
                             ),
                             child: Container(
@@ -194,7 +195,7 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.pushNamed(Strings.addEvent, extra: selectedDay);
+          context.pushNamed(Strings.addEvent);
         },
         child: const Icon(Icons.add),
       ),

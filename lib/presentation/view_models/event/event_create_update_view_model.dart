@@ -14,6 +14,7 @@ part 'event_create_update_view_model.g.dart';
 class EventCreateUpdateViewModel extends _$EventCreateUpdateViewModel {
   Event? editingEvent;
   User? selectedFriend;
+  User? originalUser;
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -25,25 +26,29 @@ class EventCreateUpdateViewModel extends _$EventCreateUpdateViewModel {
   Id? _firstUserId;
 
   @override
-  FutureOr<List<User>> build({Event? event}) async {
+  FutureOr<List<User>> build({Event? event, bool isCounterOffer = false}) async {
     editingEvent = event;
-    await _initializeFields();
+    await _initializeFields(isCounterOffer);
+    if (!isCounterOffer) return [];
     return _loadFriends();
   }
 
-  Future<void> _initializeFields() async {
+  Future<void> _initializeFields(bool isCounterOffer) async {
+    final userService = ref.read(userServiceProvider);
+    final currentUser = await userService.getCurrentUser();
+
+    selectedFriend = await userService.getUserById(editingEvent!.secondUserId);
+    originalUser = await userService.getUserById(editingEvent!.firstUserId);
+
     if (editingEvent != null) {
-      _id = editingEvent!.id;
-      _firstUserId = editingEvent!.firstUserId;
+      _id = isCounterOffer ? null :  editingEvent!.id;
+      _firstUserId = isCounterOffer ? currentUser!.id! : editingEvent!.firstUserId;
       titleController.text = editingEvent!.title;
       descriptionController.text = editingEvent!.description;
       locationController.text = editingEvent!.location;
       startTime = editingEvent!.start;
       endTime = editingEvent!.end;
       notifyBefore = editingEvent!.notifyBefore ?? const Duration(minutes: 30);
-
-      final userService = ref.read(userServiceProvider);
-      selectedFriend = await userService.getUserById(editingEvent!.secondUserId);
     }
   }
 
@@ -65,13 +70,14 @@ class EventCreateUpdateViewModel extends _$EventCreateUpdateViewModel {
     final result = await eventService.saveOrUpdateEvent(
       id: _id,
       firstUserId: _firstUserId,
-      otherUserId: selectedFriend!.id!,
+      otherUserId: isCounterOffer ? editingEvent!.firstUserId : selectedFriend!.id!,
       start: startTime!,
       end: endTime!,
       title: titleController.text,
       description: descriptionController.text,
       location: locationController.text,
       notifyBefore: notifyBefore,
+      counterOfferOf: editingEvent?.id,
     );
 
     return result == null;

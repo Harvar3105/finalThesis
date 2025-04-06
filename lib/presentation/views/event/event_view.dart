@@ -66,7 +66,7 @@ class EventView extends ConsumerWidget {
                       icon: const Icon(Icons.delete_forever, color: Colors.red, size: 45,),
                     ),
                     IconButton(
-                        onPressed: () => GoRouter.of(context).replaceNamed(Strings.addEvent, extra: event),
+                        onPressed: () => GoRouter.of(context).replaceNamed(Strings.addEvent, extra: [event, false]),
                         icon: const Icon(Icons.edit_rounded, color: Colors.yellow, size: 45,),
                     ),
                   ],
@@ -76,10 +76,10 @@ class EventView extends ConsumerWidget {
                 children: [
                   IconButton(
                       onPressed: (){log("pressed Cancel");},
-                      icon: const Icon(Icons.cancel_outlined, color: Colors.red, size: 45,)
+                      icon: const Icon(Icons.delete_forever, color: Colors.red, size: 45,)
                   ),
                   IconButton(
-                      onPressed: (){log("Counter event");},
+                      onPressed: () => GoRouter.of(context).replaceNamed(Strings.addEvent, extra: [event, true]),
                       icon: const Icon(Icons.compare_arrows_outlined, color: Colors.amberAccent, size: 45,)
                   ),
                   IconButton(

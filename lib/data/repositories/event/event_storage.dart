@@ -117,4 +117,19 @@ class EventStorage extends Repository<FirebaseFirestore> {
       return false;
     }
   }
+
+  // Unfortunately, Dart does not support method overloading
+  Future<bool> deleteEventById(Id id) async {
+    try {
+      final eventRef = base
+          .collection(FirebaseCollectionNames.events)
+          .doc(id);
+
+      await eventRef.delete();
+      return true;
+    } catch (error) {
+      log(error.toString());
+      return false;
+    }
+  }
 }

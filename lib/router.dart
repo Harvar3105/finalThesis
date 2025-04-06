@@ -81,10 +81,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         name: Strings.addEvent,
-        path: '/add-event',
+        path: '/create-update-event',
         builder: (BuildContext context, GoRouterState state) {
-          final eventOrNull = state.extra is Event ? state.extra as Event : null;
-          return EventCreateUpdateView(editingEvent: eventOrNull);
+          log(state.extra.toString());
+          final data = state.extra as List<dynamic>;
+          final eventOrNull = data[0] is Event ? data[0] as Event : null;
+          final isCounterOffer = data[1] is bool ? data[1] as bool : false;
+          log("Event: $eventOrNull, isCounterOffer: $isCounterOffer");
+          return EventCreateUpdateView(editingEvent: eventOrNull, isCounterOffer: isCounterOffer);
         },
       ),
       ShellRoute(
