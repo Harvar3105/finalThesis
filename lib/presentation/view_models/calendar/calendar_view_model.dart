@@ -11,7 +11,8 @@ part 'calendar_view_model.g.dart';
 class CalendarViewModel extends _$CalendarViewModel {
   @override
   Future<List<Event>?> build() async {
-    final correspondingEvents = ref.read(eventServiceProvider);
+    //TODO: somehow need to refresh data after routing
+    final eventsService = ref.read(eventServiceProvider);
     final userService = ref.read(userServiceProvider);
     final currentUser = await userService.getCurrentUser();
     if (currentUser == null) {
@@ -19,7 +20,8 @@ class CalendarViewModel extends _$CalendarViewModel {
       return [];
     }
 
-    final events = correspondingEvents.getEventsByUserId(currentUser.id!, currentUser.role == ERole.coach);
+    //TODO: send messages to check previous events processions. If expired by week, set as canceled
+    final events = eventsService.getEventsByUserId(currentUser.id!, currentUser.role == ERole.coach);
 
     return events;
   }
