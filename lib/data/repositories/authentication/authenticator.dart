@@ -5,7 +5,7 @@ import '../../../app/typedefs/entity.dart';
 import '../repository.dart';
 
 class Authenticator extends Repository<FirebaseAuth> {
-  Authenticator() : super(FirebaseAuth.instance);
+  Authenticator([FirebaseAuth? mock]) : super(mock ?? FirebaseAuth.instance);
 
   bool get isAlreadyLoggedIn => id != null;
 
