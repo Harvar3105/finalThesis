@@ -11,7 +11,7 @@ Treeninguaegade paindliku kooskõlastamise süsteem
 
 ## Praegune seisund                     osakaal
 1) kasutajate süsteem ~80%              ~40%
-2) kooskõlastamise süsteem ~50%         ~40%
+2) kooskõlastamise süsteem ~60%         ~40%
 3) chat süsteem 0%                      ~10%
-4) push notification 0%
-4) testid 0%
+4) push notification ~10%               ~10%
+4) testid ~5%
