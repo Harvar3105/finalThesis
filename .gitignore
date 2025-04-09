@@ -103,7 +103,6 @@ local.properties
 **/ios/**/profile
 **/ios/**/xcuserdata
 **/ios/.generated/
-**/ios/Flutter/.last_build_id
 **/ios/Flutter/App.framework
 **/ios/Flutter/Flutter.framework
 **/ios/Flutter/Flutter.podspec
@@ -165,5 +164,5 @@ app.*.map.json
 .python-version
 .gclient_previous_custom_vars
 .gclient_previous_sync_commits
-/lib/firebase_options.dart
+/lib/configurations/firebase_options.dart
 /pubspec.lock
