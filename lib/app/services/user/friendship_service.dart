@@ -1,9 +1,10 @@
 import 'dart:developer';
 
 import 'package:final_thesis_app/app/services/push/push_notifications_service.dart';
+import 'package:final_thesis_app/configurations/strings.dart';
 
 import '../../../data/domain/user.dart';
-import '../user/user_service.dart';
+import 'user_service.dart';
 
 class FriendshipService {
   final UserService _userService;
@@ -35,7 +36,10 @@ class FriendshipService {
       await _userService.saveOrUpdateUser(currentUser);
       await _userService.saveOrUpdateUser(user);
       log("Friend request sent to ${user.firstName} ${user.lastName}");
-      //TODO: add notification about this later. Maybe via firebase functions
+
+      _notificationsService.pushNotification(user,
+          '${Strings.friendshipNotificationTitle}${user.firstName} ${user.lastName}',
+          Strings.friendshipNotificationMessage);
       return true;
     } catch (e, stackTrace) {
       log("Error sending friend request: $e", stackTrace: stackTrace);
@@ -68,7 +72,14 @@ class FriendshipService {
     try {
       _userService.saveOrUpdateUser(user);
       _userService.saveOrUpdateUser(currentUser);
-      //TODO: add notification about this later. Maybe via firebase functions
+
+      var title = isAccept ? Strings.friendshipRequestAcceptedTitle : Strings.friendshipRequestDeclinedTitle;
+      var body = isAccept ? Strings.friendshipRequestAcceptedMessage.replaceFirst("...", '${currentUser.firstName} ${currentUser.lastName}')
+                          : Strings.friendshipRequestDeclinedMessage.replaceFirst("...", '${currentUser.firstName} ${currentUser.lastName}');
+
+      _notificationsService.pushNotification(user,
+          title,
+          body);
       return true;
     } catch (error, stackTrace) {
       log("Could not save users friendship acceptance! Cause: $error", stackTrace: stackTrace);

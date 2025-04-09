@@ -164,7 +164,7 @@ app.*.map.json
 .python-version
 .gclient_previous_custom_vars
 .gclient_previous_sync_commits
-/lib/configurations/firebase_options.dart
+/lib/configurations/firebase/firebase_options.dart
 /pubspec.lock
 /firestore.rules
 /storage.rules

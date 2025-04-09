@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'app/theme/theme.dart';
 import 'configurations/strings.dart';
-import 'configurations/firebase_options.dart';
+import 'configurations/firebase/firebase_options.dart';
 import 'package:final_thesis_app/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

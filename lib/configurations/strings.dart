@@ -21,6 +21,14 @@ class Strings {
   static const loginPage = 'Login';
   static const dayView = 'Day View';
 
+  // Notifications
+  static const friendshipNotificationTitle = 'New friendship request from: ';
+  static const friendshipNotificationMessage = 'Someone has sent you a friendship request! Check it out!';
+  static const friendshipRequestAcceptedTitle = 'Friendship request accepted!';
+  static const friendshipRequestAcceptedMessage = '... has accepted your friendship request!';
+  static const friendshipRequestDeclinedTitle = 'Friendship request declined!';
+  static const friendshipRequestDeclinedMessage = '... has declined your friendship request!';
+
   // Events
   static const addEvent = 'Add Event';
   static const eventView = 'Event View';
