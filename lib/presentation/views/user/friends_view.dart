@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../app/services/authentication/other_providers/user_id.dart';
 import '../../../data/domain/user.dart';
+import '../../view_models/authentication/other_providers/user_id.dart';
 import '../widgets/decorations/divider_with_margins.dart';
 import '../widgets/user/user_search.dart';
 import 'categories/friends_list_view.dart';

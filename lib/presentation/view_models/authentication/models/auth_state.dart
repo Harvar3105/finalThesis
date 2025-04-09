@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../typedefs/entity.dart';
+import '../../../../app/typedefs/entity.dart';
 import 'e_authentication_result.dart';
 
 part 'auth_state.freezed.dart';

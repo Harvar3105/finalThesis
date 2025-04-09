@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../../app/services/authentication/models/e_authentication_result.dart';
 import '../../../app/typedefs/entity.dart';
+import '../../../presentation/view_models/authentication/models/e_authentication_result.dart';
 import '../repository.dart';
 
 class Authenticator extends Repository<FirebaseAuth> {

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/helpers/validators.dart';
-import '../../../../app/services/authentication/models/e_authentication_result.dart';
 import '../../../../configurations/app_colours.dart';
 import '../../../../configurations/strings.dart';
+import '../../../view_models/authentication/models/e_authentication_result.dart';
 import '../../../view_models/user/self/change_password_view_model.dart';
 
 class ChangePasswordView extends ConsumerStatefulWidget {

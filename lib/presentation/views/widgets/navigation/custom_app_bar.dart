@@ -1,11 +1,11 @@
 import 'package:final_thesis_app/app/models/dialog/dialog_model.dart';
-import 'package:final_thesis_app/app/services/authentication/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/theme/theme.dart';
 import '../../../../configurations/strings.dart';
+import '../../../view_models/authentication/authentication_state_model.dart';
 import '../../../view_models/widgets/navigation/custom_app_bar_view_model.dart';
 import '../dialogs/logout_dialog.dart';
 import 'avatar_with_cpeech_bubble.dart';
@@ -77,7 +77,7 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     .then((value) => value ?? false);
 
                 if (logout) {
-                  await ref.read(authenticationServiceProvider.notifier).logOut();
+                  await ref.read(authenticationStateModelProvider.notifier).logOut();
                 }
               },
               onButton2Pressed: () {

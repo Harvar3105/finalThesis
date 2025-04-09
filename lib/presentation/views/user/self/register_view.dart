@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/helpers/validators.dart';
-import '../../../../app/services/authentication/models/e_authentication_result.dart';
 import '../../../../app/typedefs/e_role.dart';
 import '../../../../configurations/app_colours.dart';
 import '../../../../configurations/strings.dart';
 import '../../../../data/domain/user.dart';
+import '../../../view_models/authentication/models/e_authentication_result.dart';
 import '../../../view_models/user/self/register_view_model.dart';
 import '../../widgets/buttons/custom_button.dart';
 import '../../widgets/decorations/circle_image_with_text.dart';

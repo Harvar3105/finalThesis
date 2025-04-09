@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:final_thesis_app/presentation/view_models/authentication/other_providers/login_state.dart';
 import 'package:final_thesis_app/presentation/views/calendar/calendar_view.dart';
 import 'package:final_thesis_app/presentation/views/calendar/day_view.dart';
 import 'package:final_thesis_app/presentation/views/event/event_create_update_view.dart';
@@ -17,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'app/services/authentication/other_providers/login_state.dart';
 import 'configurations/strings.dart';
 import 'data/domain/event.dart';
 import 'data/domain/user.dart';

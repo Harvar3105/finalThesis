@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../app/services/authentication/authentication_service.dart';
-import '../../../../app/services/authentication/models/auth_state.dart';
+
+import '../../authentication/authentication_state_model.dart';
+import '../../authentication/models/auth_state.dart';
 
 part 'change_password_view_model.g.dart';
 
@@ -8,14 +9,14 @@ part 'change_password_view_model.g.dart';
 class ChangePasswordViewModel extends _$ChangePasswordViewModel {
   @override
   AuthenticationState build() {
-    return ref.watch(authenticationServiceProvider);
+    return ref.watch(authenticationStateModelProvider);
   }
 
   Future<void> changePassword({
     required String oldPassword,
     required String newPassword,
   }) async {
-    await ref.read(authenticationServiceProvider.notifier).changePassword(
+    await ref.read(authenticationStateModelProvider.notifier).changePassword(
       oldPassword: oldPassword,
       newPassword: newPassword,
     );

@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../app/services/authentication/authentication_service.dart';
-import '../../../../app/services/authentication/models/auth_state.dart';
+
+import '../../authentication/authentication_state_model.dart';
+import '../../authentication/models/auth_state.dart';
 
 part 'change_email_view_model.g.dart';
 
@@ -8,14 +9,14 @@ part 'change_email_view_model.g.dart';
 class ChangeEmailViewModel extends _$ChangeEmailViewModel {
   @override
   AuthenticationState build() {
-    return ref.watch(authenticationServiceProvider);
+    return ref.watch(authenticationStateModelProvider);
   }
 
   Future<void> changeEmail({
     required String password,
     required String newEmail,
   }) async {
-    await ref.read(authenticationServiceProvider.notifier).changeEmail(
+    await ref.read(authenticationStateModelProvider.notifier).changeEmail(
       password: password,
       newEmail: newEmail,
     );

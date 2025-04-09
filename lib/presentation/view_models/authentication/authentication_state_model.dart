@@ -1,15 +1,15 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../app/services/providers.dart';
 import '../../../data/domain/user.dart';
 import '../../../data/providers.dart';
-import '../providers.dart';
 import 'models/auth_state.dart';
 import 'models/e_authentication_result.dart';
 
-part 'authentication_service.g.dart';
+part 'authentication_state_model.g.dart';
 
 @riverpod
-class AuthenticationService extends _$AuthenticationService {
+class AuthenticationStateModel extends _$AuthenticationStateModel {
   @override
   AuthenticationState build() {
     final authenticator = ref.watch(authenticationProvider);

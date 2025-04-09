@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../app/services/authentication/authentication_service.dart';
-import '../../../../app/services/authentication/models/auth_state.dart';
+
+import '../../authentication/authentication_state_model.dart';
+import '../../authentication/models/auth_state.dart';
 
 part 'login_view_model.g.dart';
 
@@ -8,10 +9,10 @@ part 'login_view_model.g.dart';
 class LoginViewModel extends _$LoginViewModel {
   @override
   AuthenticationState build() {
-    return ref.watch(authenticationServiceProvider);
+    return ref.watch(authenticationStateModelProvider);
   }
 
   Future<void> login(String email, String password) async {
-    await ref.read(authenticationServiceProvider.notifier).login(email, password);
+    await ref.read(authenticationStateModelProvider.notifier).login(email, password);
   }
 }
