@@ -29,7 +29,7 @@ class DayViewModel extends _$DayViewModel {
   }
 
   bool checkEventOverlap(Event event) {
-    if (event.type == EEventType.Shadow) {
+    if (event.type == EEventType.shadow) {
       return false; // No overlap check for shadow events
     }
 
@@ -40,7 +40,7 @@ class DayViewModel extends _$DayViewModel {
 
     for (var e in events) {
       if (e.id != event.id &&
-          e.type != EEventType.Shadow &&
+          e.type != EEventType.shadow &&
           e.start.isBefore(event.end) &&
           e.end.isAfter(event.start)
       ) {

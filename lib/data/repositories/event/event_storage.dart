@@ -84,13 +84,13 @@ class EventStorage extends Repository<FirebaseFirestore> {
     try {
       final firstQuery = base
           .collection(FirebaseCollectionNames.events)
-          .where(FirebaseFields.firstUserId, isEqualTo: userId)
+          .where(FirebaseFields.creatorId, isEqualTo: userId)
           .orderBy(FirebaseFields.createdAt, descending: true)
           .get();
 
       final secondQuery = base
           .collection(FirebaseCollectionNames.events)
-          .where(FirebaseFields.secondUserId, isEqualTo: userId)
+          .where(FirebaseFields.friendId, isEqualTo: userId)
           .orderBy(FirebaseFields.createdAt, descending: true)
           .get();
 

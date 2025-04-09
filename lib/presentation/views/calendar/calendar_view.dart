@@ -44,7 +44,7 @@ class CalendarViewState extends ConsumerState<CalendarView>{
   }
 
   Widget _buildCalendar(List<Event>? events, ThemeData theme, TextStyle defaultDaysStyle) {
-    dynamic loaderFunc = (day) {};
+    dynamic loaderFunc = (day) => [];
     if (events != null) loaderFunc = (day) => _getEventsForDay(day, events);
 
     return Padding(

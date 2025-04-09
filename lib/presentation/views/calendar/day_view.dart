@@ -154,12 +154,12 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                               color: overlap ?
                                 Colors.red.shade500 :
                                 switch (event.value.type) {
-                                EEventType.Declared => Colors.grey,
-                                EEventType.Shadow => Colors.blueGrey,
-                                EEventType.Accepted => Colors.green,
-                                EEventType.Canceled => Colors.red,
-                                EEventType.ConterOffered => Colors.amberAccent,
-                                EEventType.Processed => Colors.blueGrey.withAlpha(125),
+                                EEventType.declared => Colors.grey,
+                                EEventType.shadow => Colors.blueGrey,
+                                EEventType.accepted => Colors.green,
+                                EEventType.canceled => Colors.red,
+                                EEventType.conterOffered => Colors.amberAccent,
+                                EEventType.processed => Colors.blueGrey.withAlpha(125),
                               },
                             ),
                             child: Container(

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:final_thesis_app/app/typedefs/e_event_privacy.dart';
 import 'package:final_thesis_app/app/typedefs/e_event_type.dart';
 import 'package:final_thesis_app/data/domain/entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -10,27 +11,29 @@ import '../../configurations/firebase/firebase_access_fields.dart';
 part 'event.g.dart';
 
 class Event extends Entity {
-  final Id firstUserId;
-  final Id secondUserId;
+  final Id creatorId;
+  final Id? friendId;
   final DateTime start;
   final DateTime end;
   final String title;
   final String description;
   final String location; //TODO: change to Location
   final EEventType type;
+  final EEventPrivacy privacy;
   final Id? counterOfferOf;
   final Duration? notifyBefore;
 
   Event({
     super.id,
-    required this.firstUserId,
-    required this.secondUserId,
+    required this.creatorId,
+    this.friendId,
     required this.start,
     required this.end,
     required this.title,
     required this.description,
     required this.location,
     required this.type,
+    required this.privacy,
     this.counterOfferOf,
     this.notifyBefore,
     super.createdAt,
@@ -41,14 +44,15 @@ class Event extends Entity {
   String toString() {
     return '\nEvent:\n'
       'id: $id\n'
-      'firstUserId: $firstUserId\n'
-      'secondUserId: $secondUserId\n'
+      'creatorId: $creatorId\n'
+      'friendId: $friendId\n'
       'start: $start\n'
       'end: $end\n'
       'title: $title\n'
       'description: $description\n'
       'location: $location\n'
       'type: $type\n'
+      'privacy: $privacy\n'
       'counterOfferOf: $counterOfferOf\n'
       'notifyBefore: $notifyBefore\n';
   }
@@ -58,10 +62,10 @@ class Event extends Entity {
 class EventPayload {
   @JsonKey(name: FirebaseFields.id)
   final Id? id;
-  @JsonKey(name: FirebaseFields.firstUserId)
-  final Id? firstUserId;
-  @JsonKey(name: FirebaseFields.secondUserId)
-  final Id? secondUserId;
+  @JsonKey(name: FirebaseFields.creatorId)
+  final Id? creatorId;
+  @JsonKey(name: FirebaseFields.friendId)
+  final Id? friendId;
   @JsonKey(name: FirebaseFields.start)
   final DateTime? start;
   @JsonKey(name: FirebaseFields.end)
@@ -74,6 +78,8 @@ class EventPayload {
   final String? location; //TODO: change to Location
   @JsonKey(name: FirebaseFields.type)
   final EEventType? type;
+  @JsonKey(name: FirebaseFields.privacy)
+  final EEventPrivacy? privacy;
   @JsonKey(name: FirebaseFields.counterOfferOf)
   final Id? counterOfferOf;
   @JsonKey(name: FirebaseFields.notifyBefore)
@@ -85,14 +91,15 @@ class EventPayload {
 
   const EventPayload({
     this.id,
-    this.firstUserId,
-    this.secondUserId,
+    this.creatorId,
+    this.friendId,
     this.start,
     this.end,
     this.title,
     this.description,
     this.location,
     this.type,
+    this.privacy,
     this.counterOfferOf,
     this.notifyBefore,
     this.createdAt,
@@ -102,14 +109,15 @@ class EventPayload {
   EventPayload eventToPayload(Event event) {
     return EventPayload(
       id: event.id,
-      firstUserId: event.firstUserId,
-      secondUserId: event.secondUserId,
+      creatorId: event.creatorId,
+      friendId: event.friendId,
       start: event.start,
       end: event.end,
       title: event.title,
       description: event.description,
       location: event.location,
       type: event.type,
+      privacy: event.privacy,
       counterOfferOf: event.counterOfferOf,
       notifyBefore: event.notifyBefore,
       createdAt: event.createdAt,
@@ -121,14 +129,15 @@ class EventPayload {
     try {
       return Event(
         id: id!,
-        firstUserId: firstUserId!,
-        secondUserId: secondUserId!,
+        creatorId: creatorId!,
+        friendId: friendId,
         start: start!,
         end: end!,
         title: title!,
         description: description!,
         location: location!,
         type: type!,
+        privacy: privacy!,
         counterOfferOf: counterOfferOf,
         notifyBefore: notifyBefore,
         createdAt: createdAt,
@@ -150,6 +159,7 @@ class EventPayload {
     String? description,
     String? location,
     EEventType? type,
+    EEventPrivacy? privacy,
     Id? counterOfferOf,
     Duration? notifyBefore,
     DateTime? createdAt,
@@ -157,14 +167,15 @@ class EventPayload {
   }) {
     return EventPayload(
       id: id ?? this.id,
-      firstUserId: firstUserId ?? this.firstUserId,
-      secondUserId: secondUserId ?? this.secondUserId,
+      creatorId: firstUserId ?? this.creatorId,
+      friendId: secondUserId ?? this.friendId,
       start: start ?? this.start,
       end: end ?? this.end,
       title: title ?? this.title,
       description: description ?? this.description,
       location: location ?? this.location,
       type: type ?? this.type,
+      privacy: privacy ?? this.privacy,
       counterOfferOf: counterOfferOf ?? this.counterOfferOf,
       notifyBefore: notifyBefore ?? this.notifyBefore,
       createdAt: createdAt ?? this.createdAt,
@@ -183,14 +194,15 @@ class EventPayload {
   String toString() {
     return '\nEventPayload:\n'
       'id: $id\n'
-      'firstUserId: $firstUserId\n'
-      'secondUserId: $secondUserId\n'
+      'creatorId: $creatorId\n'
+      'friendId: $friendId\n'
       'start: $start\n'
       'end: $end\n'
       'title: $title\n'
       'description: $description\n'
       'location: $location\n'
       'type: $type\n'
+      'privacy: $privacy\n'
       'counterOfferOf: $counterOfferOf\n'
       'notifyBefore: $notifyBefore\n'
       'createdAt: $createdAt\n'

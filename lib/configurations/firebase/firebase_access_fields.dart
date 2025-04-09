@@ -33,14 +33,15 @@ class FirebaseFields {
   static const blockedUsers = 'blocked_users';
 
   // Event related
-  static const firstUserId = 'first_user_id';
-  static const secondUserId = 'second_user_id';
+  static const creatorId = 'creator_id';
+  static const friendId = 'friend_id';
   static const start = 'start';
   static const end = 'end';
   static const title = 'title';
   static const description = 'description';
   static const location = 'location';
   static const type = 'type';
+  static const privacy = 'privacy';
   static const counterOfferOf = 'counter_offer_of';
   static const notifyBefore = 'notify_before';
 
@@ -67,14 +68,15 @@ class FirebaseFields {
     'blocked_users': blockedUsers,
 
     // Event related
-    'first_user_id': firstUserId,
-    'second_user_id': secondUserId,
+    'creator_id': creatorId,
+    'friend_id': friendId,
     'start': start,
     'end': end,
     'title': title,
     'description': description,
     'location': location,
     'type': type,
+    'privacy': privacy,
     'counter_offer_of': counterOfferOf,
     'notify_before': notifyBefore,
   };

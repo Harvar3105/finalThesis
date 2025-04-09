@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:final_thesis_app/app/typedefs/e_event_privacy.dart';
 import 'package:final_thesis_app/data/domain/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -42,13 +43,14 @@ class EventService {
 
   Future<AsyncValue<List<User>>?> saveOrUpdateEvent({
     Id? id,
-    Id? firstUserId,
-    required Id otherUserId,
+    Id? creatorId,
+    Id? friendId,
     required DateTime start,
     required DateTime end,
     required String title,
     required String description,
     required String location,
+    required EEventPrivacy privacy,
     Duration? notifyBefore = const Duration(minutes: 30),
     Id? counterOfferOf,
   }) async {
@@ -56,7 +58,7 @@ class EventService {
       return AsyncValue.error("End time must be after start time", StackTrace.current);
     }
 
-    final currentUserId = firstUserId ?? (await userService.getCurrentUser())?.id;
+    final currentUserId = creatorId ?? (await userService.getCurrentUser())?.id;
     if (currentUserId == null) {
       return AsyncValue.error("User not found", StackTrace.current);
     }
@@ -65,20 +67,21 @@ class EventService {
 
     final event = Event(
       id: id,
-      firstUserId: currentUserId,
-      secondUserId: otherUserId,
+      creatorId: currentUserId,
+      friendId: friendId,
       start: start,
       end: end,
       title: title,
       description: description,
       location: location,
-      type: counterOfferOf == null ? EEventType.Declared : EEventType.ConterOffered,
+      type: counterOfferOf == null ? EEventType.declared : EEventType.conterOffered,
+      privacy: privacy,
       counterOfferOf: counterOfferOf,
       notifyBefore: notifyBefore,
     );
 
     if (event.counterOfferOf != null) {
-      final success = await changeEventStatus(event.counterOfferOf!, EEventType.Shadow);
+      final success = await changeEventStatus(event.counterOfferOf!, EEventType.shadow);
       if (!success) {
         return AsyncValue.error("Could not change origin event status", StackTrace.current);
       }
@@ -100,12 +103,12 @@ class EventService {
           return false;
         }
       }
-      final updatedEventPayload = EventPayload().eventToPayload(event).copyWith(type: EEventType.Accepted);
+      final updatedEventPayload = EventPayload().eventToPayload(event).copyWith(type: EEventType.accepted);
       final updateSuccess = await _eventStorage.saveOrUpdateEvent(updatedEventPayload);
       return updateSuccess;
     } else {
       if (event.counterOfferOf != null) {
-        final statusChangeSuccess = await changeEventStatus(event.counterOfferOf!, EEventType.Declared);
+        final statusChangeSuccess = await changeEventStatus(event.counterOfferOf!, EEventType.declared);
         if (!statusChangeSuccess) {
           return false;
         }
@@ -131,7 +134,7 @@ class EventService {
 
   Future<bool> deleteEvent(Event event) async {
     if (event.counterOfferOf != null) {
-      final success = await changeEventStatus(event.counterOfferOf!, EEventType.Declared);
+      final success = await changeEventStatus(event.counterOfferOf!, EEventType.declared);
       if (!success) {
         return false;
       }
@@ -141,7 +144,7 @@ class EventService {
 
   Future<bool> deleteEventById(Id eventId, Id? counterOfferOf) async {
     if (counterOfferOf != null) {
-      final success = await changeEventStatus(counterOfferOf, EEventType.Declared);
+      final success = await changeEventStatus(counterOfferOf, EEventType.declared);
       if (!success) {
         return false;
       }

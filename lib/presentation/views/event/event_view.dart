@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../app/typedefs/e_event_privacy.dart';
 import '../../../configurations/strings.dart';
 import '../../../data/domain/event.dart';
 
@@ -28,8 +29,8 @@ class EventView extends ConsumerWidget {
             return const Center(child: Text('User not found'));
           }
 
-          final isCreator = event.firstUserId == user.id;
-
+          final isCreator = event.creatorId == user.id;
+          final isPrivate = event.privacy == EEventPrivacy.private;
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,6 +53,7 @@ class EventView extends ConsumerWidget {
                 Text('This event overlaps with another event.',
                     style: theme.textTheme.bodySmall?.copyWith(color: Colors.red)),
               const SizedBox(height: 20),
+              if (isPrivate)
               isCreator ?
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

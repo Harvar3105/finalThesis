@@ -50,18 +50,38 @@ class EventCreateUpdateView extends ConsumerWidget {
       key: GlobalKey<FormState>(),
       child: Column(
         children: [
-          isCounterOffer ? Text("Counter Offer for: ${viewModel.originalUser!.firstName} ${viewModel.originalUser!.lastName}")
-          : DropdownButtonFormField<User>(
-            decoration: const InputDecoration(labelText: 'Select Friend'),
-            value: viewModel.selectedFriend,
-            items: friends.map((user) {
-              return DropdownMenuItem(
-                value: user,
-                child: Text('${user.firstName} ${user.lastName}'),
-              );
-            }).toList(),
-            onChanged: (value) => viewModel.selectedFriend = value,
-            validator: (value) => value == null ? 'Please select a friend' : null,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (isCounterOffer)
+                Text("Counter Offer for: ${viewModel.originalUser!.firstName} ${viewModel.originalUser!.lastName}")
+              else if (viewModel.isPrivate)
+                const Text("Private Event")
+              else
+                Expanded(
+                  child: DropdownButtonFormField<User>(
+                    decoration: const InputDecoration(labelText: 'Select Friend'),
+                    value: viewModel.selectedFriend,
+                    items: friends.map((user) {
+                      return DropdownMenuItem(
+                        value: user,
+                        child: Text('${user.firstName} ${user.lastName}'),
+                      );
+                    }).toList(),
+                    onChanged: (value) => viewModel.selectedFriend = value,
+                    validator: (value) => value == null ? 'Please select a friend' : null,
+                  ),
+                ),
+              IconButton(
+                  onPressed: () {
+                    viewModel.togglePrivacy();
+
+                  },
+                  icon: viewModel.isPrivate ? const Icon(Icons.lock, color: Colors.green)
+                      : const Icon(Icons.lock_open, color: Colors.red)
+              )
+            ],
           ),
           spacer,
           CustomTextFormField(

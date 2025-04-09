@@ -83,11 +83,17 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: Strings.addEvent,
         path: '/create-update-event',
         builder: (BuildContext context, GoRouterState state) {
-          log(state.extra.toString());
-          final data = state.extra as List<dynamic>;
-          final eventOrNull = data[0] is Event ? data[0] as Event : null;
-          final isCounterOffer = data[1] is bool ? data[1] as bool : false;
-          log("Event: $eventOrNull, isCounterOffer: $isCounterOffer");
+          // log(state.extra.toString());
+          var eventOrNull = null;
+          var isCounterOffer = false;
+
+          if (state.extra != null) {
+            final data = state.extra as List<dynamic>;
+            eventOrNull = data[0] is Event ? data[0] as Event : null;
+            isCounterOffer = data[1] is bool ? data[1] as bool : false;
+          }
+
+          // log("Event: $eventOrNull, isCounterOffer: $isCounterOffer");
           return EventCreateUpdateView(editingEvent: eventOrNull, isCounterOffer: isCounterOffer);
         },
       ),
