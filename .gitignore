@@ -166,3 +166,5 @@ app.*.map.json
 .gclient_previous_sync_commits
 /lib/configurations/firebase_options.dart
 /pubspec.lock
+/firestore.rules
+/storage.rules
