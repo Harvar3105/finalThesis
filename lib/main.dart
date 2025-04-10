@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_thesis_app/configurations/firebase/firebase_api_keys.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -21,7 +22,7 @@ void main() async {
 
   //TODO: Register all projects in firebase AppCheck when app is finished
   await FirebaseAppCheck.instance.activate(
-    webProvider: ReCaptchaV3Provider('someTestSiteKey'),
+    webProvider: ReCaptchaV3Provider(FirebaseApiKeys.reCaptchaSiteKey),
     androidProvider: AndroidProvider.playIntegrity,
     appleProvider: AppleProvider.deviceCheck,
   );
@@ -29,6 +30,7 @@ void main() async {
     persistenceEnabled: true,
     cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
   );
+  await FirebaseAppCheck.instance.setTokenAutoRefreshEnabled(true);
 
   runApp(
     ProviderScope(

@@ -25,8 +25,7 @@ export const expireOldEvents = functions.pubsub
     const snapshot = await db
       .collection("events")
       .where("end", "<=", now)
-      .where("type", "!=", "canceled")
-      .where("type", "!=", "processed") // Только активные
+      .where("type", "not-in", ["canceled", "processed"])
       .get();
 
     if (snapshot.empty) {
