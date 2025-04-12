@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 class FirebaseCollectionNames {
   static const users = 'users';
   static const events = 'events';
+  static const chats = 'chats';
+  static const messages = 'messages';
 
   const FirebaseCollectionNames._();
 }
@@ -45,6 +47,16 @@ class FirebaseFields {
   static const counterOfferOf = 'counter_offer_of';
   static const notifyBefore = 'notify_before';
 
+  // Chat related
+  static const chatName = 'chat_name';
+  static const participants = 'participants';
+  static const lastMessage = 'last_message';
+
+  // Message related
+  static const text = 'text';
+  static const senderId = 'sender_id';
+  static const chatId = 'chat_id';
+
 
   static const allFields = {
     // Shared
@@ -79,6 +91,16 @@ class FirebaseFields {
     'privacy': privacy,
     'counter_offer_of': counterOfferOf,
     'notify_before': notifyBefore,
+
+    // Chat related
+    'chat_name': chatName,
+    'participants': participants,
+    'last_message': lastMessage,
+
+    // Message related
+    'text': text,
+    'sender_id': senderId,
+    'chat_id': chatId,
   };
 
   static String mapFirebaseField(String payloadField) {

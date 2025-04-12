@@ -15,7 +15,6 @@ User generateRandomUser(bool isNotRegistered) {
       email: '${getRandomString(10)}@example.com',
       avatarUrl: isNotRegistered ? null : 'https://example.com/avatar/${getRandomString(10)}.png',
       avatarThumbnailUrl: isNotRegistered ? null : 'https://example.com/avatar/thumbnail/${getRandomString(10)}.png',
-      avatarName: isNotRegistered ? null : getRandomString(10),
       aboutMe: getRandomString(50),
       role: _rnd.nextBool() ? ERole.coach : ERole.athlete,
       fcmToken: null,

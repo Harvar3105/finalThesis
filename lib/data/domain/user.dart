@@ -16,7 +16,6 @@ class User extends Entity {
   String email;
   String? avatarUrl;
   String? avatarThumbnailUrl;
-  String? avatarName;
   String? aboutMe;
   ERole role;
   String? fcmToken;
@@ -33,7 +32,6 @@ class User extends Entity {
     required this.email,
     this.avatarUrl,
     this.avatarThumbnailUrl,
-    this.avatarName,
     this.aboutMe = '',
     this.role = ERole.none,
     this.fcmToken,
@@ -67,7 +65,6 @@ class User extends Entity {
       'email: $email\n'
       'avatarUrl: $avatarUrl\n'
       'avatarThumbnailUrl: $avatarThumbnailUrl\n'
-      'avatarName: $avatarName\n'
       'aboutMe: $aboutMe\n'
       'role: $role\n'
       'fcmToken: $fcmToken\n'

@@ -17,7 +17,7 @@ class EventStorage extends Repository<FirebaseFirestore> {
       final Id id = payload.id ?? Uuid().v4();
 
       final eventRef = base
-          .collection('events')
+          .collection(FirebaseCollectionNames.events)
           .doc(id);
 
       final updatedData = <String, Object?>{};
