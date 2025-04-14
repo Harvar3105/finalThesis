@@ -25,6 +25,6 @@ final friendshipServiceProvider = Provider<FriendshipService>((ref) {
 });
 
 final eventServiceProvider = Provider<EventService>((ref) {
-  return EventService(ref.watch(eventStorageProvider), ref.watch(userServiceProvider));
+  return EventService(ref.watch(eventStorageProvider), ref.watch(userServiceProvider), ref.watch(pushNotificationsServiceProvider));
 });
 

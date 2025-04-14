@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:final_thesis_app/app/services/push/push_notifications_service.dart';
 import 'package:final_thesis_app/app/typedefs/e_event_privacy.dart';
 import 'package:final_thesis_app/data/domain/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,8 +14,9 @@ import '../user/user_service.dart';
 class EventService {
   final EventStorage _eventStorage;
   final UserService userService;
+  final PushNotificationsService _pushNotificationsService;
 
-  EventService(this._eventStorage, this.userService);
+  EventService(this._eventStorage, this.userService, this._pushNotificationsService);
 
   Future<Event?> getEventById(String id) async {
     return (await _eventStorage.getEventById(id))?.eventFromPayload();
@@ -92,10 +94,21 @@ class EventService {
       return AsyncValue.error("Could not create event!", StackTrace.current);
     }
 
+    if (event.friendId != null) {
+      final user = await userService.getUserById(event.creatorId!);
+      final friend = await userService.getUserById(event.friendId!);
+      _pushNotificationsService.pushNotification(friend!,
+          "Your friend ${user?.firstName} ${user?.lastName} has invited you!",
+          "User ${user?.firstName} ${user?.lastName} has invited you to an event: ${event.title},\n${event.description}.\n At ${event.start} - ${event.end}");
+    }
+
     return null;
   }
 
   Future<bool> makeDecision(Event event, bool isAccept) async {
+    final user = await userService.getUserById(event.creatorId);
+    final friend = await userService.getUserById(event.friendId!);
+
     if (isAccept) {
       if (event.counterOfferOf != null) {
         final deletionSuccess = await deleteEventById(event.counterOfferOf!, null);
@@ -105,6 +118,12 @@ class EventService {
       }
       final updatedEventPayload = EventPayload().eventToPayload(event).copyWith(type: EEventType.accepted);
       final updateSuccess = await _eventStorage.saveOrUpdateEvent(updatedEventPayload);
+
+      if (user != null) {
+        _pushNotificationsService.pushNotification(user, "${event.title} has been accepted!",
+            "Your event ${event.title} has been accepted by ${friend?.firstName} ${friend?.lastName}!}");
+      }
+
       return updateSuccess;
     } else {
       if (event.counterOfferOf != null) {
@@ -115,6 +134,12 @@ class EventService {
       }
 
       final deletionSuccess = await deleteEvent(event);
+
+      if (user != null) {
+        _pushNotificationsService.pushNotification(user, "${event.title} has been declined!",
+            "Your event ${event.title} has been declined by ${friend?.firstName} ${friend?.lastName}!}");
+      }
+
       return deletionSuccess;
     }
   }
