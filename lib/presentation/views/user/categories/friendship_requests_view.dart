@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../data/domain/user.dart';
 import '../../../view_models/user/categories/friendship_requests_view_model.dart';
 import '../../widgets/animations/animation_with_text.dart';
+import '../../widgets/animations/empty_animation.dart';
 import '../../widgets/animations/error_animation.dart';
 import '../../widgets/animations/loading/loading_animation.dart';
 
@@ -29,7 +30,7 @@ class FriendshipRequestsView extends ConsumerWidget {
 
         if (incomingRequests.isEmpty && sentRequests.isEmpty) {
           return const Center(
-            child: Text('No friendship requests found.'),
+            child: AnimationWithText(animation: EmptyAnimationView(), text: "Sorry! No friends were found :("),
           );
         }
 

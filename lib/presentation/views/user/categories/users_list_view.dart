@@ -5,6 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../data/domain/user.dart';
 import '../../../view_models/user/categories/users_list_view_model.dart';
+import '../../widgets/animations/animation_with_text.dart';
+import '../../widgets/animations/empty_animation.dart';
+import '../../widgets/animations/error_animation.dart';
+import '../../widgets/animations/loading/loading_animation.dart';
 
 class UsersListView extends ConsumerWidget {
   final List<User>? users;
@@ -18,7 +22,7 @@ class UsersListView extends ConsumerWidget {
     return usersState.when(
       data: (usersList) {
         if (usersList == null || usersList.isEmpty) {
-          return const Center(child: Text("Sorry, no users were found."));
+          return AnimationWithText(animation: EmptyAnimationView(), text: "Sorry! No friends were found :(\n");
         }
 
         log("Users count: ${usersList.length}");
@@ -48,10 +52,12 @@ class UsersListView extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const AnimationWithText(
+          animation: LoadingAnimationView(), text: 'Loading chats...'),
       error: (error, stackTrace) {
-        log("Error loading users: $error");
-        return const Center(child: Text("Failed to load users."));
+        log('UsersListView: Error occurred: $error, at $stackTrace');
+        return AnimationWithText(
+            animation: ErrorAnimationView(), text: 'Oops! An error occurred.');
       },
     );
   }

@@ -72,6 +72,32 @@ class MessageStorage extends Repository<FirebaseDatabase> {
     }
   }
 
+  Future<MessagePayload?> getLastChatMessage(String chatId) async {
+    try {
+      final chatMessagesRef = base.ref()
+          .child(FirebaseCollectionNames.messages)
+          .child(chatId);
+
+      final snapshot = await chatMessagesRef
+          .orderByChild(FirebaseFields.createdAt)
+          .limitToLast(1)
+          .once();
+
+      if (snapshot.snapshot.value == null) return null;
+
+      final data = Map<String, dynamic>.from(snapshot.snapshot.value as Map);
+
+      final entry = data.entries.first;
+      final messageData = Map<String, dynamic>.from(entry.value);
+      messageData[FirebaseFields.id] = entry.key;
+
+      return MessagePayload.fromJson(messageData);
+    } catch (e) {
+      log("Failed to get last chat message: $e");
+      return null;
+    }
+  }
+
   Future<bool> deleteMessage(MessagePayload payload) async {
     try {
       final ref = base.ref().child(FirebaseCollectionNames.messages).child(payload.chatId!).child(payload.id!);

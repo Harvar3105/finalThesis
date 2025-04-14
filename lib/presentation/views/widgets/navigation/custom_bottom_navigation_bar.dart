@@ -26,9 +26,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       'route': '/',
     },
     {
-      'icon': Icons.calendar_month_rounded,
-      'label': Strings.myCalendar,
-      'route': '/',
+      'icon': Icons.message_outlined,
+      'label': Strings.messages,
+      'route': '/messages',
     },
   ];
 

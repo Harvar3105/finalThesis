@@ -13,13 +13,18 @@ class MessageService {
     return result;
   }
 
-  Future<List<MessagePayload>?> getMessagesByChatId(String chatId) async {
-    final payloads = await _messageStorage.getMessagesByChatId(chatId);
-    return payloads;
+  Future<List<Message>?> getMessagesByChatId(String chatId) async {
+    return (await _messageStorage.getMessagesByChatId(chatId))
+      ?.map((entity) => entity.messageFromPayload())
+      .cast<Message>()
+      .whereType<Message>()
+      .toList();
   }
 
-  Stream<List<MessagePayload>?> listenToChatMessages(String chatId) {
-    return _messageStorage.listenToChatMessages(chatId);
+  Stream<List<Message>?> listenToChatMessages(String chatId) {
+    return _messageStorage.listenToChatMessages(chatId).map(
+          (payloads) => payloads?.map((p) => p.messageFromPayload()).whereType<Message>().toList(),
+    );
   }
 
   Future<bool> deleteMessageByIds(Id chatId, Id messageId) async {
@@ -28,6 +33,10 @@ class MessageService {
 
   Future<bool> deleteMessage(Message message) async {
     return await _messageStorage.deleteMessage(MessagePayload().messageToMessagePayload(message));
+  }
+
+  Future<Message?> getLastChatMessage(Id chatId) async {
+    return (await _messageStorage.getLastChatMessage(chatId))?.messageFromPayload();
   }
 
 }

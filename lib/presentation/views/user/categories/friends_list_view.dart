@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../data/domain/user.dart';
 import '../../../view_models/user/categories/friends_list_view_model.dart';
 import '../../widgets/animations/animation_with_text.dart';
+import '../../widgets/animations/empty_animation.dart';
 import '../../widgets/animations/error_animation.dart';
 import '../../widgets/animations/loading/loading_animation.dart';
 
@@ -16,18 +17,18 @@ class FriendsListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final combinedAsync = ref.watch(
+    final dataAsync = ref.watch(
       friendsListViewModelProvider(preloadedFriends: users),
     );
 
-    return combinedAsync.when(
+    return dataAsync.when(
       data: (data) {
         final user = data.$1;
         final friends = data.$2;
 
         if (friends.isEmpty) {
           return const Center(
-            child: Text('Oops! You have no friends yet. Why not find some?\n:)'),
+            child: AnimationWithText(animation: EmptyAnimationView(), text: "Sorry! No friends were found :(\n WIP, press search button to rerender!"),
           );
         }
 

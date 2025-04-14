@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:final_thesis_app/presentation/view_models/authentication/other_providers/login_state.dart';
 import 'package:final_thesis_app/presentation/views/calendar/calendar_view.dart';
 import 'package:final_thesis_app/presentation/views/calendar/day_view.dart';
+import 'package:final_thesis_app/presentation/views/chat/chat_list_view.dart';
 import 'package:final_thesis_app/presentation/views/event/event_create_update_view.dart';
 import 'package:final_thesis_app/presentation/views/event/event_view.dart';
 import 'package:final_thesis_app/presentation/views/main_view.dart';
@@ -145,6 +146,11 @@ final routerProvider = Provider<GoRouter>((ref) {
               final isOverlapping = data[1] as bool;
               return EventView(event: event, isOverlapping: isOverlapping);
             }
+          ),
+          GoRoute(
+            name: Strings.messages,
+            path: '/messages',
+            builder: (context, state) => ChatListView(),
           ),
         ],
       ),

@@ -15,7 +15,7 @@ class Strings {
   static const home = 'Home';
   static const chats = 'Chats';
   static const calendar = 'Calendar';
-  static const myCalendar = 'My Calendar';
+  static const messages = 'Messages';
   static const friends = 'Friends';
   static const registerPage = 'Register';
   static const loginPage = 'Login';
