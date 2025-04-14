@@ -81,6 +81,24 @@ class ChatStorage extends Repository<FirebaseFirestore> {
     }
   }
 
+  Future<ChatPayload?> getDirectChat(Id firstUserId, Id secondUserId) async {
+    try {
+      final users = List.of([firstUserId, secondUserId])..sort((a, b) => a.compareTo(b));
+      final fastSearchKey = users.join("_");
+
+      final querySnapshot = await base
+          .collection(FirebaseCollectionNames.chats)
+          .where(FirebaseFields.fastSearchKey, isEqualTo: fastSearchKey)
+          .limit(1)
+          .get();
+
+      return querySnapshot.docs.isNotEmpty ? ChatPayload.fromJson(querySnapshot.docs.first.data()) : null;
+    } catch (error) {
+      log("Cannot get direct chat! Error $error");
+      return null;
+    }
+  }
+
   Future<bool> deleteChat(ChatPayload payload) async {
     try {
       final chatRef = base

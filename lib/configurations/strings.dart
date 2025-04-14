@@ -20,6 +20,7 @@ class Strings {
   static const registerPage = 'Register';
   static const loginPage = 'Login';
   static const dayView = 'Day View';
+  static const chat = 'Chat';
 
   // Notifications
   static const friendshipNotificationTitle = 'New friendship request from: ';

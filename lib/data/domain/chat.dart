@@ -1,4 +1,5 @@
 
+import 'package:final_thesis_app/app/typedefs/e_chat_type.dart';
 import 'package:final_thesis_app/app/typedefs/entity.dart';
 import 'package:final_thesis_app/data/domain/entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -10,12 +11,16 @@ part 'chat.g.dart';
 class Chat extends Entity {
   String name;
   List<String> participants;
+  final EChatType type;
+  String fastSearchKey;
   Id? lastMessage;
 
   Chat ({
     super.id,
     required this.name,
     required this.participants,
+    required this.type,
+    required this.fastSearchKey,
     this.lastMessage,
     super.createdAt,
     super.updatedAt,
@@ -27,6 +32,8 @@ class Chat extends Entity {
       'id: $id\n'
       'name: $name\n'
       'participants: $participants\n'
+      'fastSearchKey: $fastSearchKey\n'
+      'type: $type\n'
       'lastMessage: $lastMessage\n';
   }
 }
@@ -39,6 +46,10 @@ class ChatPayload {
   final String? name;
   @JsonKey(name: FirebaseFields.participants)
   final List<String>? participants;
+  @JsonKey(name: FirebaseFields.chatType)
+  final EChatType? type;
+  @JsonKey(name: FirebaseFields.fastSearchKey)
+  final String? fastSearchKey;
   @JsonKey(name: FirebaseFields.lastMessage)
   final Id? lastMessage;
   @JsonKey(name: FirebaseFields.createdAt)
@@ -50,6 +61,8 @@ class ChatPayload {
     this.id,
     this.name,
     this.participants,
+    this.type,
+    this.fastSearchKey,
     this.lastMessage,
     this.createdAt,
     this.updatedAt,
@@ -60,6 +73,8 @@ class ChatPayload {
       id: chat.id,
       name: chat.name,
       participants: chat.participants,
+      type: chat.type,
+      fastSearchKey: chat.fastSearchKey,
       lastMessage: chat.lastMessage,
       createdAt: chat.createdAt,
       updatedAt: chat.updatedAt,
@@ -71,6 +86,8 @@ class ChatPayload {
       id: id,
       name: name!,
       participants: participants!,
+      type: type ?? EChatType.direct,
+      fastSearchKey: fastSearchKey!,
       lastMessage: lastMessage,
       createdAt: createdAt,
       updatedAt: updatedAt,
@@ -81,6 +98,8 @@ class ChatPayload {
     Id? id,
     String? name,
     List<String>? participants,
+    EChatType? type,
+    String? fastSearchKey,
     Id? lastMessage,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -89,6 +108,8 @@ class ChatPayload {
       id: id ?? this.id,
       name: name ?? this.name,
       participants: participants ?? this.participants,
+      type: type ?? this.type,
+      fastSearchKey: fastSearchKey ?? this.fastSearchKey,
       lastMessage: lastMessage ?? this.lastMessage,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -106,6 +127,8 @@ class ChatPayload {
       'id: $id\n'
       'name: $name\n'
       'participants: $participants\n'
+      'type: $type\n'
+      'fastSearchKey: $fastSearchKey\n'
       'lastMessage: $lastMessage\n'
       'createdAt: $createdAt\n'
       'updatedAt: $updatedAt\n';

@@ -51,6 +51,8 @@ class FirebaseFields {
   static const chatName = 'chat_name';
   static const participants = 'participants';
   static const lastMessage = 'last_message';
+  static const chatType = 'chat_type';
+  static const fastSearchKey = 'fast_search_key';
 
   // Message related
   static const text = 'text';
@@ -96,6 +98,8 @@ class FirebaseFields {
     'chat_name': chatName,
     'participants': participants,
     'last_message': lastMessage,
+    'fast_search_key': fastSearchKey,
+    'chat_type': chatType,
 
     // Message related
     'text': text,

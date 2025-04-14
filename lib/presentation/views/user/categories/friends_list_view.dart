@@ -3,7 +3,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../configurations/strings.dart';
 import '../../../../data/domain/user.dart';
 import '../../../view_models/user/categories/friends_list_view_model.dart';
 import '../../widgets/animations/animation_with_text.dart';
@@ -20,6 +22,7 @@ class FriendsListView extends ConsumerWidget {
     final dataAsync = ref.watch(
       friendsListViewModelProvider(preloadedFriends: users),
     );
+    final viewModel = ref.read(friendsListViewModelProvider(preloadedFriends: users).notifier);
 
     return dataAsync.when(
       data: (data) {
@@ -41,6 +44,12 @@ class FriendsListView extends ConsumerWidget {
               subtitle: Text(friend.email),
               leading: CircleAvatar(
                 child: Text(friend.lastName.isNotEmpty ? friend.lastName[0] : '?'),
+              ),
+              trailing: ElevatedButton(
+                onPressed: () async {
+                  GoRouter.of(context).pushNamed(Strings.chat, extra: await viewModel.getDirectChat(user, friend));
+                },
+                child: Icon(Icons.send_outlined, color: Theme.of(context).iconTheme.color)
               ),
             );
           },

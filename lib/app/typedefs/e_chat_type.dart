@@ -1,0 +1,4 @@
+enum EChatType {
+  group,
+  direct,
+}

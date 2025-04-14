@@ -27,6 +27,10 @@ class ChatService {
     return payloads?.map((payload) => payload.chatFromPayload()).whereType<Chat>().toList();
   }
 
+  Future<Chat?> getDirectChat(Id firstUserId, Id secondUserId) async {
+    return (await _chatStorage.getDirectChat(firstUserId, secondUserId))?.chatFromPayload();
+  }
+
   Future<bool> deleteChat(Chat chat) async {
     return await _chatStorage.deleteChat(ChatPayload().chatToChatPayload(chat));
   }
