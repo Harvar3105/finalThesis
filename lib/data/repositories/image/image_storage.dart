@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:final_thesis_app/app/helpers/get_image_thumbnail.dart';
 import 'package:final_thesis_app/data/domain/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -26,8 +27,7 @@ class ImageStorage extends Repository<FirebaseStorage> {
         return null;
       }
 
-      final thumbnail = img.copyResize(fileAsImage, width: 100);
-      final thumbnailData = Uint8List.fromList(img.encodeJpg(thumbnail));
+      final thumbnailData = await getImageThumbnail(fileAsImage);
 
       final fileName = const Uuid().v4();
       final thumbnailName = 'thumb_$fileName';
