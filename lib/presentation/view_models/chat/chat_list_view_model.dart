@@ -1,11 +1,9 @@
 
-import 'dart:ffi';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../app/services/providers.dart';
 import '../../../data/domain/chat.dart';
-import '../../../data/domain/message.dart';
 import '../../../data/domain/user.dart';
 
 part 'chat_list_view_model.g.dart';

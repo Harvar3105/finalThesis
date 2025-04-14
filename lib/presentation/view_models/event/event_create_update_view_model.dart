@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:final_thesis_app/data/domain/event.dart';
 import 'package:flutter/material.dart';

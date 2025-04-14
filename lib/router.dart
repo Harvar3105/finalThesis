@@ -85,7 +85,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/create-update-event',
         builder: (BuildContext context, GoRouterState state) {
           // log(state.extra.toString());
-          var eventOrNull = null;
+          Event? eventOrNull;
           var isCounterOffer = false;
 
           if (state.extra != null) {

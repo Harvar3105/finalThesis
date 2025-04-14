@@ -15,7 +15,7 @@ platformInit({required PushNotifications pn, required Id id, required UserStorag
   }
 
   final token = await pn.getFcmToken();
-  if (token != null && id != null) {
+  if (token != null) {
     final userPayload = UserPayload(id: id, fcmToken: token);
 
     await userStorage.saveOrUpdateUserInfo(userPayload);

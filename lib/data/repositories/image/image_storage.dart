@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:final_thesis_app/app/helpers/get_image_thumbnail.dart';
 import 'package:final_thesis_app/data/domain/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:image/image.dart' as img;
 import 'package:uuid/uuid.dart';

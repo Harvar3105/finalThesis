@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:final_thesis_app/configurations/firebase/firebase_api_keys.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../authentication/authenticator.dart';

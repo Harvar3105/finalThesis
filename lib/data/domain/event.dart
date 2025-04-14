@@ -167,8 +167,8 @@ class EventPayload {
   }) {
     return EventPayload(
       id: id ?? this.id,
-      creatorId: firstUserId ?? this.creatorId,
-      friendId: secondUserId ?? this.friendId,
+      creatorId: firstUserId ?? creatorId,
+      friendId: secondUserId ?? friendId,
       start: start ?? this.start,
       end: end ?? this.end,
       title: title ?? this.title,

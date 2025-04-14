@@ -2,9 +2,7 @@ import 'dart:developer';
 
 import 'package:final_thesis_app/presentation/view_models/chat/chat_list_view_model.dart';
 import 'package:final_thesis_app/presentation/views/widgets/animations/empty_animation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../widgets/animations/animation_with_text.dart';

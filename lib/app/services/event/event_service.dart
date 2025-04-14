@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:final_thesis_app/app/services/push/push_notifications_service.dart';
 import 'package:final_thesis_app/app/typedefs/e_event_privacy.dart';
@@ -95,7 +94,7 @@ class EventService {
     }
 
     if (event.friendId != null) {
-      final user = await userService.getUserById(event.creatorId!);
+      final user = await userService.getUserById(event.creatorId);
       final friend = await userService.getUserById(event.friendId!);
       _pushNotificationsService.pushNotification(friend!,
           "Your friend ${user?.firstName} ${user?.lastName} has invited you!",
