@@ -47,3 +47,81 @@ export const expireOldEvents = functions.pubsub
   });
 
 
+export const checkEventsToNotify = functions.pubsub
+  .schedule("every 1 minutes")
+  .onRun(async () => {
+    const now = admin.firestore.Timestamp.now();
+    const snapshot = await db.collection("events").get();
+
+    const notifications: any[] = [];
+
+    snapshot.forEach(async (doc) => {
+      const data = doc.data();
+      const startAt = data.start.toDate();
+      const notifyBefore = data.notify_before || 0;
+      const notifyAt = new Date(startAt.getTime() - notifyBefore * 1000);
+
+      const diff = Math.abs(notifyAt.getTime() - now.toDate().getTime());
+
+      if (diff < 60000) { // допуск ±1 минута
+        const creatorsFcmToken = await getUserFCMToken(data.creator_id);
+        if (creatorsFcmToken) {
+          notifications
+            .push(admin
+              .messaging()
+              .send(generateMessage(creatorsFcmToken, data)));
+        }
+        const friendsFcmToken = await getUserFCMToken(data.friend_id);
+        if (friendsFcmToken) {
+          notifications
+            .push(admin
+              .messaging()
+              .send(generateMessage(friendsFcmToken, data)));
+        }
+      }
+    });
+
+    await Promise.all(notifications);
+    console.log(`Notificarions sent: ${notifications.length}`);
+  });
+
+
+/**
+ * Generates push notification.
+ *
+ * @param {string} fcmToken - token.
+ * @param {Object} data - data.
+ * @param {string} data.title - title.
+ * @param {string} data.notify_before - time before.
+ * @return {Object} object with data.
+ * @property {string} token - token.
+ * @property {Object} notification - notificatio.
+ * @property {string} notification.title - title.
+ * @property {string} notification.body - text.
+ */
+function generateMessage(fcmToken: string, data: any) {
+  return {
+    token: fcmToken,
+    notification: {
+      title: `${data.title}`,
+      body: `The ${data.title} will start in: ${data.notify_before}`,
+    },
+  };
+}
+
+
+/**
+ * Gets users token from Firestore.
+ *
+ * @param {string} userId - users id.
+ * @return {Promise<string | null>} promise with id or null.
+ */
+async function getUserFCMToken(userId: string) {
+  const userRef = admin.firestore().collection("users").doc(userId);
+  const userDoc = await userRef.get();
+  if (userDoc.exists) {
+    return userDoc.data()?.fmc_token;
+  }
+  return null;
+}
+

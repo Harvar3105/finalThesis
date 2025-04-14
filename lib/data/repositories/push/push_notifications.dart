@@ -3,7 +3,9 @@ import 'dart:developer';
 
 import 'package:final_thesis_app/configurations/firebase/firebase_api_keys.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'dart:html' as html;
 
 import '../../../data/domain/user.dart';
 import '../authentication/authenticator.dart';
@@ -25,6 +27,20 @@ class PushNotifications extends Repository<FirebaseMessaging> {
     final id = _authenticator.id;
 
     try {
+      if (kIsWeb) {
+        final permission = html.Notification.permission;
+        if (permission == 'denied') {
+          log('Push notifications are denied! Click lock icon on top of window and enable them.');
+        } else if (permission == 'default') {
+          final perm = await base.requestPermission();
+
+          if (perm.authorizationStatus == AuthorizationStatus.denied) {
+            log('User have denied push notification permissions.');
+          }
+        }
+        return;
+      }
+
       final permission = await base.requestPermission();
       if (permission.authorizationStatus == AuthorizationStatus.denied) {
         log('User denied push notification permissions.');
