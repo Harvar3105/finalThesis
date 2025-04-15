@@ -57,7 +57,7 @@ export const checkEventsToNotify = functions.pubsub
 
     snapshot.forEach(async (doc) => {
       const data = doc.data();
-      const startAt = data.start.toDate();
+      const startAt = new Date(data.start);
       const notifyBefore = data.notify_before || 0;
       const notifyAt = new Date(startAt.getTime() - notifyBefore * 1000);
 
