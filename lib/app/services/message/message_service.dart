@@ -12,7 +12,7 @@ class MessageService {
     return result;
   }
 
-  Future<List<Message>?> getMessagesByChatId(String chatId) async {
+  Future<List<Message>?> getMessagesByChatId(Id chatId) async {
     return (await _messageStorage.getMessagesByChatId(chatId))
       ?.map((entity) => entity.messageFromPayload())
       .cast<Message>()
@@ -20,7 +20,7 @@ class MessageService {
       .toList();
   }
 
-  Stream<List<Message>?> listenToChatMessages(String chatId) {
+  Stream<List<Message>?> listenToChatMessages(Id chatId) {
     return _messageStorage.listenToChatMessages(chatId).map(
           (payloads) => payloads?.map((p) => p.messageFromPayload()).whereType<Message>().toList(),
     );
