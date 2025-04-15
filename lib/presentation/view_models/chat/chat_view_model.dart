@@ -20,7 +20,7 @@ class ChatViewModel extends _$ChatViewModel {
   late final User currentUser;
 
   @override
-  void build (Chat chat) async {
+  Future<ChatViewModel> build (Chat chat) async {
     currentChat = chat;
     final userService = ref.watch(userServiceProvider);
     final messageService = ref.watch(messageServiceProvider);
@@ -32,6 +32,7 @@ class ChatViewModel extends _$ChatViewModel {
         ?..sort((a, b) => a.createdAt.compareTo(b.createdAt));
       return sorted ?? [];
     });
+    return this;
   }
 
   Future<bool> sendMessage(String text, Id senderId) async {

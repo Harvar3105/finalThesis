@@ -4,6 +4,7 @@ import 'package:final_thesis_app/presentation/view_models/authentication/other_p
 import 'package:final_thesis_app/presentation/views/calendar/calendar_view.dart';
 import 'package:final_thesis_app/presentation/views/calendar/day_view.dart';
 import 'package:final_thesis_app/presentation/views/chat/chat_list_view.dart';
+import 'package:final_thesis_app/presentation/views/chat/chat_view.dart';
 import 'package:final_thesis_app/presentation/views/event/event_create_update_view.dart';
 import 'package:final_thesis_app/presentation/views/event/event_view.dart';
 import 'package:final_thesis_app/presentation/views/main_view.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'configurations/strings.dart';
+import 'data/domain/chat.dart';
 import 'data/domain/event.dart';
 import 'data/domain/user.dart';
 
@@ -98,6 +100,14 @@ final routerProvider = Provider<GoRouter>((ref) {
           return EventCreateUpdateView(editingEvent: eventOrNull, isCounterOffer: isCounterOffer);
         },
       ),
+      GoRoute(
+        name: Strings.chat,
+        path: '/chat',
+        builder: (context, state) {
+          var chat = state.extra as Chat;
+          return ChatView(chat: chat,);
+        }
+      ),
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) => MainView(innedWidget: child),
@@ -148,8 +158,8 @@ final routerProvider = Provider<GoRouter>((ref) {
             }
           ),
           GoRoute(
-            name: Strings.messages,
-            path: '/messages',
+            name: Strings.chats,
+            path: '/chats',
             builder: (context, state) => ChatListView(),
           ),
         ],

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:final_thesis_app/data/domain/chat.dart';
 import 'package:final_thesis_app/data/domain/message.dart';
 import 'package:final_thesis_app/presentation/views/widgets/messages/message_buuble.dart';
@@ -7,6 +9,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../view_models/chat/chat_view_model.dart';
+import '../widgets/animations/animation_with_text.dart';
+import '../widgets/animations/error_animation.dart';
+import '../widgets/animations/loading/loading_animation.dart';
 
 class ChatView extends ConsumerStatefulWidget {
   final Chat chat;
@@ -36,60 +41,74 @@ class _ChatViewState extends ConsumerState<ChatView> {
 
   @override
   Widget build(BuildContext context) {
-    final dataStream = ref.watch(chatViewModelProvider(widget.chat).notifier);
-    final viewModel = ref.read(chatViewModelProvider(widget.chat).notifier);
+    final modelReady = ref.watch(chatViewModelProvider(widget.chat));
 
-    return StreamBuilder<List<Message>>(
-      stream: dataStream.messagesStream,
-      builder: (context, snapshot) {
-        final messages = snapshot.data ?? [];
 
-        
-        if (_previousMessages.length != messages.length) {
-          _previousMessages = List.from(messages);
-          _scrollToBottom();
-        }
+    return modelReady.when(
+      data: (ready) {
+        final viewModel = ref.read(chatViewModelProvider(widget.chat).notifier);
 
-        return Scaffold(
-          appBar: CustomAppBar(),
-          body: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    children: messages.map((msg) => MessageBubble(message: msg, currentUserId: viewModel.currentUser.id!).build(context)).toList(),
-                  ),
-                ),
-              ),
-              Row(
+        return StreamBuilder<List<Message>>(
+          stream: viewModel.messagesStream,
+          builder: (context, snapshot) {
+            final messages = snapshot.data ?? [];
+
+
+            if (_previousMessages.length != messages.length) {
+              _previousMessages = List.from(messages);
+              _scrollToBottom();
+            }
+
+            return Scaffold(
+              appBar: CustomAppBar(),
+              body: Column(
                 children: [
                   Expanded(
-                    child: TextField(
-                      controller: _textController,
-                      decoration: const InputDecoration(
-                        hintText: 'Type message...',
+                    child: SingleChildScrollView(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        children: messages.map((msg) => MessageBubble(message: msg, currentUserId: viewModel.currentUser.id!).build(context)).toList(),
                       ),
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.send),
-                    onPressed: () async {
-                      final text = _textController.text.trim();
-                      if (text.isEmpty) return;
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _textController,
+                          decoration: const InputDecoration(
+                            hintText: 'Type message...',
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.send),
+                        onPressed: () async {
+                          final text = _textController.text.trim();
+                          if (text.isEmpty) return;
 
-                      await viewModel.sendMessage(text, viewModel.currentUser.id!);
-                      _textController.clear();
-                      _scrollToBottom();
-                    },
+                          await viewModel.sendMessage(text, viewModel.currentUser.id!);
+                          _textController.clear();
+                          _scrollToBottom();
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
+      loading: () => const AnimationWithText(
+          animation: LoadingAnimationView(), text: 'Loading chat...'),
+      error: (error, stackTrace) {
+        log('ChatView: Error occurred: $error, at $stackTrace');
+        return AnimationWithText(
+            animation: ErrorAnimationView(), text: 'Oops! An error occurred.');
+      },
     );
+
   }
 }

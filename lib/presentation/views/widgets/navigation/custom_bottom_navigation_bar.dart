@@ -18,17 +18,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     {
       'icon': Icons.supervisor_account_outlined,
       'label': Strings.friends,
-      'route': '/friends',
     },
     {
       'icon': Icons.home,
       'label': Strings.home,
-      'route': '/',
     },
     {
       'icon': Icons.message_outlined,
-      'label': Strings.messages,
-      'route': '/messages',
+      'label': Strings.chats,
     },
   ];
 
@@ -46,7 +43,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     setState(() {
       _selectedIndex = index;
     });
-    context.go(navData[index]['route'] as String);
+    GoRouter.of(context).goNamed(navData[index]['label']);
   }
 
   @override
