@@ -20,16 +20,16 @@ class ChatViewModel extends _$ChatViewModel {
   late final User currentUser;
 
   @override
-  FutureOr<List<Message>?> build (Chat chat) async {
+  void build (Chat chat) async {
     currentChat = chat;
     final userService = ref.watch(userServiceProvider);
     final messageService = ref.watch(messageServiceProvider);
     
-    currentUser = await userService.getCurrentUser();
+    currentUser = (await userService.getCurrentUser())!;
 
-    messagesStream = messageService.listenToChatMessages(chat.id).map((messages) {
+    messagesStream = messageService.listenToChatMessages(chat.id!).map((messages) {
       final sorted = messages?.toList()
-        ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+        ?..sort((a, b) => a.createdAt.compareTo(b.createdAt));
       return sorted ?? [];
     });
   }
@@ -42,7 +42,7 @@ class ChatViewModel extends _$ChatViewModel {
       chatId: currentChat.id!,
     );
 
-    final success = await messageService.saveOrUpdateMessage(currentChat.id, message);
+    final success = await messageService.saveOrUpdateMessage(MessagePayload().messageToMessagePayload(message));
     if (!success) {
       log("Could not send message!");
       return false;

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../view_models/chat/chat_view_model.dart';
+
 class ChatView extends ConsumerStatefulWidget {
   final Chat chat;
 
@@ -34,8 +36,8 @@ class _ChatViewState extends ConsumerState<ChatView> {
 
   @override
   Widget build(BuildContext context) {
-    final dataStream = ref.watch(chatViewModelProvider(widget.chat));
-    final viewModel = ref.watch(chatViewModelProvider(widget.chat));
+    final dataStream = ref.watch(chatViewModelProvider(widget.chat).notifier);
+    final viewModel = ref.read(chatViewModelProvider(widget.chat).notifier);
 
     return StreamBuilder<List<Message>>(
       stream: dataStream.messagesStream,
@@ -57,7 +59,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
                   controller: _scrollController,
                   padding: const EdgeInsets.all(12),
                   child: Column(
-                    children: messages.map((msg) => MessageBubble(message: msg, currentUserId: viewModel.currentUser.id).build(context)).toList(),
+                    children: messages.map((msg) => MessageBubble(message: msg, currentUserId: viewModel.currentUser.id!).build(context)).toList(),
                   ),
                 ),
               ),
@@ -77,7 +79,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
                       final text = _textController.text.trim();
                       if (text.isEmpty) return;
 
-                      await viewModel.sendMessage(text, viewModel.currentUser.id);
+                      await viewModel.sendMessage(text, viewModel.currentUser.id!);
                       _textController.clear();
                       _scrollToBottom();
                     },
