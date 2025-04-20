@@ -63,7 +63,7 @@ export const checkEventsToNotify = functions.pubsub
 
       const diff = Math.abs(notifyAt.getTime() - now.toDate().getTime());
 
-      if (diff < 60000) { // допуск ±1 минута
+      if (diff < 60000) {
         const creatorsFcmToken = await getUserFCMToken(data.creator_id);
         if (creatorsFcmToken) {
           notifications
