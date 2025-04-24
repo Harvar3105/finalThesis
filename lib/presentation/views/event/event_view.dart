@@ -53,7 +53,7 @@ class EventView extends ConsumerWidget {
                 Text('This event overlaps with another event.',
                     style: theme.textTheme.bodySmall?.copyWith(color: Colors.red)),
               const SizedBox(height: 20),
-              if (isPrivate)
+              if (!isPrivate)
               isCreator ?
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

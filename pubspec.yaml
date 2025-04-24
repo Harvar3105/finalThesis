@@ -56,8 +56,10 @@ dependencies:
   bubble: ^1.2.1
 
   google_maps_flutter: ^2.3.0
+  googleapis_auth: ^1.4.0
   geolocator: ^9.0.2
   geocoding: ^2.0.0
+
   firebase_core: ^3.6.0
   firebase_auth: ^5.3.1
   firebase_messaging: ^15.1.6

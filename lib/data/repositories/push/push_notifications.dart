@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:final_thesis_app/configurations/firebase/firebase_api_keys.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
 
-import '../authentication/authenticator.dart';
 import '../repository.dart';
 import '../user/user_storage.dart';
 
@@ -20,6 +21,16 @@ class PushNotifications extends Repository<FirebaseMessaging> {
 
   Future<String?> getFcmToken() async {
     return await base.getToken();
+  }
+
+  Future<String> getAccessToken() async {
+    final jsonCredentials = File('assets/service-account.json').readAsStringSync();
+
+    final credentials = ServiceAccountCredentials.fromJson(jsonCredentials);
+    final scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
+
+    final client = await clientViaServiceAccount(credentials, scopes);
+    return client.credentials.accessToken.data;
   }
 
   Future<void> initialize() async {
@@ -132,6 +143,7 @@ class PushNotifications extends Repository<FirebaseMessaging> {
   Future<bool> sendNotification(String fcmToken, String title, String body) async {
     try {
       final url = Uri.parse(FirebaseApiKeys.getFCMLink());
+      final accessToken = await getAccessToken();
 
       final message = {
         'to': fcmToken,
@@ -144,7 +156,7 @@ class PushNotifications extends Repository<FirebaseMessaging> {
 
       final headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${FirebaseApiKeys.serviceAccountAccessToken}',
+        'Authorization': 'Bearer $accessToken',
       };
 
       final response = await http.post(

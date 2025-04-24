@@ -57,7 +57,11 @@ class EventCreateUpdateView extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               if (isCounterOffer)
-                Text("Counter Offer for: ${viewModel.originalUser!.firstName} ${viewModel.originalUser!.lastName}")
+                Expanded(
+                  child: Text("Counter Offer for ${viewModel.originalUser!.firstName} ${viewModel.originalUser!.lastName} of ${viewModel.titleController.text}",
+                    softWrap: true,
+                    overflow: TextOverflow.visible,),
+                )
               else if (viewModel.isPrivate)
                 const Text("Private Event")
               else
@@ -75,14 +79,14 @@ class EventCreateUpdateView extends ConsumerWidget {
                     validator: (value) => value == null ? 'Please select a friend' : null,
                   ),
                 ),
-              IconButton(
-                  onPressed: () {
-                    viewModel.togglePrivacy();
-
-                  },
-                  icon: viewModel.isPrivate ? const Icon(Icons.lock, color: Colors.green)
-                      : const Icon(Icons.lock_open, color: Colors.red)
-              )
+              if (!isCounterOffer)
+                IconButton(
+                    onPressed: () {
+                      viewModel.togglePrivacy();
+                    },
+                    icon: viewModel.isPrivate ? const Icon(Icons.lock, color: Colors.green)
+                        : const Icon(Icons.lock_open, color: Colors.red)
+                )
             ],
           ),
           spacer,
