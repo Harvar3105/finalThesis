@@ -38,7 +38,7 @@ class EventService {
   }
 
   Future<List<Event>?> getEventsByUserId(String userId, bool isCoach) async {
-    return (await _eventStorage.getEventsByUserId(userId, isCoach))
+    return (await _eventStorage.getEventsByUserId(userId))
         ?.map((event) => event.eventFromPayload())
         .whereType<Event>()
         .toList();
@@ -159,6 +159,7 @@ class EventService {
     }
   }
 
+  // TODO: test it
   Future<bool> deleteOtherCounterOffers(Event event) async {
     final user = await userService.getCurrentUser();
     if (user == null) {
