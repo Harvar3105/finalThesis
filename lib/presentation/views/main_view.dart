@@ -26,6 +26,7 @@ class _MainViewState extends ConsumerState<MainView> {
       appBar: CustomAppBar(),
       body: widget.innedWidget,
       bottomNavigationBar: const CustomBottomNavigationBar(),
+      resizeToAvoidBottomInset: true,
     );
   }
 }

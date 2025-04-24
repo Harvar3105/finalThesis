@@ -34,7 +34,9 @@ class EventCreateUpdateView extends ConsumerWidget {
             final viewModel = ref.read(eventCreateUpdateViewModelProvider(event: editingEvent, isCounterOffer: isCounterOffer).notifier);
             log("Friends: $friends");
             log("User: ${viewModel.selectedFriend}");
-            return _buildForm(context, viewModel, friends);
+            return SingleChildScrollView(
+              child: _buildForm(context, viewModel, friends)
+            );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, _) => Center(child: Text(error.toString())),
