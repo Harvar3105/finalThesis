@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:final_thesis_app/app/services/push/push_notifications_service.dart';
 import 'package:final_thesis_app/app/typedefs/e_event_privacy.dart';
 import 'package:final_thesis_app/data/domain/user.dart';
@@ -64,8 +66,6 @@ class EventService {
       return AsyncValue.error("User not found", StackTrace.current);
     }
 
-    //TODO: if counter offer of counter offer, delete previous and reference original
-
     final event = Event(
       id: id,
       creatorId: currentUserId,
@@ -119,8 +119,9 @@ class EventService {
 
     if (isAccept) {
       if (event.counterOfferOf != null) {
-        final deletionSuccess = await deleteEventById(event.counterOfferOf!, null);
-        if (!deletionSuccess) {
+        final result = await deleteOtherCounterOffers(event);
+        if (!result) {
+          log("Could not delete other counter offers");
           return false;
         }
       }
@@ -135,9 +136,15 @@ class EventService {
       return updateSuccess;
     } else {
       if (event.counterOfferOf != null) {
-        final statusChangeSuccess = await changeEventStatus(event.counterOfferOf!, EEventType.declared);
-        if (!statusChangeSuccess) {
-          return false;
+        final nextCounterOffer = await _eventStorage.getEventCounterOffer(event.id!);
+        if (nextCounterOffer != null) {
+          final updatedPayload = nextCounterOffer.copyWith(counterOfferOf: event.counterOfferOf);
+          await _eventStorage.saveOrUpdateEvent(updatedPayload);
+        } else {
+          final statusChangeSuccess = await changeEventStatus(event.counterOfferOf!, EEventType.declared);
+          if (!statusChangeSuccess) {
+            return false;
+          }
         }
       }
 
@@ -151,6 +158,63 @@ class EventService {
       return deletionSuccess;
     }
   }
+
+  Future<bool> deleteOtherCounterOffers(Event event) async {
+    final user = await userService.getCurrentUser();
+    if (user == null) {
+      log("Could not get current user");
+      return false;
+    }
+
+    final relatedEvents = await _eventStorage.getEventsByUserId(user!.id!);
+    if (relatedEvents == null) {
+      log("Could not get related events");
+      return false;
+    }
+
+    relatedEvents.removeWhere((e) => e.id == event.id);
+    EventPayload? previousEvent = relatedEvents.firstWhere((e) => e.id == event.counterOfferOf);
+    while (previousEvent != null) {
+      final deletionSuccess = await deleteEventById(previousEvent.id!, null);
+      if (!deletionSuccess) {
+        return false;
+      }
+
+      relatedEvents.removeWhere((e) => e.id == previousEvent!.id);
+      if (previousEvent.counterOfferOf == null) {
+        previousEvent = null;
+      } else {
+        previousEvent = relatedEvents.firstWhere((e) => e.id == previousEvent!.counterOfferOf);
+      }
+    }
+
+    EventPayload? nextEvent = relatedEvents
+        .where((e) => e.counterOfferOf == event.id)
+        .cast<EventPayload?>()
+        .firstOrNull;
+    while (nextEvent != null) {
+      final deletionSuccess = await deleteEventById(nextEvent.id!, null);
+      if (!deletionSuccess) {
+        return false;
+      }
+
+      relatedEvents.removeWhere((e) => e.id == nextEvent!.id);
+      EventPayload? newNextEvent = relatedEvents
+          .where((e) => e.counterOfferOf == event.id)
+          .cast<EventPayload?>()
+          .firstOrNull;
+      if (newNextEvent == null) {
+        nextEvent = null;
+      } else {
+        nextEvent = relatedEvents
+            .where((e) => e.id == newNextEvent!.counterOfferOf)
+            .cast<EventPayload?>()
+            .firstOrNull;
+      }
+    }
+    return true;
+  }
+
 
   Future<bool> changeEventStatus(Id eventId, EEventType decision) async {
     final event = await _eventStorage.getEventById(eventId);

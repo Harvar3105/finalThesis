@@ -51,6 +51,21 @@ class EventStorage extends Repository<FirebaseFirestore> {
     }
   }
 
+  Future<EventPayload?> getEventCounterOffer(Id originalEventId) async {
+    try {
+      final querySnapshot = await base
+          .collection(FirebaseCollectionNames.events)
+          .where(FirebaseFields.counterOfferOf, isEqualTo: originalEventId)
+          .limit(1)
+          .get();
+
+      return EventPayload.fromJson(querySnapshot.docs.first.data());
+    }catch (error) {
+      log("Cannot get event counter offer! Error $error");
+      return null;
+    }
+  }
+
   Future<List<EventPayload>?> getAllEvents() async {
     try {
       final querySnapshot = await base
@@ -80,7 +95,7 @@ class EventStorage extends Repository<FirebaseFirestore> {
     }
   }
 
-  Future<List<EventPayload>?> getEventsByUserId(Id userId, isCurrentUser) async {
+  Future<List<EventPayload>?> getEventsByUserId(Id userId) async {
     try {
       final firstQuery = base
           .collection(FirebaseCollectionNames.events)

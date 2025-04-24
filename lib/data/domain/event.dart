@@ -13,15 +13,15 @@ part 'event.g.dart';
 class Event extends Entity {
   final Id creatorId;
   final Id? friendId;
-  final DateTime start;
-  final DateTime end;
-  final String title;
-  final String description;
-  final String location; //TODO: change to Location
-  final EEventType type;
+  DateTime start;
+  DateTime end;
+  String title;
+  String description;
+  String location; //TODO: change to Location
+  EEventType type;
   final EEventPrivacy privacy;
-  final Id? counterOfferOf;
-  final Duration? notifyBefore;
+  Id? counterOfferOf;
+  Duration? notifyBefore;
 
   Event({
     super.id,
