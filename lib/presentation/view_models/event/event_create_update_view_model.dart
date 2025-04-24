@@ -31,7 +31,7 @@ class EventCreateUpdateViewModel extends _$EventCreateUpdateViewModel {
   FutureOr<List<User>> build({Event? event, bool isCounterOffer = false}) async {
     editingEvent = event;
     await _initializeFields(isCounterOffer);
-    if (!isCounterOffer) return [];
+    if (isCounterOffer) return [];
     return _loadFriends();
   }
 

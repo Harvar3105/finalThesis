@@ -21,7 +21,7 @@ final authenticationProvider = Provider<Authenticator>((ref) {
 });
 
 final pushNotificationsProvider = Provider<PushNotifications>((ref) {
-  return PushNotifications(ref.watch(authenticationProvider), ref.watch(userStorageProvider));
+  return PushNotifications(ref.watch(userStorageProvider));
 });
 
 final eventStorageProvider = Provider<EventStorage>((ref) {

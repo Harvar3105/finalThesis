@@ -43,6 +43,10 @@ class UserStorage extends Repository<FirebaseFirestore> {
     }
   }
 
+  Id? getCurrentUserId() {
+    return authenticator.id;
+  }
+
   Future<UserPayload?> getCurrentUser() async {
     try {
       final Id? userId = authenticator.id;

@@ -13,18 +13,17 @@ import '../user/user_storage.dart';
 import 'package:final_thesis_app/app/helpers/push_notifications_initialization/platform_export.dart';
 
 class PushNotifications extends Repository<FirebaseMessaging> {
-  final Authenticator _authenticator;
   final UserStorage _userStorage;
   final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
 
-  PushNotifications(this._authenticator, this._userStorage) : super(FirebaseMessaging.instance);
+  PushNotifications(this._userStorage) : super(FirebaseMessaging.instance);
 
   Future<String?> getFcmToken() async {
     return await base.getToken();
   }
 
   Future<void> initialize() async {
-    final id = _authenticator.id;
+    final id = _userStorage.getCurrentUserId();
     if (id == null) {
       log('User ID is null. Cannot initialize push notifications.');
       return;
