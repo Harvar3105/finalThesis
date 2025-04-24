@@ -96,9 +96,18 @@ class EventService {
     if (event.friendId != null) {
       final user = await userService.getUserById(event.creatorId);
       final friend = await userService.getUserById(event.friendId!);
-      _pushNotificationsService.pushNotification(friend!,
+
+      if (event.counterOfferOf != null) {
+        _pushNotificationsService.pushNotification(friend!,
+          'Your fiend ${user?.firstName} ${user?.lastName} made counter offer!',
+          "User ${user?.firstName} ${user?.lastName} has made a counter offer for ${event.title}!"
+        );
+      } else {
+        _pushNotificationsService.pushNotification(friend!,
           "Your friend ${user?.firstName} ${user?.lastName} has invited you!",
-          "User ${user?.firstName} ${user?.lastName} has invited you to an event: ${event.title},\n${event.description}.\n At ${event.start} - ${event.end}");
+          "User ${user?.firstName} ${user?.lastName} has invited you to an event: ${event.title},\n${event.description}.\n At ${event.start} - ${event.end}"
+        );
+      }
     }
 
     return null;
