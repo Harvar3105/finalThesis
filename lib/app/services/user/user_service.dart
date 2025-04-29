@@ -25,11 +25,16 @@ class UserService {
     return _currentUser;
   }
 
-  Stream<User?> watchCurrentUser() {
-    return _userStorage.watchCurrentUser().map((payload) {
-      _currentUser = payload?.userFromPayload();
-      return _currentUser;
-    });
+  Stream<User?> watchCurrentUser() async* {
+    await for (final payload in _userStorage.watchCurrentUser()) {
+      try {
+        final user = payload?.userFromPayload();
+        _currentUser = user;
+        yield user;
+      } catch (e, st) {
+        yield null;
+      }
+    }
   }
 
   Future<User?> getUserById(String id) async {

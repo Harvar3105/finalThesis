@@ -37,7 +37,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     navigatorKey: _rootNavigatorKey,
     redirect: (context, state) {
       if (!isLoggedIn && state.fullPath != '/login' && state.fullPath != '/register') {
-        return '/Login';
+        return '/login';
       }
       return null;
     },
