@@ -34,7 +34,7 @@ void main() async {
 
   runApp(
     ProviderScope(
-      child: const MyApp(),
+      child: const RestartableApp(), // Contains MyApp and handles widgets restart
     ),
   );
 }
@@ -44,6 +44,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   log('Background message received: ${message.messageId}');
 }
 
+// App and its state
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
@@ -89,6 +90,40 @@ class _MyAppState extends ConsumerState<MyApp> {
           routerConfig: router,
         );
       },
+    );
+  }
+}
+
+// App restarter
+class RestartableApp extends StatefulWidget {
+  const RestartableApp({super.key});
+
+  @override
+  State<RestartableApp> createState() => _RestartableAppState();
+
+  static late void Function() restartApp;
+}
+
+class _RestartableAppState extends State<RestartableApp> {
+  Key _key = UniqueKey();
+
+  @override
+  void initState() {
+    super.initState();
+    RestartableApp.restartApp = _restartApp;
+  }
+
+  void _restartApp() {
+    setState(() {
+      _key = UniqueKey();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyedSubtree(
+      key: _key,
+      child: const MyApp(),
     );
   }
 }

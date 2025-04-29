@@ -1,8 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import '../../../app/services/providers.dart';
 import '../../../data/domain/user.dart';
 import '../../../data/providers.dart';
+import '../../../main.dart';
 import 'models/auth_state.dart';
 import 'models/e_authentication_result.dart';
 
@@ -53,6 +53,7 @@ class AuthenticationStateModel extends _$AuthenticationStateModel {
     final authenticator = ref.watch(authenticationProvider);
     await authenticator.logOut();
     state = AuthenticationState.unknown();
+    RestartableApp.restartApp();
   }
 
   Future<void> register(UserPayload payload, String password) async {

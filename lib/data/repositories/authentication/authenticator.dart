@@ -1,3 +1,4 @@
+import 'package:final_thesis_app/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../app/typedefs/entity.dart';
