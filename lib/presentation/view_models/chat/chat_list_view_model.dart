@@ -10,6 +10,8 @@ part 'chat_list_view_model.g.dart';
 
 @riverpod
 class ChatListViewModel extends _$ChatListViewModel {
+  late final currentUser;
+
   @override
   Future<List<(Chat, String?, User?)>?> build() async {
     final chatService = ref.watch(chatServiceProvider);
@@ -20,6 +22,7 @@ class ChatListViewModel extends _$ChatListViewModel {
     if (user == null) {
       throw Exception("Failed to get current user");
     }
+    currentUser = user;
 
     final chats = await chatService.getChatsByUserId(user.id!);
     if (chats == null || chats.isEmpty) return null;
@@ -36,6 +39,18 @@ class ChatListViewModel extends _$ChatListViewModel {
         return (chat, message.text, user);
       }),
     );
+
+    return result;
+  }
+
+  // Deprecated
+  Future<Chat?> getDirectChat(User currentUser, User friend) async {
+    final chatService = ref.watch(chatServiceProvider);
+
+    final result = await chatService.getDirectChat(currentUser.id!, friend.id!);
+    if (result == null) {
+      state = AsyncError('Chat not found', StackTrace.current);
+    }
 
     return result;
   }

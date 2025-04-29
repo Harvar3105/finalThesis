@@ -49,6 +49,7 @@ dependencies:
   shared_preferences: ^2.2.2 # Local storage
 
   image_picker: ^1.1.2
+  image_picker_web: ^2.0.0
   image: ^4.3.0
 
   calendar_day_view: ^4.0.2

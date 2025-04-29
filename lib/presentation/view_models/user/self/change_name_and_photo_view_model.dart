@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:final_thesis_app/app/models/file/custom_image_file.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../app/services/providers.dart';
 import '../../../../data/domain/user.dart';
@@ -14,7 +15,7 @@ class ChangeNamePhotoViewModel extends _$ChangeNamePhotoViewModel {
     required User user,
     required String newFirstName,
     required String newLastName,
-    File? newPhoto,
+    CustomImageFile? newPhoto,
   }) async {
     state = const AsyncValue.loading();
     try {

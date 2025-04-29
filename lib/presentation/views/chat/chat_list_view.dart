@@ -4,7 +4,9 @@ import 'package:final_thesis_app/presentation/view_models/chat/chat_list_view_mo
 import 'package:final_thesis_app/presentation/views/widgets/animations/empty_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../configurations/strings.dart';
 import '../widgets/animations/animation_with_text.dart';
 import '../widgets/animations/error_animation.dart';
 import '../widgets/animations/loading/loading_animation.dart';
@@ -33,12 +35,19 @@ class ChatListView extends ConsumerWidget {
             return ListTile(
               title: Text(chat.name),
               subtitle: Text(
-                "${user?.firstName} ${user?.lastName}: $lastMessage",
+                user != null && lastMessage != null ? "${user.firstName} ${user.lastName}: $lastMessage"
+                : "No messages yet...",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis
               ),
               leading: CircleAvatar(
                 child: Text(chat.name.isNotEmpty ? chat.name[0] : '?'),
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.chat_bubble_outline),
+                onPressed: () async {
+                  GoRouter.of(context).pushNamed(Strings.chat, extra: chat);
+                },
               ),
             );
           },

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:final_thesis_app/app/helpers/get_image_thumbnail.dart';
+import 'package:final_thesis_app/app/models/file/custom_image_file.dart';
 import 'package:final_thesis_app/data/domain/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -15,11 +16,11 @@ class ImageStorage extends Repository<FirebaseStorage> {
   ImageStorage() : super(FirebaseStorage.instance);
 
   Future<Map<String, String>?> uploadUserImage({
-    required File file,
+    required CustomImageFile file,
     required UserPayload user,
   }) async {
     try {
-      final fileBytes = await file.readAsBytes();
+      final fileBytes = file.data;
       final fileAsImage = img.decodeImage(fileBytes);
       if (fileAsImage == null) {
         log('Error decoding image file');
@@ -28,7 +29,7 @@ class ImageStorage extends Repository<FirebaseStorage> {
 
       final thumbnailData = await getImageThumbnail(fileAsImage);
 
-      final fileName = const Uuid().v4();
+      final fileName = file.name;
       final thumbnailName = 'thumb_$fileName';
 
       final userId = user.id!;
@@ -36,7 +37,7 @@ class ImageStorage extends Repository<FirebaseStorage> {
       final thumbnailPath = "$userId/avatars/thumbnails/$thumbnailName.jpg";
 
       final imageRef = base.ref(imagePath);
-      await imageRef.putFile(file);
+      await imageRef.putData(fileBytes);
       final String imageUrl = await imageRef.getDownloadURL();
 
       final thumbnailRef = base.ref(thumbnailPath);

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:final_thesis_app/app/models/file/custom_image_file.dart';
+
 import '../../../data/domain/user.dart';
 import '../../../data/repositories/image/image_storage.dart';
 
@@ -9,7 +11,7 @@ class ImageService {
   ImageService(this._imageUpload);
 
   Future<Map<String, String>?> uploadUserImage({
-    required File file,
+    required CustomImageFile file,
     required User user,
   }) async {
     return await _imageUpload.uploadUserImage(file: file, user: UserPayload().userToPayload(user));

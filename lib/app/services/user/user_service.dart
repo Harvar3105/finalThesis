@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:final_thesis_app/app/models/file/custom_image_file.dart';
 import 'package:final_thesis_app/app/services/image/image_service.dart';
 
 import '../../../data/domain/user.dart';
@@ -94,7 +95,7 @@ class UserService {
     required User user,
     required String newFirstName,
     required String newLastName,
-    File? newPhoto,
+    CustomImageFile? newPhoto,
   }) async {
     Map<String, String>? imageData;
 

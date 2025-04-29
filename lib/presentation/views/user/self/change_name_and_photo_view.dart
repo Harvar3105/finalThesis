@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:final_thesis_app/app/helpers/validators.dart';
+import 'package:final_thesis_app/app/models/file/custom_image_file.dart';
 import 'package:final_thesis_app/presentation/views/widgets/buttons/custom_button.dart';
 import 'package:final_thesis_app/presentation/views/widgets/fields/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../configurations/app_colours.dart';
 import '../../../../configurations/strings.dart';
 import '../../../../data/domain/user.dart';
-import '../../../../app/helpers/image_picker_helper.dart';
+import '../../../../app/helpers/images/image_picker_helper.dart';
 import '../../../view_models/user/self/change_name_and_photo_view_model.dart';
 
 class ChangeNamePhotoView extends ConsumerStatefulWidget {
@@ -27,7 +28,7 @@ class _ChangeNamePhotoPageState extends ConsumerState<ChangeNamePhotoView> {
   final _formKey = GlobalKey<FormState>();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
-  File? _photoToUpload;
+  CustomImageFile? _photoToUpload;
   bool _photoDeleted = false;
 
   @override
@@ -134,7 +135,8 @@ class _ChangeNamePhotoPageState extends ConsumerState<ChangeNamePhotoView> {
               GestureDetector(
                 onTap: _selectPhoto,
                 child: _photoToUpload != null
-                    ? Image.file(_photoToUpload!, fit: BoxFit.cover, height: 400,)
+                    // ? Image.file(_photoToUpload!, fit: BoxFit.cover, height: 400,)
+                    ? Image.memory(_photoToUpload!.data, fit: BoxFit.cover, height: 400)
                     : widget.user.avatarUrl != null && !_photoDeleted
                     ? Image.network(widget.user.avatarUrl!, fit: BoxFit.cover, height: 400, errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 200))
                     : const Icon(Icons.image, size: 200),
