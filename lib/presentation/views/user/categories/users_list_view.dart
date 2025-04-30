@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:final_thesis_app/configurations/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../data/domain/user.dart';
 import '../../../view_models/user/categories/users_list_view_model.dart';
@@ -43,9 +45,23 @@ class UsersListView extends ConsumerWidget {
                 ),
                 title: Text("${user.firstName} ${user.lastName}"),
                 subtitle: Text(user.email),
-                trailing: ElevatedButton(
-                  onPressed: () => usersNotifier.addFriend(user),
-                  child: const Text("Add Friend"),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => GoRouter.of(context).pushNamed(Strings.profile, extra: user),
+                      child: Icon(Icons.face_outlined, size: 25,  color: Theme.of(context).iconTheme.color),
+                      style: ButtonStyle(
+                        // TODO: change background size and padding
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => usersNotifier.addFriend(user),
+                      child: Icon(Icons.add_reaction_outlined, size: 25,  color: Theme.of(context).iconTheme.color),
+                    ),
+                  ],
                 ),
               );
             },

@@ -9,9 +9,11 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../../configurations/strings.dart';
 import '../../../data/domain/event.dart';
+import '../../../data/domain/user.dart';
 
 class CalendarView extends ConsumerStatefulWidget{
-  const CalendarView({super.key});
+  const CalendarView({super.key, this.user});
+  final User? user;
 
   @override
   CalendarViewState createState() => CalendarViewState();
