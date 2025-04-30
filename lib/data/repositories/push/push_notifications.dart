@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:final_thesis_app/app/typedefs/e_event_type.dart';
 import 'package:final_thesis_app/configurations/firebase/firebase_api_keys.dart';
+import 'package:final_thesis_app/data/repositories/event/event_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:googleapis_auth/auth_io.dart';
@@ -15,9 +17,10 @@ import 'package:final_thesis_app/app/helpers/push_notifications_initialization/p
 
 class PushNotifications extends Repository<FirebaseMessaging> {
   final UserStorage _userStorage;
+  final EventStorage _eventStorage;
   final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
 
-  PushNotifications(this._userStorage) : super(FirebaseMessaging.instance);
+  PushNotifications(this._userStorage, this._eventStorage) : super(FirebaseMessaging.instance);
 
   Future<String?> getFcmToken() async {
     return await base.getToken();
@@ -62,32 +65,49 @@ class PushNotifications extends Repository<FirebaseMessaging> {
 
       await _plugin.initialize(
         initSettings,
-        onDidReceiveNotificationResponse: (NotificationResponse response) {
+        onDidReceiveNotificationResponse: (NotificationResponse response) async {
           final actionId = response.actionId;
-          log("TYPE: ${response.notificationResponseType}");
-          log("ACTION: ${response.actionId}");
-          log("notification responce recieved");
+          final eventId = response.payload;
+          final event = await _eventStorage.getEventById(eventId!);
+
+          if (event == null) {
+            log('Event not found for ID: $eventId');
+            return;
+          }
+          if (event.type == EEventType.processed || event.type == EEventType.canceled) {
+            return;
+          }
+
           if (actionId == 'yes') {
             log('✅ ');
+            event.copyWith(type: EEventType.processed);
           } else if (actionId == 'no') {
             log('❌ ');
-          } else {
-            _showConfirmationNotification(
-              title: 'Did event happened?',
-              body: 'Did event happened?!',
-            );
+            event.copyWith(type: EEventType.canceled);
           }
+          // else {
+          //   _showConfirmationNotification(
+          //     title: 'Did event happened?',
+          //     body: 'Did event happened?!',
+          //   );
+          // }
+          await _eventStorage.saveOrUpdateEvent(event);
         },
       );
 
+      // Listen for foreground messages
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         final data = message.data;
-        if (data['type'] == 'confirm') {
-          _showConfirmationNotification(
-            title: data['title'] ?? 'Did event happened?',
-            body: data['body'] ?? 'Did event happened?!',
-          );
-        }
+
+        final eventId = data['eventId'];
+        final title = data['title'] ?? 'Did event happen?';
+        final body = data['body'] ?? 'Please confirm.';
+
+        _showConfirmationNotification(
+          title: title,
+          body: body,
+          eventId: eventId
+        );
       });
 
     } catch (e) {
@@ -98,6 +118,7 @@ class PushNotifications extends Repository<FirebaseMessaging> {
   Future<void> _showConfirmationNotification({
     required String title,
     required String body,
+    required String? eventId,
   }) async {
     const androidDetails = AndroidNotificationDetails(
       'confirm_channel',
@@ -137,6 +158,7 @@ class PushNotifications extends Repository<FirebaseMessaging> {
       title,
       body,
       platformDetails,
+      payload: eventId,
     );
   }
 
