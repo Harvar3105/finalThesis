@@ -125,13 +125,13 @@ final routerProvider = Provider<GoRouter>((ref) {
               }
             },
           ),
-          GoRoute(
-            name: Strings.dayView,
-            path: '/day-view',
-            pageBuilder: (context, state) => NoTransitionPage(
-              child: DayViewCalendar(selectedDay: state.extra != null ? state.extra as DateTime : null),
-            ),
-          ),
+          // GoRoute(
+          //   name: Strings.dayView,
+          //   path: '/day-view',
+          //   pageBuilder: (context, state) => NoTransitionPage(
+          //     child: DayViewCalendar(selectedDay: state.extra != null ? state.extra as DateTime : null),
+          //   ),
+          // ),
           GoRoute(
             name: Strings.friends,
             path: '/friends',

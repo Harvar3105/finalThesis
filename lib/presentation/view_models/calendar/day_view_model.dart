@@ -8,22 +8,27 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../app/services/providers.dart';
 import '../../../app/typedefs/e_role.dart';
+import '../../../data/domain/user.dart';
 
 part 'day_view_model.g.dart';
 
 @riverpod
 class DayViewModel extends _$DayViewModel {
   @override
-  Future<List<Event>?> build() async {
-    final correspondingEvents = ref.read(eventServiceProvider);
-    final userService = ref.read(userServiceProvider);
-    final currentUser = await userService.getCurrentUser();
+  Future<List<Event>?> build({User? user}) async {
+    final eventsService = ref.read(eventServiceProvider);
+    var currentUser = user;
+    if (user == null) {
+      final userService = ref.read(userServiceProvider);
+      currentUser = await userService.getCurrentUser();
+    }
+
     if (currentUser == null) {
       state = AsyncValue.error("Current user not found", StackTrace.current);
       return [];
     }
 
-    final events = await correspondingEvents.getEventsByUserId(currentUser.id!, currentUser.role == ERole.coach);
+    final events = await eventsService.getEventsByUserId(currentUser.id!, currentUser.role == ERole.coach);
     log(events.toString());
     return events;
   }

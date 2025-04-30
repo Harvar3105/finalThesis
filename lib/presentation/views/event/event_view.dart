@@ -29,8 +29,9 @@ class EventView extends ConsumerWidget {
             return const Center(child: Text('User not found'));
           }
 
-          final isCreator = event.creatorId == user.id;
           final isPrivate = event.privacy == EEventPrivacy.private;
+          final isCreator = event.creatorId == user.id;
+          final isAttendee = isCreator || event.friendId == user.id;
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +54,7 @@ class EventView extends ConsumerWidget {
                 Text('This event overlaps with another event.',
                     style: theme.textTheme.bodySmall?.copyWith(color: Colors.red)),
               const SizedBox(height: 20),
-              if (!isPrivate)
+              if (!isPrivate && isAttendee)
               isCreator ?
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

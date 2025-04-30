@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:final_thesis_app/app/helpers/calendar_parser.dart';
+import 'package:final_thesis_app/presentation/view_models/calendar/calendar_view_model.dart';
 import 'package:final_thesis_app/presentation/view_models/calendar/day_view_model.dart';
+import 'package:final_thesis_app/presentation/views/calendar/day_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,8 +14,9 @@ import '../../../data/domain/event.dart';
 import '../../../data/domain/user.dart';
 
 class CalendarView extends ConsumerStatefulWidget{
-  const CalendarView({super.key, this.user});
+  const CalendarView({super.key, this.user, this.isProfileView = false});
   final User? user;
+  final bool isProfileView;
 
   @override
   CalendarViewState createState() => CalendarViewState();
@@ -23,16 +26,33 @@ class CalendarViewState extends ConsumerState<CalendarView>{
   CalendarFormat _calendarFormat = CalendarFormat.month;
   final DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  bool _showDayView = false;
+
+  dayViewCallBack() {
+    setState(() {
+      _showDayView = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var defaultDaysStyle = theme.textTheme.bodySmall?.copyWith(fontSize: 20);
-    final eventsAsync = ref.watch(dayViewModelProvider);
+    final eventsAsync = ref.watch(CalendarViewModelProvider(user: widget.user));
 
     return eventsAsync.when(
       data: (events) {
-        return _buildCalendar(events, theme, defaultDaysStyle!);
+        Widget toShow;
+        if (_showDayView) {
+          if (_selectedDay != null) {
+            toShow = DayViewCalendar(selectedDay: _selectedDay, changeView: dayViewCallBack, user: widget.user, isProfileView: widget.isProfileView,);
+          } else {
+            toShow = DayViewCalendar(changeView: dayViewCallBack, user: widget.user, isProfileView: widget.isProfileView,);
+          }
+        } else {
+          toShow = _buildCalendar(events, theme, defaultDaysStyle!);
+        }
+        return toShow;
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stackTrace) => Center(child: Text(error.toString())),
@@ -88,11 +108,18 @@ class CalendarViewState extends ConsumerState<CalendarView>{
 
         onDaySelected: (selectedDay, focusedDay) {
           log('Selected: $selectedDay;');
-          context.replaceNamed(Strings.dayView, extra: selectedDay);
+          setState(() {
+            _selectedDay = selectedDay;
+            _showDayView = true;
+          });
+          // context.replaceNamed(Strings.dayView, extra: selectedDay);
         },
         onFormatChanged: (format) {
           if (format == CalendarFormat.week) {
-            context.replaceNamed(Strings.dayView);
+            // context.replaceNamed(Strings.dayView);
+            setState(() {
+              _showDayView = true;
+            });
           } else {
             setState(() {
               _calendarFormat = format;

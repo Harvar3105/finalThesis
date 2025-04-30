@@ -122,7 +122,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             const SizedBox(height: 24),
             SizedBox(
               height: 500,
-              child: CalendarView(user: user,),
+              child: CalendarView(user: user, isProfileView: true,),
             ),
             const SizedBox(height: 24),
           ],
@@ -131,66 +131,3 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     );
   }
 }
-
-// class UserProfileView extends ConsumerWidget {
-//   const UserProfileView({super.key, required this.user});
-//   final User user;
-//
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     var theme = Theme.of(context);
-//
-//     var buttonsTextStyle = TextStyle(
-//       color: theme.colorScheme.onSurface,
-//       fontSize: 18,
-//       height: 2,
-//     );
-//
-//     var buttonsStyle = TextButton.styleFrom(
-//       backgroundColor: AppColors.profileButtons,
-//     );
-//
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.stretch,
-//       children: [
-//         Center(
-//           child: UserAvatar(url: user.avatarUrl, radius: 100),
-//         ),
-//         const SizedBox(height: 24),
-//
-//         DecoratedBox(
-//           decoration: BoxDecoration(
-//               color: theme.colorScheme.surface,
-//               borderRadius: BorderRadius.circular(10)
-//           ),
-//           child: Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: Text(
-//               '${user.firstName} ${user.lastName}',
-//               textAlign: TextAlign.center,
-//               overflow: TextOverflow.clip,
-//               softWrap: true,
-//             ),
-//           ),
-//         ),
-//         const SizedBox(height: 8),
-//         DecoratedBox(
-//           decoration: BoxDecoration(
-//               color: theme.colorScheme.surface,
-//               borderRadius: BorderRadius.circular(10)
-//           ),
-//           child: Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: Text(
-//               'Email: ${user.email}',
-//               textAlign: TextAlign.center,
-//               overflow: TextOverflow.clip,
-//               softWrap: true,
-//             ),
-//           ),
-//         ),
-//         const SizedBox(height: 10),
-//       ],
-//     );
-//   }
-// }

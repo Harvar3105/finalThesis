@@ -11,7 +11,7 @@ part 'calendar_view_model.g.dart';
 @riverpod
 class CalendarViewModel extends _$CalendarViewModel {
   @override
-  Future<List<Event>?> build(User? user) async {
+  Future<List<Event>?> build({User? user}) async {
     final eventsService = ref.read(eventServiceProvider);
     var currentUser = user;
     if (user == null) {
