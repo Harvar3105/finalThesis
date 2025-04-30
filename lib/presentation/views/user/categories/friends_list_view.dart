@@ -45,11 +45,25 @@ class FriendsListView extends ConsumerWidget {
               leading: CircleAvatar(
                 child: Text(friend.lastName.isNotEmpty ? friend.lastName[0] : '?'),
               ),
-              trailing: ElevatedButton(
-                onPressed: () async {
-                  GoRouter.of(context).pushNamed(Strings.chat, extra: await viewModel.getDirectChat(user, friend));
-                },
-                child: Icon(Icons.send_outlined, color: Theme.of(context).iconTheme.color)
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => GoRouter.of(context).pushNamed(Strings.profile, extra: user),
+                    style: ButtonStyle(
+                      // TODO: change background size and padding
+                    ),
+                    child: Icon(Icons.face_outlined, size: 20,  color: Theme.of(context).iconTheme.color),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      GoRouter.of(context).pushNamed(Strings.chat, extra: await viewModel.getDirectChat(user, friend));
+                    },
+                    child: Icon(Icons.send_outlined, size: 20, color: Theme.of(context).iconTheme.color)
+                  ),
+                ],
               ),
             );
           },

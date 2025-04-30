@@ -52,14 +52,14 @@ class UsersListView extends ConsumerWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () => GoRouter.of(context).pushNamed(Strings.profile, extra: user),
-                      child: Icon(Icons.face_outlined, size: 25,  color: Theme.of(context).iconTheme.color),
                       style: ButtonStyle(
                         // TODO: change background size and padding
                       ),
+                      child: Icon(Icons.face_outlined, size: 20,  color: Theme.of(context).iconTheme.color),
                     ),
                     ElevatedButton(
                       onPressed: () => usersNotifier.addFriend(user),
-                      child: Icon(Icons.add_reaction_outlined, size: 25,  color: Theme.of(context).iconTheme.color),
+                      child: Icon(Icons.add_reaction_outlined, size: 20,  color: Theme.of(context).iconTheme.color),
                     ),
                   ],
                 ),
