@@ -11,17 +11,22 @@ part 'user_profile_view_model.g.dart';
 @riverpod
 class UserProfileViewModel extends _$UserProfileViewModel {
   late final User? currentUser;
+  late final User? selectedUser;
   late bool isCurrentUser;
+  late int processedEventsCount = 0;
 
   @override
-  FutureOr<User?> build({User? selectedUser}) async {
-    log("${selectedUser?.firstName} ${selectedUser?.lastName}");
+  FutureOr<User?> build({User? outerUser}) async {
+    log("${outerUser?.firstName} ${outerUser?.lastName}");
     final userService = ref.watch(userServiceProvider);
     currentUser = await userService.getCurrentUser();
+    selectedUser = outerUser;
 
-    if (selectedUser != null) {
+    processedEventsCount = await getProcessedEventsCount();
+
+    if (outerUser != null) {
       isCurrentUser = false;
-      return selectedUser;
+      return outerUser;
     } else {
       isCurrentUser = true;
       if (currentUser != null) {
@@ -31,5 +36,13 @@ class UserProfileViewModel extends _$UserProfileViewModel {
       }
     }
     return null;
+  }
+
+  FutureOr<int> getProcessedEventsCount() async {
+    if (selectedUser == null || currentUser == null) {
+      return 0;
+    }
+    final eventService = ref.watch(eventServiceProvider);
+    return await eventService.getProcessedEventCountByUserPair(selectedUser!.id!, currentUser!.id!);
   }
 }

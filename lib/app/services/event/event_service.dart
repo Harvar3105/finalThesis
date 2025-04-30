@@ -44,6 +44,24 @@ class EventService {
         .toList();
   }
 
+  Future<List<Event>?> getProcessedEventsByUserId(Id userId) async {
+    return (await _eventStorage.getProcessedEventsByUserId(userId))
+        ?.map((event) => event.eventFromPayload())
+        .whereType<Event>()
+        .toList();
+  }
+
+  Future<List<Event>?> getProcessedEventsByUserAndFriendIds(Id user1Id, Id user2Id) async {
+    return (await _eventStorage.getProcessedEventsByUserAndFriendIds(user1Id, user2Id))
+        ?.map((event) => event.eventFromPayload())
+        .whereType<Event>()
+        .toList();
+  }
+
+  Future<int> getProcessedEventCountByUserPair(Id user1Id, Id user2Id) async {
+    return (await _eventStorage.getProcessedEventCountByUserPair(user1Id, user2Id));
+  }
+
   Future<AsyncValue<List<User>>?> saveOrUpdateEvent({
     Id? id,
     Id? creatorId,

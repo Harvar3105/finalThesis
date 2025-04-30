@@ -114,6 +114,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               ],
             ),
             const SizedBox(height: 24),
+            Text("Events together so on: ${vm.processedEventsCount}"),
+            const SizedBox(height: 24),
             Container(
                 height: 100,
                 decoration: fieldDecoration,
