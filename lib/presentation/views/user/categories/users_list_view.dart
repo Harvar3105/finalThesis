@@ -37,6 +37,7 @@ class UsersListView extends ConsumerWidget {
             itemCount: usersList.length,
             itemBuilder: (BuildContext context, int index) {
               final user = usersList[index];
+
               return ListTile(
                 leading: CircleAvatar(
                   backgroundImage: user.avatarUrl != null

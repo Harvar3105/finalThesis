@@ -141,6 +141,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/user-profile-view',
             builder: (context, state) {
               final user = state.extra as User;
+              log("User: ${user.firstName} ${user.lastName}");
               return UserProfileView(user: user);
             }
           ),

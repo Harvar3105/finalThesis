@@ -43,7 +43,9 @@ class FriendsListView extends ConsumerWidget {
               title: Text(friend.firstName),
               subtitle: Text(friend.email),
               leading: CircleAvatar(
-                child: Text(friend.lastName.isNotEmpty ? friend.lastName[0] : '?'),
+                backgroundImage: user.avatarUrl != null
+                    ? NetworkImage(user.avatarUrl!)
+                    : const AssetImage("assets/images/user_icon.png") as ImageProvider,
               ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -51,7 +53,7 @@ class FriendsListView extends ConsumerWidget {
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   ElevatedButton(
-                    onPressed: () => GoRouter.of(context).pushNamed(Strings.profile, extra: user),
+                    onPressed: () => GoRouter.of(context).pushNamed(Strings.profile, extra: friend),
                     style: ButtonStyle(
                       // TODO: change background size and padding
                     ),

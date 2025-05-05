@@ -84,6 +84,11 @@ class EventService {
       return AsyncValue.error("User not found", StackTrace.current);
     }
 
+    var type = EEventType.conterOffered;
+    if (counterOfferOf == null) {
+      type = privacy == EEventPrivacy.private ? EEventType.accepted : EEventType.declared;
+    }
+
     final event = Event(
       id: id,
       creatorId: currentUserId,
