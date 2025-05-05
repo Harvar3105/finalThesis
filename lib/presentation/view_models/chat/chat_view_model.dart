@@ -6,8 +6,6 @@ import 'package:final_thesis_app/app/typedefs/entity.dart';
 import 'package:final_thesis_app/data/domain/chat.dart';
 import 'package:final_thesis_app/data/domain/message.dart';
 import 'package:final_thesis_app/data/domain/user.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chat_view_model.g.dart';

@@ -2,14 +2,11 @@ import 'dart:developer';
 
 import 'package:final_thesis_app/app/helpers/calendar_parser.dart';
 import 'package:final_thesis_app/presentation/view_models/calendar/calendar_view_model.dart';
-import 'package:final_thesis_app/presentation/view_models/calendar/day_view_model.dart';
 import 'package:final_thesis_app/presentation/views/calendar/day_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../../configurations/strings.dart';
 import '../../../data/domain/event.dart';
 import '../../../data/domain/user.dart';
 

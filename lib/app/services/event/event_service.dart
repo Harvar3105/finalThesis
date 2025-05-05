@@ -185,7 +185,7 @@ class EventService {
       return false;
     }
 
-    final relatedEvents = await _eventStorage.getEventsByUserId(user!.id!);
+    final relatedEvents = await _eventStorage.getEventsByUserId(user.id!);
     if (relatedEvents == null) {
       log("Could not get related events");
       return false;
@@ -226,7 +226,7 @@ class EventService {
         nextEvent = null;
       } else {
         nextEvent = relatedEvents
-            .where((e) => e.id == newNextEvent!.counterOfferOf)
+            .where((e) => e.id == newNextEvent.counterOfferOf)
             .cast<EventPayload?>()
             .firstOrNull;
       }

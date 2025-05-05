@@ -82,7 +82,11 @@ class EventCreateUpdateView extends ConsumerWidget {
               if (!isCounterOffer)
                 IconButton(
                     onPressed: () {
-                      viewModel.togglePrivacy();
+                      if (friends.isNotEmpty) {
+                        viewModel.togglePrivacy();
+                      } else {
+                        log("Cannot make public if no friends");
+                      }
                     },
                     icon: viewModel.isPrivate ? const Icon(Icons.lock, color: Colors.green)
                         : const Icon(Icons.lock_open, color: Colors.red)

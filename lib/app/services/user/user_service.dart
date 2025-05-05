@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:final_thesis_app/app/models/file/custom_image_file.dart';
 import 'package:final_thesis_app/app/services/image/image_service.dart';
@@ -31,7 +30,7 @@ class UserService {
         final user = payload?.userFromPayload();
         _currentUser = user;
         yield user;
-      } catch (e, st) {
+      } catch (e) {
         yield null;
       }
     }

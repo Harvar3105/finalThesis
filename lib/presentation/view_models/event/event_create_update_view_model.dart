@@ -66,7 +66,8 @@ class EventCreateUpdateViewModel extends _$EventCreateUpdateViewModel {
 
     final friends = await userService.getUsersFriends(currentUser);
     if (friends == null || friends.isEmpty) {
-      throw Exception("User has no friends");
+      _isPrivate = true;
+      return [];
     }
 
     return friends;

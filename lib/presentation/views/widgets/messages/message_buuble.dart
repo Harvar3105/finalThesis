@@ -1,7 +1,6 @@
 import 'package:final_thesis_app/app/typedefs/entity.dart';
 import 'package:final_thesis_app/data/domain/message.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class MessageBubble extends StatelessWidget {
   final Message message;
