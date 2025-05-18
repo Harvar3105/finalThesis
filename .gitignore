@@ -170,3 +170,4 @@ app.*.map.json
 /storage.rules
 /.env
 /android/secrets.properties
+/web/index.html

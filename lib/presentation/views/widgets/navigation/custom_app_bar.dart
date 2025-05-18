@@ -15,7 +15,7 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
     super.key,
   });
 
-  static const forbiddenPages = [Strings.login, Strings.register, Strings.userProfile];
+  static const forbiddenPages = [Strings.loginPage, Strings.registerPage, Strings.userProfile];
 
 
   @override
