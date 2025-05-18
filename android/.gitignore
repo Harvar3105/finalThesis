@@ -15,3 +15,4 @@ key.properties
 /app/src/debug/AndroidManifest.xml
 /app/src/profile/AndroidManifest.xml
 /app/src/main/res/
+/local.defaults.properties

@@ -168,3 +168,5 @@ app.*.map.json
 /pubspec.lock
 /firestore.rules
 /storage.rules
+/.env
+/android/secrets.properties

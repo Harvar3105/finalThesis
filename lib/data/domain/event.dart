@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:final_thesis_app/app/helpers/latlng_converter.dart';
 import 'package:final_thesis_app/app/typedefs/e_event_privacy.dart';
 import 'package:final_thesis_app/app/typedefs/e_event_type.dart';
 import 'package:final_thesis_app/data/domain/entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../app/typedefs/entity.dart';
 import '../../configurations/firebase/firebase_access_fields.dart';
@@ -17,7 +19,7 @@ class Event extends Entity {
   DateTime end;
   String title;
   String description;
-  String location; //TODO: change to Location
+  LatLng location;
   EEventType type;
   final EEventPrivacy privacy;
   Id? counterOfferOf;
@@ -74,8 +76,9 @@ class EventPayload {
   final String? title;
   @JsonKey(name: FirebaseFields.description)
   final String? description;
+  @LatLngConverter()
   @JsonKey(name: FirebaseFields.location)
-  final String? location; //TODO: change to Location
+  final LatLng? location;
   @JsonKey(name: FirebaseFields.type)
   final EEventType? type;
   @JsonKey(name: FirebaseFields.privacy)
@@ -157,7 +160,7 @@ class EventPayload {
     DateTime? end,
     String? title,
     String? description,
-    String? location,
+    LatLng? location,
     EEventType? type,
     EEventPrivacy? privacy,
     Id? counterOfferOf,

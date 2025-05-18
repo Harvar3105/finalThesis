@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:final_thesis_app/presentation/view_models/event/event_view_model.dart';
+import 'package:final_thesis_app/presentation/views/widgets/locations/address_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -39,8 +40,7 @@ class EventView extends ConsumerWidget {
               Text('Date: ${event.start.toLocal()} - ${event.end.toLocal()}',
                   style: theme.textTheme.bodyLarge),
               const SizedBox(height: 10),
-              Text('Place: ${event.location}',
-                  style: theme.textTheme.bodyMedium),
+              AddressProvider(location: event.location),
               const SizedBox(height: 10),
               Text('Description:',
                   style: theme.textTheme.titleMedium),

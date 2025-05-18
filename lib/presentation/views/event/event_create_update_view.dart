@@ -6,6 +6,7 @@ import 'package:final_thesis_app/app/helpers/date_time_to_simple_format_parser.d
 import 'package:final_thesis_app/app/helpers/validators.dart';
 import 'package:final_thesis_app/presentation/views/widgets/fields/custom_text_form_field.dart';
 import 'package:final_thesis_app/presentation/views/widgets/fields/duration_picker.dart';
+import 'package:final_thesis_app/presentation/views/widgets/locations/address_picker_with_confirmation.dart';
 import 'package:final_thesis_app/presentation/views/widgets/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +16,7 @@ import '../../../data/domain/event.dart';
 import '../../../data/domain/user.dart';
 import '../../view_models/event/event_create_update_view_model.dart';
 import '../widgets/buttons/date_time_picker.dart';
+import '../widgets/locations/address_picker.dart';
 
 class EventCreateUpdateView extends ConsumerWidget {
   final bool isCounterOffer;
@@ -31,7 +33,7 @@ class EventCreateUpdateView extends ConsumerWidget {
         padding: const EdgeInsets.all(16.0),
         child: vmAsync.when(
           data: (friends) {
-            final viewModel = ref.read(eventCreateUpdateViewModelProvider(event: editingEvent, isCounterOffer: isCounterOffer).notifier);
+            final viewModel = ref.watch(eventCreateUpdateViewModelProvider(event: editingEvent, isCounterOffer: isCounterOffer).notifier);
             log("Friends: $friends");
             log("User: ${viewModel.selectedFriend}");
             return SingleChildScrollView(
@@ -106,10 +108,9 @@ class EventCreateUpdateView extends ConsumerWidget {
             validator: validateNotEmpty,
           ),
           spacer,
-          CustomTextFormField(
-            controller: viewModel.locationController,
-            labelText: 'Location',
-            validator: validateNotEmpty,
+          AddressPicker(
+            givenLocation: viewModel.location,
+            onAddressSelected: (result) => viewModel.location = result,
           ),
           spacer,
           Row(
@@ -117,7 +118,7 @@ class EventCreateUpdateView extends ConsumerWidget {
             children: [
               Text("Start: ${formatDateTime(viewModel.startTime) ?? 'Not set'}",
                 style: Theme.of(context).textTheme.bodySmall,),
-              DateTimePicker(onDateSelected: (date) => viewModel.startTime = date, label: 'Start Time'),
+              DateTimePicker(onDateSelected: (date) => viewModel.setStartTime(date), label: 'Start Time'),
             ],
           ),
           spacer,
@@ -126,7 +127,7 @@ class EventCreateUpdateView extends ConsumerWidget {
             children: [
               Text("End: ${formatDateTime(viewModel.endTime) ?? 'Not set'}",
               style: Theme.of(context).textTheme.bodySmall,),
-              DateTimePicker(onDateSelected: (date) => viewModel.endTime = date, label: 'End Time'),
+              DateTimePicker(onDateSelected: (date) => viewModel.setEndTime(date), label: 'End Time'),
             ],
           ),
           spacer,
@@ -142,7 +143,7 @@ class EventCreateUpdateView extends ConsumerWidget {
           ),
           ElevatedButton(
             onPressed: () async {
-              final success = await viewModel.saveOrUpdateEvent();
+              final (success, reason) = await viewModel.saveOrUpdateEvent();
               if (success) {
                 final router = GoRouter.of(context);
                 if (editingEvent == null) {
@@ -152,7 +153,7 @@ class EventCreateUpdateView extends ConsumerWidget {
                 }
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Failed to create event')),
+                  SnackBar(content: Text('Failed to create event! Reason: $reason')),
                 );
               }
             },

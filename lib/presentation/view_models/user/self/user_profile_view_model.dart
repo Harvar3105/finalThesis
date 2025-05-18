@@ -11,7 +11,6 @@ part 'user_profile_view_model.g.dart';
 @riverpod
 class UserProfileViewModel extends _$UserProfileViewModel {
   late User? currentUser;
-  @override
   late User? selectedUser;
   late bool isCurrentUser;
   late int processedEventsCount = 0;

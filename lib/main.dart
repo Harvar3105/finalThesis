@@ -18,7 +18,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  try {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  } catch (e) {
+    log('Error initializing Firebase Messaging. Is web permission blocked?: $e');
+  }
 
   //TODO: Register all projects in firebase AppCheck when app is finished
   await FirebaseAppCheck.instance.activate(
@@ -40,7 +44,7 @@ void main() async {
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   log('Background message received: ${message.messageId}');
 }
 

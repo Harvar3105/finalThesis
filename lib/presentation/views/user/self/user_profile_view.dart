@@ -25,11 +25,11 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    final userAsync = ref.watch(UserProfileViewModelProvider(selectedUser: widget.user));
+    final userAsync = ref.watch(UserProfileViewModelProvider(outerUser: widget.user));
 
     return userAsync.when(
       data: (user) {
-        final vm = ref.watch(UserProfileViewModelProvider(selectedUser: widget.user).notifier);
+        final vm = ref.watch(UserProfileViewModelProvider(outerUser: widget.user).notifier);
         return _buildView(vm, theme, user);
       },
       loading: () => const AnimationWithText(

@@ -5,6 +5,7 @@ import 'package:final_thesis_app/app/services/push/push_notifications_service.da
 import 'package:final_thesis_app/app/typedefs/e_event_privacy.dart';
 import 'package:final_thesis_app/data/domain/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../data/domain/event.dart';
 import '../../../data/repositories/event/event_storage.dart';
@@ -70,7 +71,7 @@ class EventService {
     required DateTime end,
     required String title,
     required String description,
-    required String location,
+    required LatLng location,
     required EEventPrivacy privacy,
     Duration? notifyBefore = const Duration(minutes: 30),
     Id? counterOfferOf,
