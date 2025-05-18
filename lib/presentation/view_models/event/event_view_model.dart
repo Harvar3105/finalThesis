@@ -11,16 +11,20 @@ part 'event_view_model.g.dart';
 @riverpod
 class EventViewModel extends _$EventViewModel {
   @override
-  Future<User?> build() async {
+  Future<(User?, User?)?> build(Event event) async {
     try {
       final userService = ref.watch(userServiceProvider);
       final currentUser = await userService.getCurrentUser();
+      User? otherUser;
+      if (event.friendId != null) {
+        otherUser = await userService.getUserById(event.friendId!);
+      }
 
       if (currentUser == null) {
         state = AsyncValue.error("User not found", StackTrace.current);
       }
 
-      return currentUser;
+      return (currentUser, otherUser);
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
       return null;
