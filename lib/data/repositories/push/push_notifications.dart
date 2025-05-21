@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:final_thesis_app/app/typedefs/e_event_type.dart';
-import 'package:final_thesis_app/configurations/firebase/firebase_api_keys.dart';
+import 'package:final_thesis_app/configurations/firebase_api_keys.dart';
 import 'package:final_thesis_app/data/repositories/event/event_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -164,7 +164,7 @@ class PushNotifications extends Repository<FirebaseMessaging> {
 
   Future<bool> sendNotification(String fcmToken, String title, String body) async {
     try {
-      final url = Uri.parse(FirebaseApiKeys.getFCMLink());
+      final url = Uri.parse(ApiKeys.getFCMLink());
       final accessToken = await getAccessToken();
 
       final message = {

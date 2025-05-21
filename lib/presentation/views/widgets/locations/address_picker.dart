@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:final_thesis_app/configurations/firebase_api_keys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../../configurations/app_colours.dart';
 import '../../../../configurations/strings.dart';
@@ -46,7 +49,6 @@ class _AddressPickerState extends State<AddressPicker> {
     }
 
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
     setState(() {
       _currentPosition = LatLng(position.latitude, position.longitude);
     });
@@ -58,14 +60,41 @@ class _AddressPickerState extends State<AddressPicker> {
   }
 
   Future<void> _getAddressFromLatLng(LatLng latLng) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+    try {
+      // For physical devices
+      List<Placemark> placemarks = await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+        setState(() {
+          _selectedAddress = '${place.street}, ${place.locality}, ${place.administrativeArea}';
+        });
+        widget.onAddressSelected(latLng);
+      }
+    } catch (e) {
+      // For web
+      try {
+        final url =
+            'https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}&key=${ApiKeys.googleApiKey}&language=en';
 
-    if (placemarks.isNotEmpty) {
-      Placemark place = placemarks.first;
-      setState(() {
-        _selectedAddress = '${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}';
-      });
-      widget.onAddressSelected(latLng);
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          final results = data['results'] as List<dynamic>;
+
+          if (results.isNotEmpty) {
+            var parts = (results.first['formatted_address'] as String).split(',');
+            var address = parts.sublist(0, parts.length - 1).join(',').trim();
+            setState(() {
+              _selectedAddress = address;
+            });
+          }
+        }
+      } catch (e) {
+        setState(() {
+          _selectedAddress = 'Error getting address!\nCoordinates are: ${latLng.latitude}, ${latLng.longitude}';
+        });
+      }
     }
   }
 
