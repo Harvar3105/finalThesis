@@ -1,6 +1,7 @@
 import 'package:final_thesis_app/app/typedefs/entity.dart';
 import 'package:final_thesis_app/data/domain/message.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MessageBubble extends StatelessWidget {
   final Message message;
@@ -10,8 +11,9 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Align(
-      alignment: message.senderId == currentUserId // замени на реальную проверку
+      alignment: message.senderId == currentUserId
           ? Alignment.centerRight
           : Alignment.centerLeft,
       child: Container(
@@ -23,9 +25,9 @@ class MessageBubble extends StatelessWidget {
         ),
         child: Column(
           children:[
-            //TODO: Here needs to be circle avatar + first name + last name + account type
-            Text(message.text),
-            Text(message.createdAt.toString()) //TODO: To local dateTime then to string
+            Text(message.text, style: theme.textTheme.bodyMedium?.copyWith(color: Colors.black)),
+            Text(DateFormat('dd.MM.yy - HH:mm').format(message.createdAt.toLocal()),
+                style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey))
           ]
         ),
       ),

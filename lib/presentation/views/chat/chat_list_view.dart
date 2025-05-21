@@ -41,13 +41,15 @@ class ChatListView extends ConsumerWidget {
                 overflow: TextOverflow.ellipsis
               ),
               leading: CircleAvatar(
-                child: Text(chat.name.isNotEmpty ? chat.name[0] : '?'),
+                backgroundImage: user?.avatarUrl != null
+                    ? NetworkImage(user!.avatarUrl!)
+                    : const AssetImage("assets/images/user_icon.png") as ImageProvider,
               ),
-              trailing: IconButton(
-                icon: const Icon(Icons.chat_bubble_outline),
+              trailing: ElevatedButton(
                 onPressed: () async {
                   GoRouter.of(context).pushNamed(Strings.chat, extra: chat);
                 },
+                child: Icon(Icons.chat_bubble_outline, size: 20, color: Theme.of(context).iconTheme.color)
               ),
             );
           },

@@ -41,6 +41,12 @@ class FriendsListViewModel extends _$FriendsListViewModel {
       if (!success) {
         throw Exception("Failed to create chat!");
       }
+
+      var savedChat = await chatService.getDirectChat(currentUser.id!, friend.id!);
+      if (savedChat == null) {
+        throw Exception("Failed to get created chat!");
+      }
+      chat = savedChat;
     }
     return chat;
   }
