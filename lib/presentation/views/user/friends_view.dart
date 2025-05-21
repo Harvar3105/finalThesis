@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:final_thesis_app/app/services/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,6 +22,25 @@ class FriendsView extends ConsumerStatefulWidget {
 }
 
 class _FriendsViewState extends ConsumerState<FriendsView> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadFriendsOnStart();
+    });
+  }
+
+  Future<void> _loadFriendsOnStart() async {
+    final userService = ref.watch(userServiceProvider);
+    final user = await userService.getCurrentUser();
+    if (user == null) return;
+
+    final friends = await userService.getUsersFriends(user);
+
+    ref.read(searchUsersProvider.notifier).state = (friends, 0);
+  }
 
   @override
   Widget build(BuildContext context) {
