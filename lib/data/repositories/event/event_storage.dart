@@ -11,7 +11,7 @@ import '../repository.dart';
 
 class EventStorage extends Repository<FirebaseFirestore> {
 
-  EventStorage() : super(FirebaseFirestore.instance);
+  EventStorage([FirebaseFirestore? mock]) : super(mock ?? FirebaseFirestore.instance);
 
   Future<bool> saveOrUpdateEvent(EventPayload payload) async {
     try {

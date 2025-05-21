@@ -11,7 +11,7 @@ import '../repository.dart';
 
 class ImageStorage extends Repository<FirebaseStorage> {
 
-  ImageStorage() : super(FirebaseStorage.instance);
+  ImageStorage([FirebaseStorage? mock]) : super(mock ?? FirebaseStorage.instance);
 
   Future<Map<String, String>?> uploadUserImage({
     required CustomImageFile file,

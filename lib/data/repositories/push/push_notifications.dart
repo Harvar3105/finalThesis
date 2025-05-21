@@ -20,7 +20,7 @@ class PushNotifications extends Repository<FirebaseMessaging> {
   final EventStorage _eventStorage;
   final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
 
-  PushNotifications(this._userStorage, this._eventStorage) : super(FirebaseMessaging.instance);
+  PushNotifications(this._userStorage, this._eventStorage, [FirebaseMessaging? mock]) : super(mock ?? FirebaseMessaging.instance);
 
   Future<String?> getFcmToken() async {
     return await base.getToken();

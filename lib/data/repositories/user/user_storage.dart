@@ -14,7 +14,7 @@ import '../repository.dart';
 class UserStorage extends Repository<FirebaseFirestore> {
   final Authenticator authenticator;
 
-  UserStorage(this.authenticator) : super(FirebaseFirestore.instance);
+  UserStorage(this.authenticator, [FirebaseFirestore? mock]) : super(mock ?? FirebaseFirestore.instance);
 
   Future<bool> saveOrUpdateUserInfo(UserPayload payload) async {
     log("saveOrUpdateUserInfo: $payload");

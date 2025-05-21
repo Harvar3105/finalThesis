@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 @immutable
 class Strings {
   // General app information
-  static const appName = 'App Name'; //TODO: Change this to your app name
+  static const appName = 'CoordiFit';
   static const welcomeToAppName = 'Welcome to ${Strings.appName}';
   static const loading = "Loading...";
 

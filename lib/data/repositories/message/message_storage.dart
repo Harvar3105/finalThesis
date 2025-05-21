@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 import '../../domain/message.dart';
 
 class MessageStorage extends Repository<FirebaseDatabase> {
-  MessageStorage() : super(FirebaseDatabase.instance);
+  MessageStorage([FirebaseDatabase? mock]) : super(mock ?? FirebaseDatabase.instance);
 
   Future<bool> saveOrUpdateMessage(MessagePayload payload) async {
     try {

@@ -11,7 +11,7 @@ import '../repository.dart';
 
 class ChatStorage extends Repository<FirebaseFirestore> {
   final MessageStorage _messageStorage;
-  ChatStorage(this._messageStorage) : super(FirebaseFirestore.instance);
+  ChatStorage(this._messageStorage, [FirebaseFirestore? mock]) : super(mock ?? FirebaseFirestore.instance);
 
   Future<bool> saveOrUpdateChat(ChatPayload payload) async {
     try {
