@@ -18,7 +18,6 @@ class EventCreateUpdateViewModel extends _$EventCreateUpdateViewModel {
   Event? editingEvent;
   User? selectedFriend;
   User? originalUser;
-  bool ignoreInputs = false;
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -36,11 +35,6 @@ class EventCreateUpdateViewModel extends _$EventCreateUpdateViewModel {
     await _initializeFields(isCounterOffer);
     if (isCounterOffer) return [];
     return _loadFriends();
-  }
-
-  Future<void> ignoreInputsToggle(bool ignore) async {
-    ignoreInputs = ignore;
-    state = state;
   }
 
   Future<void> _initializeFields(bool isCounterOffer) async {

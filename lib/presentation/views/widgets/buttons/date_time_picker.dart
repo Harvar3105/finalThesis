@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 class DateTimePicker extends StatelessWidget{
   final Function(DateTime) onDateSelected;
   final String label;
-  final Function(bool) ignoreInputsToggle;
 
-  const DateTimePicker({super.key, required this.onDateSelected, required this.label, required this.ignoreInputsToggle});
+  const DateTimePicker({super.key, required this.onDateSelected, required this.label});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        ignoreInputsToggle(true);
         final pickedDate = await showDatePicker(
           context: context,
           initialDate: DateTime.now(),
@@ -31,7 +29,6 @@ class DateTimePicker extends StatelessWidget{
             onDateSelected(selectedDateTime);
           }
         }
-        ignoreInputsToggle(false);
       },
       child: Text(label),
     );

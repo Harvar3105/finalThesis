@@ -111,7 +111,6 @@ class EventCreateUpdateView extends ConsumerWidget {
           AddressPicker(
             givenLocation: viewModel.location,
             onAddressSelected: (result) => viewModel.location = result,
-            ignoreInputs: viewModel.ignoreInputs,
           ),
           spacer,
           Row(
@@ -122,7 +121,6 @@ class EventCreateUpdateView extends ConsumerWidget {
               DateTimePicker(
                 onDateSelected: (date) => viewModel.setStartTime(date),
                 label: 'Start Time',
-                ignoreInputsToggle: viewModel.ignoreInputsToggle
               ),
             ],
           ),
@@ -135,7 +133,6 @@ class EventCreateUpdateView extends ConsumerWidget {
               DateTimePicker(
                 onDateSelected: (date) => viewModel.setEndTime(date),
                 label: 'End Time',
-                ignoreInputsToggle: viewModel.ignoreInputsToggle
               ),
             ],
           ),

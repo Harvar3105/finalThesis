@@ -16,9 +16,8 @@ import '../../../../configurations/strings.dart';
 class AddressPicker extends StatefulWidget {
   final Function(LatLng address) onAddressSelected;
   final LatLng? givenLocation;
-  final bool ignoreInputs;
 
-  const AddressPicker({super.key, required this.onAddressSelected, this.givenLocation, required this.ignoreInputs});
+  const AddressPicker({super.key, required this.onAddressSelected, this.givenLocation});
 
   @override
   _AddressPickerState createState() => _AddressPickerState();
@@ -137,9 +136,6 @@ class _AddressPickerState extends State<AddressPicker> {
               _loadMapStyle();
             },
             onTap: (LatLng position) async {
-              if (widget.ignoreInputs) {
-                return;
-              }
               setState(() {
                 _currentPosition = position;
               });
