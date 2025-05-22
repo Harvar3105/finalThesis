@@ -197,6 +197,7 @@ class EventStorage extends Repository<FirebaseFirestore> {
   }
 
   Future<bool> deleteEvent(EventPayload payload) async {
+    log("Deleting event with id: ${payload.id}");
     try {
       final eventRef = base
           .collection(FirebaseCollectionNames.events)

@@ -257,9 +257,9 @@ class EventService {
   Future<bool> deleteEvent(Event event) async {
     if (event.counterOfferOf != null) {
       final success = await changeEventStatus(event.counterOfferOf!, EEventType.declared);
-      if (!success) {
-        return false;
-      }
+      // if (!success) {
+      //   return false;
+      // }
     }
     return await _eventStorage.deleteEvent(EventPayload().eventToPayload(event));
   }

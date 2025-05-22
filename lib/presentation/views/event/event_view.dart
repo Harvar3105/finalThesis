@@ -124,7 +124,11 @@ class EventView extends ConsumerWidget {
                     children: [
                       IconButton(
                           onPressed: () {
-                            viewModel.makeDecision(event, false);
+                            if (event.type == EEventType.declared) {
+                              viewModel.makeDecision(event, false);
+                            } else {
+                              viewModel.deleteEvent(event);
+                            }
                             GoRouter.of(context).pop();
                           },
                           icon: const Icon(Icons.delete_forever, color: Colors.red, size: 45,)
