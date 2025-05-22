@@ -31,7 +31,7 @@ class FriendsListView extends ConsumerWidget {
 
         if (friends.isEmpty) {
           return const Center(
-            child: AnimationWithText(animation: EmptyAnimationView(), text: "Sorry! No friends were found :(\n WIP, press search button to rerender!"),
+            child: AnimationWithText(animation: EmptyAnimationView(), text: "Sorry! No friends were found :("),
           );
         }
 
