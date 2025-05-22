@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../app/services/providers.dart';
 import '../../../data/domain/event.dart';
 import '../../../data/domain/user.dart';
+import '../calendar/day_view_model.dart';
 
 part 'event_view_model.g.dart';
 
@@ -39,6 +40,12 @@ class EventViewModel extends _$EventViewModel {
   Future<bool> makeDecision(Event event, bool isAccept) async {
     final eventService = ref.read(eventServiceProvider);
     final result = await eventService.makeDecision(event, isAccept);
+
+    var currentUser = await ref.read(userServiceProvider).getCurrentUser();
+    if (currentUser != null) {
+      ref.invalidate(dayViewModelProvider(user: currentUser));
+    }
+
     if (!result){
       state = AsyncValue.error("Failed to make decision", StackTrace.current);
       return false;
