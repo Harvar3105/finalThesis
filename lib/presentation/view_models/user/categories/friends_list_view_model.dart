@@ -17,7 +17,7 @@ class FriendsListViewModel extends _$FriendsListViewModel {
       throw Exception("Failed to get current user");
     }
 
-    if (preloadedFriends != null) {
+    if (preloadedFriends != null && preloadedFriends.isNotEmpty) {
       return (user, preloadedFriends);
     }
 

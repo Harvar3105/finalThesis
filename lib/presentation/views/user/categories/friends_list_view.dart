@@ -43,8 +43,8 @@ class FriendsListView extends ConsumerWidget {
               title: Text(friend.firstName),
               subtitle: Text(friend.email),
               leading: CircleAvatar(
-                backgroundImage: user.avatarUrl != null
-                    ? NetworkImage(user.avatarUrl!)
+                backgroundImage: friend.avatarUrl != null
+                    ? NetworkImage(friend.avatarUrl!)
                     : const AssetImage("assets/images/user_icon.png") as ImageProvider,
               ),
               trailing: Row(
