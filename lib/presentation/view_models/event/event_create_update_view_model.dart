@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:final_thesis_app/data/domain/event.dart';
+import 'package:final_thesis_app/presentation/view_models/calendar/day_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -114,6 +115,10 @@ class EventCreateUpdateViewModel extends _$EventCreateUpdateViewModel {
     );
 
     if (result == null) {
+      var currentUser = await ref.read(userServiceProvider).getCurrentUser();
+      if (currentUser != null) {
+        ref.invalidate(dayViewModelProvider(user: currentUser));
+      }
       return (true, "Success");
     }
     return (false, "Could not save event: $result");
