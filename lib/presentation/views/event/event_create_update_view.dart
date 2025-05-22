@@ -111,6 +111,7 @@ class EventCreateUpdateView extends ConsumerWidget {
           AddressPicker(
             givenLocation: viewModel.location,
             onAddressSelected: (result) => viewModel.location = result,
+            ignoreInputs: viewModel.ignoreInputs,
           ),
           spacer,
           Row(
@@ -118,7 +119,11 @@ class EventCreateUpdateView extends ConsumerWidget {
             children: [
               Text("Start: ${formatDateTime(viewModel.startTime) ?? 'Not set'}",
                 style: Theme.of(context).textTheme.bodySmall,),
-              DateTimePicker(onDateSelected: (date) => viewModel.setStartTime(date), label: 'Start Time'),
+              DateTimePicker(
+                onDateSelected: (date) => viewModel.setStartTime(date),
+                label: 'Start Time',
+                ignoreInputsToggle: viewModel.ignoreInputsToggle
+              ),
             ],
           ),
           spacer,
@@ -127,7 +132,11 @@ class EventCreateUpdateView extends ConsumerWidget {
             children: [
               Text("End: ${formatDateTime(viewModel.endTime) ?? 'Not set'}",
               style: Theme.of(context).textTheme.bodySmall,),
-              DateTimePicker(onDateSelected: (date) => viewModel.setEndTime(date), label: 'End Time'),
+              DateTimePicker(
+                onDateSelected: (date) => viewModel.setEndTime(date),
+                label: 'End Time',
+                ignoreInputsToggle: viewModel.ignoreInputsToggle
+              ),
             ],
           ),
           spacer,
