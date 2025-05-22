@@ -11,23 +11,39 @@ part 'event_view_model.g.dart';
 @riverpod
 class EventViewModel extends _$EventViewModel {
   @override
-  Future<(User?, User?)?> build(Event event) async {
+  Future<(User?, User?, User?)?> build(Event event) async {
     try {
       final userService = ref.watch(userServiceProvider);
       final currentUser = await userService.getCurrentUser();
-      User? otherUser;
+      User? attendee;
       if (event.friendId != null) {
-        otherUser = await userService.getUserById(event.friendId!);
+        attendee = await userService.getUserById(event.friendId!);
       }
 
       if (currentUser == null) {
         state = AsyncValue.error("User not found", StackTrace.current);
       }
 
-      return (currentUser, otherUser);
+      var creator = await userService.getUserById(event.creatorId);
+      if (creator == null) {
+        state = AsyncValue.error("Creator not found", StackTrace.current);
+      }
+
+      return (currentUser, attendee, creator);
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
       return null;
+    }
+  }
+
+  Future<bool> makeDecision(Event event, bool isAccept) async {
+    final eventService = ref.read(eventServiceProvider);
+    final result = await eventService.makeDecision(event, isAccept);
+    if (!result){
+      state = AsyncValue.error("Failed to make decision", StackTrace.current);
+      return false;
+    } else {
+      return true;
     }
   }
 

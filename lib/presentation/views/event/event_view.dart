@@ -33,7 +33,10 @@ class EventView extends ConsumerWidget {
             return const Center(child: Text('User not found'));
           }
 
+          log("Data: $data");
           final currentUser = data.$1!;
+          final attendee = data.$2;
+          final creator = data.$3!;
 
           final isPrivate = event.privacy == EEventPrivacy.private;
           final isCreator = event.creatorId == currentUser.id;
@@ -78,8 +81,11 @@ class EventView extends ConsumerWidget {
                       style: theme.textTheme.bodyLarge),
                   const SizedBox(height: 10),
                   if (event.privacy != EEventPrivacy.private)
-                    Text('Attendee: ${data.$2?.firstName} ${data.$2?.lastName}',
+                    Text('Attendee: ${attendee?.firstName} ${attendee?.lastName}',
                         style: theme.textTheme.bodyLarge),
+                    const SizedBox(height: 10),
+                  Text('Creator: ${creator.firstName} ${creator.lastName}',
+                      style: theme.textTheme.bodyLarge),
                   const SizedBox(height: 10),
                   AddressProvider(location: event.location),
                   const SizedBox(height: 10),
@@ -117,7 +123,10 @@ class EventView extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       IconButton(
-                          onPressed: (){log("pressed Cancel");},
+                          onPressed: () {
+                            viewModel.makeDecision(event, false);
+                            GoRouter.of(context).pop();
+                          },
                           icon: const Icon(Icons.delete_forever, color: Colors.red, size: 45,)
                       ),
                       IconButton(
@@ -125,7 +134,10 @@ class EventView extends ConsumerWidget {
                           icon: const Icon(Icons.compare_arrows_outlined, color: Colors.amberAccent, size: 45,)
                       ),
                       IconButton(
-                          onPressed: (){log("pressed Accept");},
+                          onPressed: () {
+                            viewModel.makeDecision(event, true);
+                            GoRouter.of(context).pop();
+                          },
                           icon: const Icon(Icons.check_circle_outline, color: Colors.green, size: 45,)
                       ),
                     ],
