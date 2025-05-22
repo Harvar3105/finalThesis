@@ -48,11 +48,16 @@ class FriendshipRequestsViewModel extends _$FriendshipRequestsViewModel {
     final friendshipService = ref.watch(friendshipServiceProvider);
     final result = await friendshipService.decideFriendship(user, isAccept);
     if (result) {
-      _cachedOutcomingRequests!.removeWhere((id) => id == user.id);
+      if (_cachedOutcomingRequests != null) {
+        _cachedOutcomingRequests!.removeWhere((id) => id == user.id);
+      }
+      if (_cachedIncomingRequests != null) {
+        _cachedIncomingRequests!.removeWhere((id) => id == user.id);
+      }
       state = AsyncValue.data((
         state.value!.$1,
         _cachedIncomingRequests ?? [],
-        _cachedOutcomingRequests!,
+        _cachedOutcomingRequests ?? [],
       ));
     }
   }
