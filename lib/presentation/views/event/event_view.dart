@@ -108,13 +108,13 @@ class EventView extends ConsumerWidget {
                           onPressed: () async {
                             final deletion = await viewModel.deleteEvent(event);
                             if (deletion) {
-                              GoRouter.of(context).pop(true);
+                              context.pop(true);
                             }
                           },
                           icon: const Icon(Icons.delete_forever, color: Colors.red, size: 45,),
                         ),
                         IconButton(
-                            onPressed: () => GoRouter.of(context).pushNamed(Strings.addEvent, extra: [event, false]),
+                            onPressed: () => context.pushNamed(Strings.addEvent, extra: [event, false]),
                             icon: const Icon(Icons.edit_rounded, color: Colors.yellow, size: 45,),
                         ),
                       ],
@@ -129,18 +129,18 @@ class EventView extends ConsumerWidget {
                             } else {
                               viewModel.deleteEvent(event);
                             }
-                            GoRouter.of(context).pop(true);
+                            context.pop(true);
                           },
                           icon: const Icon(Icons.delete_forever, color: Colors.red, size: 45,)
                       ),
                       IconButton(
-                          onPressed: () => GoRouter.of(context).pushNamed(Strings.addEvent, extra: [event, true]),
+                          onPressed: () => context.pushNamed(Strings.addEvent, extra: [event, true]),
                           icon: const Icon(Icons.compare_arrows_outlined, color: Colors.amberAccent, size: 45,)
                       ),
                       IconButton(
                           onPressed: () {
                             viewModel.makeDecision(event, true);
-                            GoRouter.of(context).pop(true);
+                            context.pop(true);
                           },
                           icon: const Icon(Icons.check_circle_outline, color: Colors.green, size: 45,)
                       ),
