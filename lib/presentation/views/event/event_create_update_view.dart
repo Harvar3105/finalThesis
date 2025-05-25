@@ -153,7 +153,7 @@ class EventCreateUpdateView extends ConsumerWidget {
               if (success) {
                 final router = GoRouter.of(context);
                 if (editingEvent == null) {
-                  router.pop();
+                  router.pop(true);
                 } else {
                   router.go('/');
                 }

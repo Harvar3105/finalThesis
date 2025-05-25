@@ -16,7 +16,7 @@ part 'day_view_model.g.dart';
 class DayViewModel extends _$DayViewModel {
   @override
   Future<List<Event>?> build({User? user}) async {
-    final eventsService = ref.read(eventServiceProvider);
+    final eventsService = ref.watch(eventServiceProvider);
     var currentUser = user;
     if (user == null) {
       final userService = ref.read(userServiceProvider);

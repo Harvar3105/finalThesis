@@ -50,8 +50,11 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
       result = Scaffold(
         body: _buildCalendar(theme, size, widget.user),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            context.pushNamed(Strings.addEvent);
+          onPressed: () async {
+            bool? shouldRefresh = await context.pushNamed<bool>(Strings.addEvent);
+            if (shouldRefresh ?? false) {
+              ref.invalidate(dayViewModelProvider(user: widget.user));
+            }
           },
           child: const Icon(Icons.add),
         ),
