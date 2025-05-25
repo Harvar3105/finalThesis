@@ -108,7 +108,7 @@ class EventView extends ConsumerWidget {
                           onPressed: () async {
                             final deletion = await viewModel.deleteEvent(event);
                             if (deletion) {
-                              GoRouter.of(context).pop();
+                              GoRouter.of(context).pop(true);
                             }
                           },
                           icon: const Icon(Icons.delete_forever, color: Colors.red, size: 45,),
@@ -129,7 +129,7 @@ class EventView extends ConsumerWidget {
                             } else {
                               viewModel.deleteEvent(event);
                             }
-                            GoRouter.of(context).pop();
+                            GoRouter.of(context).pop(true);
                           },
                           icon: const Icon(Icons.delete_forever, color: Colors.red, size: 45,)
                       ),
@@ -140,7 +140,7 @@ class EventView extends ConsumerWidget {
                       IconButton(
                           onPressed: () {
                             viewModel.makeDecision(event, true);
-                            GoRouter.of(context).pop();
+                            GoRouter.of(context).pop(true);
                           },
                           icon: const Icon(Icons.check_circle_outline, color: Colors.green, size: 45,)
                       ),

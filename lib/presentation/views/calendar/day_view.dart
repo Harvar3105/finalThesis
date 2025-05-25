@@ -168,8 +168,11 @@ class _DayViewCalendarState extends ConsumerState<DayViewCalendar> {
                       return GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         key: ValueKey(event.hashCode),
-                        onTap: () {
-                          context.pushNamed(Strings.eventView, extra: [event.value, overlap]);
+                        onTap: () async {
+                          bool? shouldRefresh = await context.pushNamed(Strings.eventView, extra: [event.value, overlap]);
+                          if (shouldRefresh ?? false) {
+                            ref.invalidate(dayViewModelProvider(user: widget.user));
+                          }
                         },
                         child: Container(
                           margin: const EdgeInsets.only(right: 3, left: 3),

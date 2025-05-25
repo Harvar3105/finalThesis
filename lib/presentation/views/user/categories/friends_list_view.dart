@@ -71,12 +71,16 @@ class FriendsListView extends ConsumerWidget {
           },
         );
       },
-      loading: () => const AnimationWithText(
-          animation: LoadingAnimationView(), text: 'Loading friends...'),
+      loading: () => SingleChildScrollView(
+        child: const AnimationWithText(
+            animation: LoadingAnimationView(), text: 'Loading friends...'),
+      ),
       error: (error, stackTrace) {
         log('FriendsListView: Error occurred: $error, at $stackTrace');
-        return AnimationWithText(
-            animation: ErrorAnimationView(), text: 'Oops! An error occurred.');
+        return SingleChildScrollView(
+          child: AnimationWithText(
+              animation: ErrorAnimationView(), text: 'Oops! An error occurred.'),
+        );
       },
     );
   }

@@ -120,7 +120,7 @@ class EventCreateUpdateView extends ConsumerWidget {
                 style: Theme.of(context).textTheme.bodySmall,),
               DateTimePicker(
                 onDateSelected: (date) => viewModel.setStartTime(date),
-                label: 'Start Time',
+                label: 'Set',
               ),
             ],
           ),
@@ -132,7 +132,7 @@ class EventCreateUpdateView extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodySmall,),
               DateTimePicker(
                 onDateSelected: (date) => viewModel.setEndTime(date),
-                label: 'End Time',
+                label: 'Set',
               ),
             ],
           ),
@@ -140,7 +140,8 @@ class EventCreateUpdateView extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Notify before:"),
+              Text("Notify before:",
+                style: Theme.of(context).textTheme.bodySmall,),
               DurationPicker(
                 initialDuration: viewModel.notifyBefore,
                 onDurationSelected: (span) => viewModel.notifyBefore = span,

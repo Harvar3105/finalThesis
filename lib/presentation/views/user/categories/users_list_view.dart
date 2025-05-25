@@ -69,12 +69,16 @@ class UsersListView extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const AnimationWithText(
-          animation: LoadingAnimationView(), text: 'Loading chats...'),
+      loading: () => SingleChildScrollView(
+        child: const AnimationWithText(
+            animation: LoadingAnimationView(), text: 'Loading chats...'),
+      ),
       error: (error, stackTrace) {
         log('UsersListView: Error occurred: $error, at $stackTrace');
-        return AnimationWithText(
-            animation: ErrorAnimationView(), text: 'Oops! An error occurred.');
+        return SingleChildScrollView(
+          child: AnimationWithText(
+              animation: ErrorAnimationView(), text: 'Oops! An error occurred.'),
+        );
       },
     );
   }
