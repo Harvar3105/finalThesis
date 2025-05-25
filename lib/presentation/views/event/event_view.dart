@@ -114,7 +114,7 @@ class EventView extends ConsumerWidget {
                           icon: const Icon(Icons.delete_forever, color: Colors.red, size: 45,),
                         ),
                         IconButton(
-                            onPressed: () => GoRouter.of(context).replaceNamed(Strings.addEvent, extra: [event, false]),
+                            onPressed: () => GoRouter.of(context).pushNamed(Strings.addEvent, extra: [event, false]),
                             icon: const Icon(Icons.edit_rounded, color: Colors.yellow, size: 45,),
                         ),
                       ],
@@ -134,7 +134,7 @@ class EventView extends ConsumerWidget {
                           icon: const Icon(Icons.delete_forever, color: Colors.red, size: 45,)
                       ),
                       IconButton(
-                          onPressed: () => GoRouter.of(context).replaceNamed(Strings.addEvent, extra: [event, true]),
+                          onPressed: () => GoRouter.of(context).pushNamed(Strings.addEvent, extra: [event, true]),
                           icon: const Icon(Icons.compare_arrows_outlined, color: Colors.amberAccent, size: 45,)
                       ),
                       IconButton(

@@ -14,6 +14,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../data/domain/event.dart';
 import '../../../data/domain/user.dart';
+import '../../view_models/calendar/day_view_model.dart';
 import '../../view_models/event/event_create_update_view_model.dart';
 import '../widgets/buttons/date_time_picker.dart';
 import '../widgets/locations/address_picker.dart';
@@ -37,7 +38,7 @@ class EventCreateUpdateView extends ConsumerWidget {
             log("Friends: $friends");
             log("User: ${viewModel.selectedFriend}");
             return SingleChildScrollView(
-              child: _buildForm(context, viewModel, friends)
+              child: _buildForm(ref, context, viewModel, friends)
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -47,7 +48,7 @@ class EventCreateUpdateView extends ConsumerWidget {
     );
   }
 
-  Widget _buildForm(BuildContext context, EventCreateUpdateViewModel viewModel, List<User> friends) {
+  Widget _buildForm(WidgetRef ref, BuildContext context, EventCreateUpdateViewModel viewModel, List<User> friends) {
     final spacer = const SizedBox(height: 10);
 
     return Form(
@@ -156,7 +157,8 @@ class EventCreateUpdateView extends ConsumerWidget {
                 if (editingEvent == null) {
                   router.pop(true);
                 } else {
-                  router.go('/');
+                  router.pop(true);
+                  router.pop(true);
                 }
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(

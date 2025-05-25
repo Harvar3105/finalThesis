@@ -18,6 +18,7 @@ class EventCreateUpdateViewModel extends _$EventCreateUpdateViewModel {
   Event? editingEvent;
   User? selectedFriend;
   User? originalUser;
+  late User currentUser;
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -39,7 +40,7 @@ class EventCreateUpdateViewModel extends _$EventCreateUpdateViewModel {
 
   Future<void> _initializeFields(bool isCounterOffer) async {
     final userService = ref.read(userServiceProvider);
-    final currentUser = await userService.getCurrentUser();
+    currentUser = (await userService.getCurrentUser())!;
 
 
     if (editingEvent != null) {
